@@ -2,7 +2,7 @@
 /*
  * Purchasable interface 
  */
-public interface purchasable {
+public interface Purchasable {
 	
 	/**
 	 * Get the price of the object
