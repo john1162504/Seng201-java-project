@@ -4,7 +4,7 @@ public class Item implements Purchasable {
 	private enum TYPE {
 		//tbd
 		//test
-		//t
+		
 	}
 	
 	private int price;
