@@ -2,7 +2,7 @@ import java.util.*;
 
 
 public class GameEnviroment {
-	// team
+	//team list
 	ArrayList<Athlete> team = new ArrayList<Athlete>(4);
 	
 
