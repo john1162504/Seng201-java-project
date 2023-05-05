@@ -1,9 +1,10 @@
-
+package Cores;
 public class Item implements Purchasable {
 	
 	private enum TYPE {
-		//tbd
-		//test
+		WEIGHT,
+		SNEAKER,
+		
 	}
 	
 	private int price;

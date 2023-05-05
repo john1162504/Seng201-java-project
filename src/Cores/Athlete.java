@@ -1,10 +1,10 @@
-
+package Cores;
 /**
  *  A class describe behaviors of object athlete   
  */
 public class Athlete implements Purchasable{
 	
-	private enum ROLE {
+	public enum ROLE {
 		RACER,
 		LIFTER,
 		RUNNER,
