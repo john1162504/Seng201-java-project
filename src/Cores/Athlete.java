@@ -9,6 +9,12 @@ public class Athlete implements Purchasable{
 		LIFTER,
 		RUNNER,
 	}
+	public enum STATUS {
+		INJURIED,
+		ACTIVE,
+		
+	}
+	
 	
 	private int strength;
 	private int pace;
