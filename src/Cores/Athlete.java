@@ -5,19 +5,18 @@ package Cores;
 public class Athlete implements Purchasable{
 	
 	public enum ROLE {
-		RACER,
-		LIFTER,
-		RUNNER,
+		ATTACKER,
+		DFENDER,
 	}
 	public enum STATUS {
 		INJURIED,
 		ACTIVE,
-		
+		RESERVE
 	}
 	
 	
-	private int strength;
-	private int pace;
+	private int attack;
+	private int defence;
 	private int stamina;
 	private final int energy = 5;
 	private String name;
@@ -27,19 +26,19 @@ public class Athlete implements Purchasable{
 
 	
 	
-	public Athlete(int strInput, int paceInput, int staInput, ROLE roleInput) {
-		this.strength = strInput;
-		this.pace = paceInput;
-		this.stamina =staInput;
+	public Athlete(int atkInput, int defInput,int staInput, ROLE roleInput) {
+		this.attack = atkInput;
+		this.defence = defInput;
 		this.role = roleInput;
+		this.stamina = staInput;
 	}
 	
-	public int getStrength() {
-		return this.strength;
+	public int getAttack() {
+		return this.attack;
 	}
 	
-	public int getPace() {
-		return this.pace;
+	public int getDefence() {
+		return this.defence;
 	}
 	
 	public int getStamina() {
@@ -62,12 +61,12 @@ public class Athlete implements Purchasable{
 	}
 	
 	
-	public void setStrength(int newStrength) {
-		this.strength = newStrength;
+	public void setAttack(int newAttack) {
+		this.attack = newAttack;
 	}
 	
-	public void setPace(int newPace) {
-		this.pace = newPace;
+	public void setDefence(int newDefence) {
+		this.defence = newDefence;
 	}
 	
 	public void setStamina(int newStamina) {
