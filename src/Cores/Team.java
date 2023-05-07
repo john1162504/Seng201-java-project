@@ -8,10 +8,12 @@ import java.util.ArrayList;
  * TBD
  */
 public class Team {
+	
 	private ArrayList<Athlete> team = new ArrayList<Athlete>(4);
-	//name of team set by player
+	
+	private ArrayList<Athlete> reserveTeam = new ArrayList<Athlete>(5);
+	
 	private String teamName;
-	//season length measure in week
 	
 	public Team(Athlete athleteA, Athlete athleteB, Athlete athleteC, Athlete athleteD) {
 		team.add(athleteA);
@@ -32,9 +34,17 @@ public class Team {
 		this.teamName = newName;
 	}
 	
-	public void addNewAthlete(Athlete newAthlate) {
+	public String getAthleteNames() {
+    	String returnString = "";
+		for (Athlete athlete: team) {
+			returnString += athlete.getName();
+			returnString += ", ";
+		}
+		return returnString;
+    }
+	public void addNewAthlete(Athlete newAthlete) {
 		if (this.team.size() < 4) {
-			this.team.add(newAthlate);
+			this.team.add(newAthlete);
 		} else {
 			System.out.println("Team is full");
 		}
