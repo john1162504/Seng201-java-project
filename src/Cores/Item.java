@@ -1,43 +1,122 @@
 package Cores;
 
+import Cores.Athlete.Status;
+
 /**
  * 
- * Class that describe behaviors object Item 
+ * Class that models a item.
  *
  */
 public class Item implements Purchasable {
 	
 	/**
-	 * Indicates the type of item
+	 * Indicates the type of {@link Item}
 	 *
 	 */
-	private enum TYPE {
-		WEIGHT,
-		FOOD,
-		MEDICINE
+	public enum Type {
+		WEIGHT("Weight"),
+		FOOD("Food"),
+		MEDICINE("Medicine");
+		
+		/**
+		 * A user friendly description of the value of this enum.
+		 */
+		public final String type;
+		
+		Type(String type) {
+			this.type = type;
+		}
 	}
 	
-	// price of the item
+	// Item's price
 	private int price;
 	
-	// item's worth 
+	// Item's worth 
 	private int worth;
 	
-
+	// Item's name
+	private String name;
+	
+	private Type type;
+	
+	// Represent how much it changes the athlete's stat
+	private int value;
+	
+	
 	/**
-	 * get the price of item
+	 * Create an item with the given parameters 
 	 * 
-	 * @return price of the item 
+	 * @param price The buying price of this item
+	 * @param worth The selling worth of this item
+	 * @param name The name of this item 
+	 * @param value The value of this item
+	 * @param type The type of this item
+	 */
+	public Item(int price, int worth, String name, int value, Type type) {
+		this.price = price;
+		this.worth = worth;
+		this.name = name;
+		this.value = value;
+		this.type = type;
+	}
+	
+	/**
+	 * Gets the price of {@link Item}
+	 * 
+	 * @return The price of this item 
 	 */
 	public int getPrice() {
 		return this.price;
 	}
 
-	@Override
+	/**
+	 * Gets the worth of {@link Item}
+	 * 
+	 * @return The worth of this item
+	 */
 	public int getWorth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.worth;	
 	}
+	
+	public int getValue() {
+		return this.value;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public Type getType() {
+		return this.type;
+	}
+	
+	
+	public void useItem(Athlete target) throws Exception {
+		switch (type) {
+		
+		case WEIGHT:
+			int newAtk = target.getAttack() + this.value;
+			target.setAttack(newAtk);
+			break;
+		
+		case FOOD:
+			int newDef = target.getDefence() + this.value;
+			target.setAttack(newDef);
+			break;
+		case MEDICINE:
+			if (target.getStatus().status == "Injured") {
+				target.heal();
+				System.out.print("Healed");
+			} else {
+				throw new Exception("cant do this");
+			}
+			break;
+ 		}
+		
+	}
+	
+	
+	
 	
 	
 
