@@ -1,35 +1,32 @@
 package Cores;
 /**
- *  A class describe behaviors of object athlete   
+ *  A class describing the attributes of a given Athlete 
  */
 public class Athlete implements Purchasable{
 	
-	public enum ROLE {
-		ATTACKER,
-		DFENDER,
-	}
-	public enum STATUS {
-		INJURIED,
-		ACTIVE,
-		RESERVE
-	}
-	
-	
+	//attack value of athlete
 	private int attack;
+	//defence value of athlete
 	private int defence;
+	//stamina value of athlete
 	private int stamina;
-	private final int energy = 5;
+	//name of athlete
 	private String name;
-	private ROLE role;
+	//how much given athlete contract costs in the market
 	private int price;
+	//how much given athlete contract sells for in the market
 	private int worth;
 
 	
-	
-	public Athlete(int atkInput, int defInput,int staInput, ROLE roleInput) {
+	/**
+	 * Constructor for athlete objects
+	 * @param atkInput
+	 * @param defInput
+	 * @param staInput
+	 */
+	public Athlete(int atkInput, int defInput,int staInput) {
 		this.attack = atkInput;
 		this.defence = defInput;
-		this.role = roleInput;
 		this.stamina = staInput;
 	}
 	
@@ -44,9 +41,7 @@ public class Athlete implements Purchasable{
 	public int getStamina() {
 		return this.stamina;
 	}
-	public ROLE getRole() {
-		return this.role;
-	}
+
 	public String getName() {
 		return this.name;
 	}
