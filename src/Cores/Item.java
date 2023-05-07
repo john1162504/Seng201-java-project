@@ -78,14 +78,30 @@ public class Item implements Purchasable {
 		return this.worth;	
 	}
 	
+	/**
+	 * Gets the value of {@link Item} changes to {@link Athlete}
+	 * 
+	 * @return The value of this item
+	 */
 	public int getValue() {
 		return this.value;
 	}
 	
+	/**
+	 * Gets the name of {@link Item}
+	 * 
+	 * @return The name of this item
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * 
+	 * Gets the type of {@link Item}
+	 * 
+	 * @return THe type of this item
+	 */
 	public Type getType() {
 		return this.type;
 	}
