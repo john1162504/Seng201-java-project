@@ -3,7 +3,6 @@ package Cores;
 import java.util.ArrayList;
 /**
  * 
- * @author chunyuenchan
  * Take four athletes and store it in a array list
  * TBD
  */
