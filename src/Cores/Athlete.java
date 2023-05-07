@@ -4,11 +4,30 @@ package Cores;
  */
 public class Athlete implements Purchasable{
 	
+	/**
+	 * Represent the status of a {@link Athlete}
+	 */
+	public enum Status {
+		INJURED("Injured"),
+		ACTIVE("Active"),
+		RESERVE("Reserve");
+		
+		/**
+		 * A User friendly description of the value of this enum
+		 */
+		public final String status;
+		Status(String status) {
+			this.status = status;
+		}
+	}
+	
 	//attack value of athlete
 	private int attack;
 	//defence value of athlete
 	private int defence;
-	//stamina value of athlete
+	//Max stamina value of athlete
+	private int maxStamina;
+	//Current stamina of this athlete
 	private int stamina;
 	//name of athlete
 	private String name;
@@ -16,6 +35,8 @@ public class Athlete implements Purchasable{
 	private int price;
 	//how much given athlete contract sells for in the market
 	private int worth;
+	//The status of this athlete
+	private Status status;
 
 	
 	/**
@@ -24,10 +45,15 @@ public class Athlete implements Purchasable{
 	 * @param defInput
 	 * @param staInput
 	 */
-	public Athlete(int atkInput, int defInput,int staInput) {
-		this.attack = atkInput;
-		this.defence = defInput;
-		this.stamina = staInput;
+	public Athlete(int attack, int defence, int maxStamina, int price, int worth, String name) {
+		this.attack = attack;
+		this.defence = defence;
+		this.maxStamina = maxStamina;
+		this.stamina = this.maxStamina;
+		this.price = price;
+		this.worth = worth;
+		this.name = name;
+		this.status = Status.ACTIVE;
 	}
 	
 	public int getAttack() {
@@ -40,6 +66,10 @@ public class Athlete implements Purchasable{
 	
 	public int getStamina() {
 		return this.stamina;
+	}
+	
+	public int getMaxStamina() {
+		return this.maxStamina;
 	}
 
 	public String getName() {
@@ -55,6 +85,9 @@ public class Athlete implements Purchasable{
 		return this.worth;
 	}
 	
+	public Status getStatus() {
+		return this.status;
+	}
 	
 	public void setAttack(int newAttack) {
 		this.attack = newAttack;
@@ -68,14 +101,20 @@ public class Athlete implements Purchasable{
 		this.stamina = newStamina;
 	}
 	
-	public void setRole(ROLE newRole) {
-		this.role = newRole;
-	}
 	
 	public void setName(String newName) {
 		this.name = newName;
 	}
-
+	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+		
+	public void heal() {
+		this.status = Status.ACTIVE;
+		this.stamina = this.maxStamina;
+	}
+	
 
 	
 }
