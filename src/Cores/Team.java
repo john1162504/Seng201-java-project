@@ -8,17 +8,12 @@ import java.util.ArrayList;
  */
 public class Team {
 	
-	private ArrayList<Athlete> team = new ArrayList<Athlete>(4);
-	
-	private ArrayList<Athlete> reserveTeam = new ArrayList<Athlete>(5);
+	private ArrayList<Athlete> team;
 	
 	private String teamName;
 	
-	public Team(Athlete athleteA, Athlete athleteB, Athlete athleteC, Athlete athleteD) {
-		team.add(athleteA);
-		team.add(athleteB);
-		team.add(athleteC);
-		team.add(athleteD);
+	public Team(int size) {
+		this.team = new ArrayList<Athlete>(size); // 4 for active team, 5 for reserve 
 	}
 	
 	public ArrayList<Athlete> getTeam() {
