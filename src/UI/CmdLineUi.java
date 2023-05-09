@@ -2,7 +2,9 @@ package UI;
 
 import java.util.Scanner;
 
-public class CmdLineUi {
+import Cores.GameEnvironment;
+
+public class CmdLineUi implements GameEnvironmentUi{
 	
 	Scanner scan = new Scanner(System.in); 
 	
@@ -31,6 +33,36 @@ public class CmdLineUi {
 		else {
 			return true;
 		}
+	}
+
+	@Override
+	public void setup(GameEnvironment game) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean confirmQuit() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void quit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showError(String error) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
