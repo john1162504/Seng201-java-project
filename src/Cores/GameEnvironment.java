@@ -1,6 +1,8 @@
 package Cores;
 import java.util.*;
 
+import UI.GameEnvironmentUi;
+
 /**
  * 
  * Class that store game's data and manage the application  
@@ -8,8 +10,21 @@ import java.util.*;
  */
 public class GameEnvironment {
 	
-    String NAME_REGEX = "[a-zA-Z]{3,}";
-
+	private final GameEnvironmentUi ui;
+	
+	private Team allyTeam;
+	
+	private Team opponentTeam;
+	
+	private Club club;
+	
+	private Market market;
+	
+	private Match match;
+	
+	private final List<Athlete> Athletes;
+	
+	private final List<Item> items;
 	//Maximum length of the game
 	private final int maxLength = 15;
 	
@@ -27,44 +42,24 @@ public class GameEnvironment {
 	// money obtained by player
 	private int money = 0;
 	
-	Scanner scan = new Scanner(System.in); 
+	private String name;
+	
+	
+	public GameEnvironment(GameEnvironmentUi ui, List<Athlete> athletes, List<Item> items) {
+		this.ui = ui;
+		this.Athletes = athletes;
+		this.items = items;
+		
+		
+	}
+	
 	
 	public void setup() {
 		
 	}
-	
-	public String getName() {
-		boolean done = false;
-		String name = null;
-		while (!done) {
-			System.out.println("Enter your name below");
-			name = scan.nextLine();
-			if (this.checkNameValidity(name)) {
-				done = true;
-			}
-		}
-		return name;
-	}
-	
-	public boolean checkNameValidity(String string) {
-		if (string.length() > 15 || string.length() < 3) {
-			System.out.println("Length must be between 3 and 15!");
-			return false;
-		}
-		else if (!string.matches(NAME_REGEX)) {
-			System.out.println("Name must not contains special charater");
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
+
 	
 	public static void main(String[] args) {
-		GameEnvironment game = new GameEnvironment();
-		String name = game.getName();
-		System.out.println(name);
-		
 		
 	}
 
