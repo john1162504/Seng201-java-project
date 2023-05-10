@@ -35,7 +35,7 @@ public class Team {
 			returnString += athlete.getName();
 			returnString += ", ";
 		}
-		return returnString;
+		return returnString.substring(0, returnString.length() -2);
     }
 	public void addNewAthlete(Athlete newAthlete) {
 		if (this.team.size() < 4) {
@@ -48,6 +48,7 @@ public class Team {
 	public void removeAthlete(Athlete target) {
 		this.team.remove(target);
 	}
+	
 	
 	
 	

@@ -157,6 +157,10 @@ public class Athlete implements Purchasable{
         int index = random.nextInt(names.length);
         return names[index].name;
     }
+    
+    public void reduceStamina(int amount) {
+    	this.stamina -= amount;
+    }
 
 	
 
