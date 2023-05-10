@@ -1,12 +1,56 @@
 package UI;
 
+import java.util.List;
 import java.util.Scanner;
 
+import Cores.Athlete;
+import Cores.Club;
 import Cores.GameEnvironment;
+import Cores.Market;
+import Cores.Match;
 
 public class CmdLineUi implements GameEnvironmentUi{
 	
-	Scanner scan = new Scanner(System.in); 
+	private Club club;
+	
+	private Market market;
+	
+	private Match match;
+	
+	private GameEnvironment game;
+	
+	private final Scanner scan; 
+	
+	private enum Option {
+		PROPERTIES("Properties"), //print out games properties
+		CLUB("Club"),
+		STADIUM("Studium"),
+		MARKET("Market"),
+		BYE("Take a bye");
+		
+		public final String name;
+		
+		Option(String name) {
+			this.name = name;
+		}
+	}
+	
+	public enum Difficulty {
+		NORMAL("Normal"),
+		HARD("Hard");
+		
+		public final String name;
+		
+		Difficulty(String name) {
+			this.name = name;
+		}
+		
+	}
+	
+	public  CmdLineUi() {
+		 this.scan = new Scanner(System.in);
+	}
+	
 	
 	public String getName() {
 		boolean done = false;
@@ -37,9 +81,33 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	@Override
 	public void setup(GameEnvironment game) {
-		// TODO Auto-generated method stub
+		this.game = game;
+		final String name = getName();
+		final int gameLength = getGameLength();
+		final List<Athlete> startAthletes = getStartAthlets();
+		final Difficulty difficulty = getDifficulty();
+		game.onSetupFinished(name, gameLength, startAthletes, difficulty);
+		
 		
 	}
+
+	private Difficulty getDifficulty() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	private int getGameLength() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	private List<Athlete> getStartAthlets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	@Override
 	public void start() {

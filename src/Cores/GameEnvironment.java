@@ -1,11 +1,13 @@
 package Cores;
 import java.util.*;
 
+import UI.CmdLineUi.Difficulty;
 import UI.GameEnvironmentUi;
 
 /**
  * 
  * Class that store game's data and manage the application  
+ * @param <Difficulty>
  *
  */
 public class GameEnvironment {
@@ -15,12 +17,6 @@ public class GameEnvironment {
 	private Team allyTeam;
 	
 	private Team opponentTeam;
-	
-	private Club club;
-	
-	private Market market;
-	
-	private Match match;
 	
 	private final List<Athlete> Athletes;
 	
@@ -34,7 +30,7 @@ public class GameEnvironment {
 	private int gameLength;
 	
 	// current game progress, measure in week
-	private int currenytWeek;
+	private int currenytWeek = 1;
 	
 	// score obtained by player 
 	private int score = 0;
@@ -43,6 +39,8 @@ public class GameEnvironment {
 	private int money = 0;
 	
 	private String name;
+	
+	private Difficulty difficulty;
 	
 	
 	public GameEnvironment(GameEnvironmentUi ui, List<Athlete> athletes, List<Item> items) {
@@ -53,11 +51,12 @@ public class GameEnvironment {
 		
 	}
 	
-	
-	public void setup() {
+
+	public void onSetupFinished(String name2, int gameLength2, List<Athlete> startAthletes, Difficulty difficulty) {
+		// TODO Auto-generated method stub
 		
 	}
-
+	
 	
 	public static void main(String[] args) {
 		
