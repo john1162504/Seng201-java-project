@@ -16,6 +16,10 @@ public class Team {
 		this.team = new ArrayList<Athlete>(size); // 4 for active team, 5 for reserve 
 	}
 	
+	public Team(ArrayList<Athlete> athletes) {
+		this.team = athletes;
+	}
+	
 	public ArrayList<Athlete> getTeam() {
 		return this.team;
 	}
@@ -24,9 +28,6 @@ public class Team {
 		return this.teamName;
 	}
 	
-	public void setTeamName(String newName) {
-		this.teamName = newName;
-	}
 	
 	public String getAthleteNames() {
     	String returnString = "";

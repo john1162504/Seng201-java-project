@@ -1,5 +1,6 @@
 package UI;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -84,7 +85,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 		this.game = game;
 		final String name = getName();
 		final int gameLength = getGameLength();
-		final List<Athlete> startAthletes = getStartAthlets();
+		final ArrayList<Athlete> startAthletes = getStartAthlets();
 		final Difficulty difficulty = getDifficulty();
 		game.onSetupFinished(name, gameLength, startAthletes, difficulty);
 		
@@ -103,7 +104,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 
 
-	private List<Athlete> getStartAthlets() {
+	private ArrayList<Athlete> getStartAthlets() {
 		// TODO Auto-generated method stub
 		return null;
 	}

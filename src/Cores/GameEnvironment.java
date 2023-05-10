@@ -18,6 +18,12 @@ public class GameEnvironment {
 	
 	private Team opponentTeam;
 	
+	private Market market;
+	
+	private Match match;
+	
+	private Club club;
+	
 	private final List<Athlete> Athletes;
 	
 	private final List<Item> items;
@@ -52,8 +58,16 @@ public class GameEnvironment {
 	}
 	
 
-	public void onSetupFinished(String name2, int gameLength2, List<Athlete> startAthletes, Difficulty difficulty) {
-		// TODO Auto-generated method stub
+	public void onSetupFinished(String name, int gameLength, ArrayList<Athlete> startAthletes, Difficulty difficulty) {
+		this.name = name;
+		this.gameLength = gameLength;
+		this.allyTeam = new Team(startAthletes);
+		this.difficulty = difficulty;
+		this.market = new Market();
+		this.match = new Match();
+		this.club = new Club();
+		ui.start();
+		
 		
 	}
 	
