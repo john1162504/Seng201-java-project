@@ -53,6 +53,19 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	
+
+	@Override
+	public void setup(GameEnvironment game) {
+		this.game = game;
+		final String name = getName();
+		final int gameLength = getGameLength();
+		final ArrayList<Athlete> startAthletes = getStartAthlets();
+		final Difficulty difficulty = getDifficulty();
+		game.onSetupFinished(name, gameLength, startAthletes, difficulty);
+		
+		
+	}
+	
 	public String getName() {
 		boolean done = false;
 		String name = null;
@@ -78,18 +91,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 		else {
 			return true;
 		}
-	}
-
-	@Override
-	public void setup(GameEnvironment game) {
-		this.game = game;
-		final String name = getName();
-		final int gameLength = getGameLength();
-		final ArrayList<Athlete> startAthletes = getStartAthlets();
-		final Difficulty difficulty = getDifficulty();
-		game.onSetupFinished(name, gameLength, startAthletes, difficulty);
-		
-		
 	}
 
 	private Difficulty getDifficulty() {
