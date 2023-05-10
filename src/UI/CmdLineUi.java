@@ -68,16 +68,18 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	public String getName() {
-		boolean done = false;
-		String name = null;
-		while (!done) {
+		while (true) {
 			System.out.println("Enter your name below");
-			name = scan.nextLine();
-			if (this.checkNameValidity(name)) {
-				done = true;
+			try {
+				String name = scan.nextLine();
+				if (this.checkNameValidity(name)) {
+					return name;
+				}
+			}
+			catch (Exception e) {
+				scan.nextLine();
 			}
 		}
-		return name;
 	}
 	
 	public boolean checkNameValidity(String string) {
@@ -96,10 +98,10 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private Difficulty getDifficulty() {
 		while (true) {
+			System.out.println("Select difficulty.");
 			for (Difficulty d: Difficulty.values()) {
 				System.out.println(String.format("(%d) %s", d.ordinal(),d.name));
 			}
-			System.out.println("Select difficulty.");
 			try {
 				return Difficulty.values()[scan.nextInt()];
 				
@@ -161,6 +163,9 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	public static void main(String[] args) {
+		CmdLineUi ui = new CmdLineUi();
+		GameEnvironment game = new GameEnvironment(ui, null, null);
+		ui.setup(null);
 		
 	
 	}

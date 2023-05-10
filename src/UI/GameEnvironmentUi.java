@@ -4,7 +4,7 @@ import Cores.GameEnvironment;
 
 public interface GameEnvironmentUi {
 	
-    String NAME_REGEX = "[a-zA-Z]";
+    String NAME_REGEX = "[a-zA-Z]{3,}";
     
     void setup(GameEnvironment game);
     
