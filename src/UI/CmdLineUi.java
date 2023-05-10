@@ -114,8 +114,19 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 	private int getGameLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		while (true) {
+			System.out.println("Enter game length from 5 - 15");
+			try {
+				int length = scan.nextInt();
+				if (5 <= length && length <=15) {
+					return length;
+				} 
+			}
+			catch (Exception e) {
+				System.out.println("Invalid input");
+				scan.nextLine();
+			}
+		}
 	}
 
 
@@ -150,9 +161,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	public static void main(String[] args) {
-		CmdLineUi ui = new CmdLineUi();
-		Difficulty d = ui.getDifficulty();
-		System.out.println(d);
 		
 	
 	}
