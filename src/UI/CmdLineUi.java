@@ -95,8 +95,21 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 
 	private Difficulty getDifficulty() {
-		// TODO Auto-generated method stub
-		return null;
+		while (true) {
+			for (Difficulty d: Difficulty.values()) {
+				System.out.println(String.format("(%d) %s", d.ordinal(),d.name));
+			}
+			System.out.println("Select difficulty.");
+			try {
+				return Difficulty.values()[scan.nextInt()];
+				
+			}
+			catch (Exception e) {
+				System.out.println("Invalid input");
+				scan.nextLine();
+			}
+		}
+			
 	}
 
 
@@ -135,5 +148,12 @@ public class CmdLineUi implements GameEnvironmentUi{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public static void main(String[] args) {
+		CmdLineUi ui = new CmdLineUi();
+		Difficulty d = ui.getDifficulty();
+		System.out.println(d);
+		
+	
+	}
 }
