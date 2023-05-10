@@ -33,6 +33,8 @@ public class GameEnvironment {
 	// length of the game
 	private int gameLength;
 	
+	public static final int MAX_TEAM_SIZE = 4;
+	
 	// current game progress, measure in week
 	private int currenytWeek = 1;
 	

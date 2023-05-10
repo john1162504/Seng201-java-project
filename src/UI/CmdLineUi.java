@@ -1,7 +1,6 @@
 package UI;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import Cores.Athlete;
@@ -133,8 +132,31 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 	private ArrayList<Athlete> getStartAthlets() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Athlete> availableAthletes = game.generateAthletes(6);
+		ArrayList<Athlete> selectedAthletes = new ArrayList<Athlete>(GameEnvironment.MAX_TEAM_SIZE);
+		while(selectedAthletes.size() < GameEnvironment.MAX_TEAM_SIZE) {
+			System.out.println("Select your athletes");
+			this.printTeam(availableAthletes);
+			try {
+				int index = scan.nextInt();
+				Athlete athlete = availableAthletes.get(index);
+				availableAthletes.remove(index);
+				selectedAthletes.add(athlete);
+			}
+			catch (Exception e) {
+				System.out.println("Invalid input");
+				scan.nextLine();
+			}
+		}
+		return selectedAthletes;
+	}
+	
+	private void printTeam(ArrayList<Athlete> team) {
+		int index = 0;
+		for (Athlete athlete : team) {
+			System.out.println("(" + index + ") " + athlete);
+			index++;
+		}
 	}
 
 
@@ -165,7 +187,9 @@ public class CmdLineUi implements GameEnvironmentUi{
 	public static void main(String[] args) {
 		CmdLineUi ui = new CmdLineUi();
 		GameEnvironment game = new GameEnvironment(ui, null);
-		
+		ui.setup(game);
+//		ArrayList<Athlete> a = ui.getStartAthlets();
+//		ui.printTeam(a);
 		
 	
 	}

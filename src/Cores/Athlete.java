@@ -161,6 +161,11 @@ public class Athlete implements Purchasable{
     public void reduceStamina(int amount) {
     	this.stamina -= amount;
     }
+    
+    public String toString() {
+    	return String.format("%s: Attack:%d Defence:%d Stamina:%d", 
+    			this.getName(), this.getAttack(), this.getDefence(), this.getStamina());
+    }
 
 	
 
