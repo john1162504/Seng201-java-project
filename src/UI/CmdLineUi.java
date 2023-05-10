@@ -164,8 +164,8 @@ public class CmdLineUi implements GameEnvironmentUi{
 	
 	public static void main(String[] args) {
 		CmdLineUi ui = new CmdLineUi();
-		GameEnvironment game = new GameEnvironment(ui, null, null);
-		ui.setup(null);
+		GameEnvironment game = new GameEnvironment(ui, null);
+		
 		
 	
 	}

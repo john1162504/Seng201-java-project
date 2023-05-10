@@ -23,9 +23,7 @@ public class GameEnvironment {
 	private Match match;
 	
 	private Club club;
-	
-	private final List<Athlete> Athletes;
-	
+		
 	private final List<Item> items;
 	//Maximum length of the game
 	private final int maxLength = 15;
@@ -51,9 +49,8 @@ public class GameEnvironment {
 
 	
 	
-	public GameEnvironment(GameEnvironmentUi ui, List<Athlete> athletes, List<Item> items) {
+	public GameEnvironment(GameEnvironmentUi ui, List<Item> items) {
 		this.ui = ui;
-		this.Athletes = athletes;
 		this.items = items;
 		
 		
@@ -66,19 +63,35 @@ public class GameEnvironment {
 		this.allyTeam = new Team(startAthletes);
 		this.difficulty = difficulty;
 		this.market = new Market();
-		this.match = new Match();
+		//this.match = new Match();
 		this.club = new Club();
 		ui.start();
 		
 		
 	}
 	
+	public ArrayList<Athlete> generateAthletes(int num) {
+		Random ran = new Random();
+		int currentWeek = this.getCurrentWeek();
+		ArrayList<Athlete> athletes = new ArrayList<Athlete>();
+		for (int i = 0; i < num; i++) {
+			int atk = (10 * currentWeek) + ran.nextInt(5 * currentWeek);
+			int def = (5 * currentWeek) + ran.nextInt(3 * currentWeek);
+			int sta = (15 * currentWeek) + ran.nextInt(10 * currentWeek);
+			Athlete athlete = new Athlete(atk, def, sta);
+			athletes.add(athlete);
+		}
+		return athletes;
+		
+	}
+	
+	public int getCurrentWeek() {
+		return this.currenytWeek;
+	}
+
+
 	public static void main(String[] args) {
-		Athlete a = new Athlete(10, 5, 30, 1, 1, "a");
-		Athlete b = new Athlete(5, 10, 40, 1, 1, "b");
-		Athlete c = new Athlete(15, 15 ,20, 1, 1, "c");
-		Athlete d = new Athlete(10, 10 ,60, 1, 1, "d");
-		Athlete e = new Athlete(20, 5, 25, 1, 1, "e");
+		
 		
 	}
 	

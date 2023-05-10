@@ -81,13 +81,13 @@ public class Athlete implements Purchasable{
 	 * @param defInput
 	 * @param staInput
 	 */
-	public Athlete(int attack, int defence, int maxStamina, int price, int worth) {
+	public Athlete(int attack, int defence, int maxStamina) {
 		this.attack = attack;
 		this.defence = defence;
 		this.maxStamina = maxStamina;
 		this.stamina = this.maxStamina;
-		this.price = price;
-		this.worth = worth;
+		this.worth = (this.attack + this.defence + this.stamina); 
+		this.price = (this.worth) * 2;
 		this.name = this.getRandomName();
 		this.status = Status.ACTIVE;
 	}
@@ -113,12 +113,12 @@ public class Athlete implements Purchasable{
 	}
 	@Override
 	public int getPrice() {
-		return this.price;
+		return (this.worth) * 2;
 	}
 
 	@Override
 	public int getWorth() {
-		return this.worth;
+		return (this.attack + this.defence + this.stamina); 
 	}
 	
 	public Status getStatus() {
