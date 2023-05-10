@@ -48,6 +48,8 @@ public class GameEnvironment {
 	
 	private Difficulty difficulty;
 	
+
+	
 	
 	public GameEnvironment(GameEnvironmentUi ui, List<Athlete> athletes, List<Item> items) {
 		this.ui = ui;
@@ -71,6 +73,14 @@ public class GameEnvironment {
 		
 	}
 	
+	public static void main(String[] args) {
+		Athlete a = new Athlete(10, 5, 30, 1, 1, "a");
+		Athlete b = new Athlete(5, 10, 40, 1, 1, "b");
+		Athlete c = new Athlete(15, 15 ,20, 1, 1, "c");
+		Athlete d = new Athlete(10, 10 ,60, 1, 1, "d");
+		Athlete e = new Athlete(20, 5, 25, 1, 1, "e");
+		
+	}
 	
 
 

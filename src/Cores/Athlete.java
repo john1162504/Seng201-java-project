@@ -1,4 +1,7 @@
 package Cores;
+
+import java.util.Random;
+
 /**
  *  A class describing the attributes of a given Athlete 
  */
@@ -16,10 +19,43 @@ public class Athlete implements Purchasable{
 		 * A User friendly description of the value of this enum
 		 */
 		public final String status;
+		
 		Status(String status) {
 			this.status = status;
 		}
 	}
+	
+	private enum Names {
+	    ETHAN("Ethan"),
+	    JACOB("Jacob"),
+	    LUCAS("Lucas"),
+	    WILLIAM("William"),
+	    BENJAMIN("Benjamin"),
+	    CHRISTOPHER("Christopher"),
+	    DAVID("David"),
+	    MICHAEL("Michael"),
+	    ALEXANDER("Alexander"),
+	    OLIVER("Oliver"),
+	    MATTHEW("Matthew"),
+	    NOAH("Noah"),
+	    SAMUEL("Samuel"),
+	    JOSEPH("Joseph"),
+	    DANIEL("Daniel"),
+	    JAMES("James"),
+	    ANDREW("Andrew"),
+	    NICHOLAS("Nicholas"),
+	    GABRIEL("Gabriel"),
+	    RYAN("Ryan");
+
+	    public final String name;
+
+	    Names(String name) {
+	        this.name = name;
+	    }
+	}
+	
+	
+	
 	
 	//attack value of athlete
 	private int attack;
@@ -45,14 +81,14 @@ public class Athlete implements Purchasable{
 	 * @param defInput
 	 * @param staInput
 	 */
-	public Athlete(int attack, int defence, int maxStamina, int price, int worth, String name) {
+	public Athlete(int attack, int defence, int maxStamina, int price, int worth) {
 		this.attack = attack;
 		this.defence = defence;
 		this.maxStamina = maxStamina;
 		this.stamina = this.maxStamina;
 		this.price = price;
 		this.worth = worth;
-		this.name = name;
+		this.name = this.getRandomName();
 		this.status = Status.ACTIVE;
 	}
 	
@@ -114,6 +150,14 @@ public class Athlete implements Purchasable{
 		this.status = Status.ACTIVE;
 		this.stamina = this.maxStamina;
 	}
+	
+    public String getRandomName() {
+        Names[] names = Names.values();
+        Random random = new Random();
+        int index = random.nextInt(names.length);
+        return names[index].name;
+    }
+
 	
 
 	
