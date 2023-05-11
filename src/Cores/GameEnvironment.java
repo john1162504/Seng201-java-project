@@ -95,6 +95,7 @@ public class GameEnvironment {
 		}
 		return returnString.substring(0, returnString.length() -2);
     }
+	
 	public void addNewAthlete(ArrayList<Athlete> team , Athlete newAthlete) {
 		if (team.size() < 4) {
 			team.add(newAthlete);
@@ -121,6 +122,25 @@ public class GameEnvironment {
 	public static void main(String[] args) {
 		
 		
+	}
+	
+	public
+
+	public String getMatchInfos(ArrayList<ArrayList<Athlete>> matches) {
+		String infos;
+		for (int i = 0; i < matches.size(); i++) {
+			
+		}
+		return null;
+	}
+
+
+	public ArrayList<ArrayList<Athlete>> getMatches() {
+		ArrayList<ArrayList<Athlete>> matches = new ArrayList<ArrayList<Athlete>>(3);
+		for (int i = 0; i < 3; i++) {
+			matches.add(this.generateAthletes(MAX_TEAM_SIZE));
+		}
+		return matches;
 	}
 	
 	

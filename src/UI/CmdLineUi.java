@@ -231,7 +231,7 @@ public class CmdLineUi implements GameEnvironmentUi{
                 goToClub(game);
                 break;
             case STADIUM:
-                
+                goToStdium();
                 break;
             case MARKET:
                 
@@ -244,7 +244,15 @@ public class CmdLineUi implements GameEnvironmentUi{
         }
     }
     
-    private void viewProperties(GameEnvironment game) {
+    private void goToStdium() {
+		// TODO Auto-generated method stub
+    	String matchinfos = this.game.getMatches();
+		this.game.
+	}
+
+
+
+	private void viewProperties(GameEnvironment game) {
     	int money = game.getMoney();
     	int currentWeek = game.getCurrentWeek();
     	int remainingWeeks = game.getRemainingWeeks();
@@ -262,7 +270,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     	}
     	try {
     		String input = scan.next("[01]");
-    		return input;
+    		
     	}
     	catch (Exception e) {
     		//
