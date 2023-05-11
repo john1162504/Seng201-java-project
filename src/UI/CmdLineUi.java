@@ -1,14 +1,14 @@
 package UI;
 
 import java.util.ArrayList;
+
 import java.util.Scanner;
 
 import Cores.Athlete;
-import Cores.Club;
 import Cores.GameEnvironment;
 import Cores.Market;
 import Cores.Match;
-//
+
 
 public class CmdLineUi implements GameEnvironmentUi{
 	
@@ -25,7 +25,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	private enum Option {
 		PROPERTIES("Properties"), //print out games properties
 		CLUB("Club"),
-		STADIUM("Studium"),
+		STADIUM("Stadium"),
 		MARKET("Market"),
 		BYE("Take a bye");
 		
@@ -48,7 +48,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 		
 	}
 	
-	public  CmdLineUi() {
+	public CmdLineUi() {
 		 this.scan = new Scanner(System.in);
 	}
 	
@@ -59,7 +59,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 		this.game = game;
 		final String name = getName();
 		final int gameLength = getGameLength();
-		final ArrayList<Athlete> startAthletes = getStartAthlets();
+		final ArrayList<Athlete> startAthletes = getStartAthletes();
 		final Difficulty difficulty = getDifficulty();
 		game.onSetupFinished(name, gameLength, startAthletes, difficulty);
 		
@@ -87,7 +87,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 			return false;
 		}
 		else if (!string.matches(NAME_REGEX)) {
-			System.out.println("Name must not contains special charater");
+			System.out.println("Name must not contain numbers or special characters");
 			return false;
 		}
 		else {
@@ -116,7 +116,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private int getGameLength() {
 		while (true) {
-			System.out.println("Enter game length from 5 - 15");
+			System.out.println("Enter season length, from 5-15 weeks");
 			try {
 				int length = scan.nextInt();
 				if (5 <= length && length <=15) {
@@ -131,7 +131,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 
 
-	private ArrayList<Athlete> getStartAthlets() {
+	private ArrayList<Athlete> getStartAthletes() {
 		ArrayList<Athlete> availableAthletes = game.generateAthletes(6);
 		ArrayList<Athlete> selectedAthletes = new ArrayList<Athlete>(GameEnvironment.MAX_TEAM_SIZE);
 		while(selectedAthletes.size() < GameEnvironment.MAX_TEAM_SIZE) {
@@ -162,7 +162,25 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
+		final Option[] options = Option.values();
+
+        while (!finish) {
+            System.out.println("\nSelect an option:");
+
+            printOptions();
+
+            try {
+                Option option = options[scan.nextInt()];
+                handleOption(option);
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
+                // Ignore the bad input and continue
+            }
+            catch (Exception e) {
+                // Discard the unacceptable input
+                scan.nextLine();
+            }
+        }
 		
 	}
 
@@ -188,9 +206,48 @@ public class CmdLineUi implements GameEnvironmentUi{
 		CmdLineUi ui = new CmdLineUi();
 		GameEnvironment game = new GameEnvironment(ui, null);
 		ui.setup(game);
-//		ArrayList<Athlete> a = ui.getStartAthlets();
+//		ArrayList<Athlete> a = ui.getStartAthletes();
 //		ui.printTeam(a);
 		
 	
 	}
+	
+	/**
+     * Outputs the set of options to the console.
+     */
+    private void printOptions() {
+
+        for (Option option : Option.values()) {
+            System.out.println("(" + option.ordinal() + ") " + option.name);
+        }
+    }
+    
+    private void handleOption(Option option) {
+        switch (option) {
+            case PROPERTIES:
+                viewProperties(game);
+                break;
+            case CLUB:
+                
+                break;
+            case STADIUM:
+                
+                break;
+            case MARKET:
+                
+                break;
+            case BYE:
+                
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + option);
+        }
+    }
+    
+    private void viewProperties(GameEnvironment game) {
+    	
+    	
+    }
+    
 }
+
