@@ -52,7 +52,7 @@ public class Match {
 	
 	// match setup slot select etc
 	public void matchBegin() {
-		//not sure  if  choose slots  before or after choosing opponent, come back to?
+		
 	}
 	
 	//match played, athlete A and B on each team are defenders, C and  D are attackers, return winning team

@@ -12,7 +12,7 @@ import Cores.Match;
 
 public class CmdLineUi implements GameEnvironmentUi{
 	
-	private Club club;
+	private boolean finish = false;
 	
 	private Market market;
 	

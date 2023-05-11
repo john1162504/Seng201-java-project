@@ -21,8 +21,6 @@ public class GameEnvironment {
 	private Market market;
 	
 	private Match match;
-	
-	private Club club;
 		
 	private final List<Item> items;
 	//Maximum length of the game
@@ -66,7 +64,6 @@ public class GameEnvironment {
 		this.difficulty = difficulty;
 		this.market = new Market();
 		//this.match = new Match();
-		this.club = new Club();
 		ui.start();
 		
 		
