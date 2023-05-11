@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Cores.Athlete;
-import Cores.Club;
 import Cores.GameEnvironment;
 import Cores.Market;
 import Cores.Match;

@@ -14,9 +14,11 @@ public class GameEnvironment {
 	
 	private final GameEnvironmentUi ui;
 	
-	private Team allyTeam;
+	private ArrayList<Athlete> allyTeam;
 	
-	private Team opponentTeam;
+	private ArrayList<Athlete> reserveTeam;
+	
+	private ArrayList<Athlete> opponentTeam;
 	
 	private Market market;
 	
@@ -60,10 +62,11 @@ public class GameEnvironment {
 	public void onSetupFinished(String name, int gameLength, ArrayList<Athlete> startAthletes, Difficulty difficulty) {
 		this.name = name;
 		this.gameLength = gameLength;
-		this.allyTeam = new Team(startAthletes);
+		this.allyTeam = startAthletes;
 		this.difficulty = difficulty;
 		this.market = new Market();
-		//this.match = new Match();
+		System.out.println(this.getAthleteNames(startAthletes));
+		System.out.println(difficulty.name);
 		ui.start();
 		
 		
@@ -84,6 +87,26 @@ public class GameEnvironment {
 		
 	}
 	
+	public String getAthleteNames(ArrayList<Athlete> team) {
+    	String returnString = "";
+		for (Athlete athlete: team) {
+			returnString += athlete.getName();
+			returnString += ", ";
+		}
+		return returnString.substring(0, returnString.length() -2);
+    }
+	public void addNewAthlete(ArrayList<Athlete> team , Athlete newAthlete) {
+		if (team.size() < 4) {
+			team.add(newAthlete);
+		} else {
+			System.out.println("Team is full");
+		}
+	}
+	
+	public void removeAthlete(ArrayList<Athlete> team, Athlete target) {
+		team.remove(target);
+	}
+	
 	public int getCurrentWeek() {
 		return this.currenytWeek;
 	}
@@ -93,6 +116,8 @@ public class GameEnvironment {
 		
 		
 	}
+	
+	
 	
 
 
