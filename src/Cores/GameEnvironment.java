@@ -36,7 +36,7 @@ public class GameEnvironment {
 	public static final int MAX_TEAM_SIZE = 4;
 	
 	// current game progress, measure in week
-	private int currenytWeek = 1;
+	private int currentWeek = 1;
 	
 	// score obtained by player 
 	private int score = 0;
@@ -108,7 +108,13 @@ public class GameEnvironment {
 	}
 	
 	public int getCurrentWeek() {
-		return this.currenytWeek;
+		return this.currentWeek;
+	}
+	public int getMoney() {
+		return this.money;
+	}
+	public int getRemainingWeeks() {
+		return this.gameLength - this.currentWeek;
 	}
 
 
