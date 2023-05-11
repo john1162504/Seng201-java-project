@@ -225,10 +225,10 @@ public class CmdLineUi implements GameEnvironmentUi{
     private void handleOption(Option option) {
         switch (option) {
             case PROPERTIES:
-                viewProperties(game);
+                viewProperties();
                 break;
             case CLUB:
-                goToClub(game);
+                goToClub();
                 break;
             case STADIUM:
                 goToStdium();
@@ -264,24 +264,36 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 
-    private void viewProperties(GameEnvironment game) {
+
+    private void viewProperties() {
     	String properties = game.getProperties();
     	System.out.println(properties);
     }
     
-    private void goToClub(GameEnvironment game) {
-    	String input = getClubInput();
+    private void goToClub() {
+    	int input = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
+    	if(input==0) {
+    		System.out.println(game.teamName());
+    		String teamInfo = game.viewTeam(game.getTeam());
+    		System.out.println(teamInfo);
+    		System.out.println("Reserves");
+    		String reserveInfo = game.viewTeam(game.getReserves());
+    		System.out.println(reserveInfo);
+    		//Can't do 2 scanners ?
+    		int swapMembers = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
+    		
+    		if(swapMembers==0) {
+    			System.out.println("Which athletes would you like to swap?");    		}
+    	}
     	
-    	String info = game.viewTeam(game.getTeam());
-		System.out.println(info);
     	
     }
     
-    public String getClubInput() {
+    public String getClubInput(String action, String option1, String option2) {
     	while(true) {
-    		System.out.println("What would you like to do next?");
-    		System.out.println("(0) View your team");
-    		System.out.println("(1) View your inventory");
+    		System.out.println(action);
+    		System.out.println("(0) "+ option1);
+    		System.out.println("(1) "+ option2);
     	
     	try {
     		String input = scan.next("[01]");
