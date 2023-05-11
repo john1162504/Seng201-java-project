@@ -244,40 +244,59 @@ public class CmdLineUi implements GameEnvironmentUi{
         }
     }
     
+    
     private void goToStdium() {
-		// TODO Auto-generated method stub
-    	String matchinfos = this.game.getMatches();
-		this.game.
-	}
-
-
-
-	private void viewProperties(GameEnvironment game) {
-    	int money = game.getMoney();
-    	int currentWeek = game.getCurrentWeek();
-    	int remainingWeeks = game.getRemainingWeeks();
+    	while(true) {
+    		System.out.println("Select you match");
+    		System.out.println(this.game.getMatchInfos());
+    		try {
+    			int index = scan.nextInt();
+    			game.match(index);
+    		}
+    		catch (Exception e) {
+    			System.out.println(e.getMessage());
+    		}
+    	}
     	
-    	System.out.println("Money: "+money);
-    	System.out.println("Current Week: "+currentWeek);
-    	System.out.println("Remaining Weeks: "+remainingWeeks);
+	}
+    
+
+
+
+
+    private void viewProperties(GameEnvironment game) {
+    	String properties = game.getProperties();
+    	System.out.println(properties);
     }
     
     private void goToClub(GameEnvironment game) {
+    	String input = getClubInput();
+    	
+    	String info = game.viewTeam(game.getTeam());
+		System.out.println(info);
+    	
+    }
+    
+    public String getClubInput() {
     	while(true) {
     		System.out.println("What would you like to do next?");
     		System.out.println("(0) View your team");
     		System.out.println("(1) View your inventory");
-    	}
+    	
     	try {
     		String input = scan.next("[01]");
     		
     	}
     	catch (Exception e) {
-    		//
+    		//Remove bad input
     		scan.nextLine();
+    	}
     	}
     }
     
-    private 
 }
+    
+    
+    
+
 

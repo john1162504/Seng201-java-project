@@ -20,6 +20,8 @@ public class GameEnvironment {
 	
 	private ArrayList<Athlete> opponentTeam;
 	
+	private ArrayList<ArrayList<Athlete>> matches;
+	
 	private Market market;
 	
 	private Match match;
@@ -64,9 +66,9 @@ public class GameEnvironment {
 		this.gameLength = gameLength;
 		this.allyTeam = startAthletes;
 		this.difficulty = difficulty;
+		this.match = new Match();
 		this.market = new Market();
-		System.out.println(this.getAthleteNames(startAthletes));
-		System.out.println(difficulty.name);
+		this.matches = this.refershMatches();
 		ui.start();
 		
 		
@@ -117,30 +119,51 @@ public class GameEnvironment {
 	public int getRemainingWeeks() {
 		return this.gameLength - this.currentWeek;
 	}
-
-
-	public static void main(String[] args) {
-		
-		
+	
+	public String getProperties() {
+		return "Money: " +this.money + "\nCurrent Week: "+this.currentWeek + "\nRemaining Weeks: "+ this.getRemainingWeeks();
 	}
 	
-	public
-
-	public String getMatchInfos(ArrayList<ArrayList<Athlete>> matches) {
-		String infos;
-		for (int i = 0; i < matches.size(); i++) {
-			
+	public String viewTeam(ArrayList<Athlete> team) {
+		String teamInfo = "";
+		for(Athlete athlete: team) {
+			teamInfo += athlete.toString()+"\n";
 		}
-		return null;
+		return teamInfo;
+	}
+	
+	public ArrayList<Athlete> getTeam(){
+		return this.allyTeam;
 	}
 
 
+	
+
+	public String getMatchInfos() {
+		String infos = "";
+		for (int i = 0; i < matches.size(); i++) {
+			infos += "Macth " + i + "\n" + viewTeam(matches.get(i));
+		}
+		return infos;
+	}
+
+	
 	public ArrayList<ArrayList<Athlete>> getMatches() {
+		return this.matches;
+	}
+	
+	public ArrayList<ArrayList<Athlete>> refershMatches() {
 		ArrayList<ArrayList<Athlete>> matches = new ArrayList<ArrayList<Athlete>>(3);
 		for (int i = 0; i < 3; i++) {
 			matches.add(this.generateAthletes(MAX_TEAM_SIZE));
 		}
 		return matches;
+	}
+	
+	public void match(int index) {
+		for (int i = 0; i < 4; i++) {
+			System.out.print(this.match.match(this.allyTeam.get(i), matches.get(index).get(i)));
+		}
 	}
 	
 	

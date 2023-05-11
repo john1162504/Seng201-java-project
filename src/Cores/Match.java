@@ -18,9 +18,18 @@ public class Match {
 	
 	
 	//match played, athlete A and B on each team are defenders, C and  D are attackers, return winning team
-	public void match(Athlete ally, Athlete opponent) {
+	public String match(Athlete ally, Athlete opponent) {
 		int allyPoint = ally.getAttack() - opponent.getDefence();
 		int opponentPoint = opponent.getAttack() - ally.getDefence();
+		if (allyPoint > opponentPoint) {
+			return String.format("%s get %d point from %s", ally.getName(), allyPoint, opponent.getName());
+		} 
+		else if (allyPoint < opponentPoint) {
+			return String.format("%s get %d point from %s", opponent.getName(), allyPoint, ally.getName());
+		}
+		else {
+			return "Draw!";
+		}
 		
 	}
 	
