@@ -132,6 +132,14 @@ public class GameEnvironment {
 	public ArrayList<Athlete> getTeam(){
 		return this.allyTeam;
 	}
+	
+	public String teamName() {
+		return this.name;
+	}
+	
+	public ArrayList<Athlete> getReserves(){
+		return this.reserveTeam;
+	}
 
 
 	public static void main(String[] args) {
