@@ -116,6 +116,22 @@ public class GameEnvironment {
 	public int getRemainingWeeks() {
 		return this.gameLength - this.currentWeek;
 	}
+	
+	public String getProperties() {
+		return "Money: "+this.money + "\nCurrent Week: "+this.currentWeek + "\nRemaining Weeks: "+(this.gameLength - this.currentWeek);
+	}
+	
+	public String viewTeam(ArrayList<Athlete> team) {
+		String teamInfo = "";
+		for(Athlete athlete: team) {
+			teamInfo += athlete.toString()+"\n";
+		}
+		return teamInfo;
+	}
+	
+	public ArrayList<Athlete> getTeam(){
+		return this.allyTeam;
+	}
 
 
 	public static void main(String[] args) {
