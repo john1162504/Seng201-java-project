@@ -228,7 +228,7 @@ public class CmdLineUi implements GameEnvironmentUi{
                 viewProperties(game);
                 break;
             case CLUB:
-                
+                goToClub(game);
                 break;
             case STADIUM:
                 
@@ -245,9 +245,31 @@ public class CmdLineUi implements GameEnvironmentUi{
     }
     
     private void viewProperties(GameEnvironment game) {
+    	int money = game.getMoney();
+    	int currentWeek = game.getCurrentWeek();
+    	int remainingWeeks = game.getRemainingWeeks();
     	
-    	
+    	System.out.println("Money: "+money);
+    	System.out.println("Current Week: "+currentWeek);
+    	System.out.println("Remaining Weeks: "+remainingWeeks);
     }
     
+    private void goToClub(GameEnvironment game) {
+    	while(true) {
+    		System.out.println("What would you like to do next?");
+    		System.out.println("(0) View your team");
+    		System.out.println("(1) View your inventory");
+    	}
+    	try {
+    		String input = scan.next("[01]");
+    		return input;
+    	}
+    	catch (Exception e) {
+    		//
+    		scan.nextLine();
+    	}
+    }
+    
+    private 
 }
 
