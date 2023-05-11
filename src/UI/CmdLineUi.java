@@ -251,7 +251,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     
     private void goToClub(GameEnvironment game) {
     	String input = getClubInput();
-    	System.out.println(input.getClass());
+    	
     	String info = game.viewTeam(game.getTeam());
 		System.out.println(info);
     	
