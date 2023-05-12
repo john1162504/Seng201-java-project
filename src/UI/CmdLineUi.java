@@ -145,31 +145,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 
-	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
-		while (true) {
-			System.out.println(prompt);
-			System.out.println(displayAthletes(availableAthletes));
-			try {
-				int index = scan.nextInt();
-				Athlete athlete = availableAthletes.get(index);
-				return athlete;
-			}
-			catch (Exception e) {
-				System.out.println("Invalid input");
-				scan.nextLine();
-			}
-		}
-	}
-	
-	private String displayAthletes(ArrayList<Athlete> athletes) {
-		String athletesDescription = "";
-		int index = 0;
-		for (Athlete athlete : athletes) {
-			athletesDescription += "(" + index + ") " + athlete + '\n';
-			index++;
-		}
-		return athletesDescription;
-	}
 
 
 	@Override
@@ -213,25 +188,8 @@ public class CmdLineUi implements GameEnvironmentUi{
 		
 	}
 	
-	public static void main(String[] args) {
-		CmdLineUi ui = new CmdLineUi();
-		GameEnvironment game = new GameEnvironment(ui, null);
-		ui.setup(game);
-//		ArrayList<Athlete> a = ui.getStartAthletes();
-//		ui.printTeam(a);
-		
 	
-	}
-	
-	/**
-     * Outputs the set of options to the console.
-     */
-    private void printOptions() {
 
-        for (Option option : Option.values()) {
-            System.out.println("(" + option.ordinal() + ") " + option.name);
-        }
-    }
     
     private void handleOption(Option option) {
         switch (option) {
@@ -288,61 +246,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 		
 	}
 
-
-
-
-
-
-	private void displayInventory() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	private void displayShop() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	private void displayMoney() {
-		System.out.println("you have $" + game.getMoney());
-		
-	}
-
-
-
-	private void goToStdium() {
-    	 int index = chooseMatch();
-    	 String result = game.match(index);
-    	 System.out.println(result);
-    	
-	}
-    
-    private int chooseMatch() {
-    	while(true) {
-    		System.out.println("Select you match\n" + (this.game.getMatchInfos()));
-    		try {
-    			int index = scan.nextInt();
-    			if (index < game.availableMatches())
-    				return index;
-    		}
-    		catch (Exception e) {
-    			System.out.println(e.getMessage());
-    		}
-    	}
-    
-
-    }
-
-
-
-    private void displayProperties() {
-    	String properties = game.getProperties();
-    	System.out.println(properties);
-    }
-    
     private void goToClub() {
     	boolean stay = true;
     	while (stay) {
@@ -373,23 +276,77 @@ public class CmdLineUi implements GameEnvironmentUi{
     			System.out.println(e.getMessage());
     		}
     	}
-//    	int input = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
-//    	if(input==0) {
-//    		System.out.println(game.teamName());
-//    		String teamInfo = game.viewTeam(game.getTeam());
-//    		System.out.println(teamInfo);
-//    		System.out.println("Reserves");
-//    		String reserveInfo = game.viewTeam(game.getReserves());
-//    		System.out.println(reserveInfo);
-//    		//Can't do 2 scanners ?
-//    		int swapMembers = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
-//    		
-//    		if(swapMembers==0) {
-//    			System.out.println("Which athletes would you like to swap?");    		}
-//    	}
-    	
-    	
     }
+
+
+
+	private void goToStdium() {
+    	 int index = selectMatch();
+    	 String result = game.match(index);
+    	 System.out.println(result);
+    	
+	}
+	
+	
+    
+    private int selectMatch() {
+    	while(true) {
+    		System.out.println("Select you match\n" + (this.game.getMatchInfos()));
+    		try {
+    			int index = scan.nextInt();
+    			if (index < game.availableMatches())
+    				return index;
+    		}
+    		catch (Exception e) {
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    
+
+    }
+    
+	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
+		while (true) {
+			System.out.println(prompt);
+			System.out.println(displayAthletes(availableAthletes));
+			try {
+				int index = scan.nextInt();
+				Athlete athlete = availableAthletes.get(index);
+				return athlete;
+			}
+			catch (Exception e) {
+				System.out.println("Invalid input");
+				scan.nextLine();
+			}
+		}
+	}
+
+
+
+    private void displayProperties() {
+    	String properties = game.getProperties();
+    	System.out.println(properties);
+    }
+    
+
+    
+	private void displayInventory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void displayShop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void displayMoney() {
+		System.out.println("you have $" + game.getMoney());
+		
+	}
     
     //print out all item
     //0 to use item 1 go back
@@ -421,6 +378,37 @@ public class CmdLineUi implements GameEnvironmentUi{
 							reserveTeamInfo);	
 	}
 	
+	
+	private String displayAthletes(ArrayList<Athlete> athletes) {
+		String athletesDescription = "";
+		int index = 0;
+		for (Athlete athlete : athletes) {
+			athletesDescription += "(" + index + ") " + athlete + '\n';
+			index++;
+		}
+		return athletesDescription;
+	}
+	
+
+	
+
+//	public String getClubInput(String action, String option1, String option2) {
+//    	while(true) {
+//    		System.out.println(action);
+//    		System.out.println("(0) "+ option1);
+//    		System.out.println("(1) "+ option2);
+//    	
+//    	try {
+//    		String input = scan.next("[01]");
+//    		
+//    	}
+//    	catch (Exception e) {
+//    		//Remove bad input
+//    		scan.nextLine();
+//    	}
+//    	}
+//    }
+	
 	private void swapAthletes() {
 		boolean swapping = true;
 		String swapped = "";
@@ -440,24 +428,26 @@ public class CmdLineUi implements GameEnvironmentUi{
 		System.out.println(swapped);
 	}
 	
+	
+	/**
+     * Outputs the set of options to the console.
+     */
+    private void printOptions() {
 
-//	public String getClubInput(String action, String option1, String option2) {
-//    	while(true) {
-//    		System.out.println(action);
-//    		System.out.println("(0) "+ option1);
-//    		System.out.println("(1) "+ option2);
-//    	
-//    	try {
-//    		String input = scan.next("[01]");
-//    		
-//    	}
-//    	catch (Exception e) {
-//    		//Remove bad input
-//    		scan.nextLine();
-//    	}
-//    	}
-//    }
+        for (Option option : Option.values()) {
+            System.out.println("(" + option.ordinal() + ") " + option.name);
+        }
+    }
     
+	public static void main(String[] args) {
+		CmdLineUi ui = new CmdLineUi();
+		GameEnvironment game = new GameEnvironment(ui, null);
+		ui.setup(game);
+//		ArrayList<Athlete> a = ui.getStartAthletes();
+//		ui.printTeam(a);
+		
+	
+	}
 }
     
     
