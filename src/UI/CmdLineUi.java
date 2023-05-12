@@ -177,7 +177,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 
         while (!finish) {
             System.out.println("\nSelect an option:");
-
             printOptions();
 
             try {
@@ -199,7 +198,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	public boolean confirmQuit() {
 		// TODO Auto-generated method stub
 		return false;
-	}
+	}	
 
 	@Override
 	public void quit() {
@@ -274,8 +273,6 @@ public class CmdLineUi implements GameEnvironmentUi{
     			case 2:
     				stay = false;
     				break;
-    			}public String viewReserves() {
-    				return viewTeam(reserveTeam);
     			}
     		}
     		catch (Exception e) {
@@ -305,9 +302,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 		
 	}
 
-	public String viewReserves() {
-		return viewTeam(reserveTeam);
-	}
 
 	private void displayMoney() {
 		System.out.println("you have $" + game.getMoney());
