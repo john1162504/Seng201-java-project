@@ -124,7 +124,8 @@ public class GameEnvironment {
 		return "Money: " +this.money + "\nCurrent Week: "+this.currentWeek + "\nRemaining Weeks: "+ this.getRemainingWeeks();
 	}
 	
-	public String viewTeam(ArrayList<Athlete> team) {
+	public String viewTeam() {
+		ArrayList<Athlete> team = getTeam();
 		String teamInfo = "";
 		for(Athlete athlete: team) {
 			teamInfo += athlete.toString()+"\n";

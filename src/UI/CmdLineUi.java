@@ -378,16 +378,19 @@ public class CmdLineUi implements GameEnvironmentUi{
     //print out all item
     //0 to use item 1 go back
     private void displayItems() {
-    	System.out.println("Viewing in team");
+    	System.out.println("Viewing inventory");
 		
 	}
 
 
-    //print out all athletes 
+    //print out all athletes
+    //Call a method which retrieves a string, then print string
     //0 to 3 
     // enter int to select a athlete then action
 	private void displayTeam() {
-		System.out.println("Viewing in ventory");
+		String teamInfo = game.viewTeam();
+		System.out.println("Viewing team\n"+
+							teamInfo);
 		
 	}
 
