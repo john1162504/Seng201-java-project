@@ -289,7 +289,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 		boolean stay = true;
 		while (stay) {
 			System.out.println("Select a object to sell");
-			displayTeam();
+			displayTeams();
 			displayItems();
 		}
 		
@@ -351,7 +351,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     			int input = scan.nextInt();
     			switch (input) {
     				case 0:
-    					displayTeam();
+    					displayTeams();
     					break;
     				case 1:
     					displayItems();
@@ -396,34 +396,42 @@ public class CmdLineUi implements GameEnvironmentUi{
     //Call a method which retrieves a string, then print string
     //0 to 3 
     // enter int to select a athlete then action
-	private void displayTeam() {
-		String teamInfo = game.viewTeam(game.getTeam());
-		String reserveteamInfo = game.viewTeam(game.getReserves()); 
-		System.out.println("Active team\n"+
-							teamInfo+
-							"\nReserve team"+
-							reserveteamInfo);
+	private void displayTeams() {
+		displayActiveTeam();
+		displayReserveTeam();
 		
+	}
+	
+	private void displayActiveTeam() {
+		String teamInfo = displayAthletes(game.getTeam());
+		System.out.println("Active team\n"+
+							teamInfo);
+	}
+	
+	private void displayReserveTeam() {
+		String reserveTeamInfo = displayAthletes(game.getReserves()); 
+		System.out.println("Reserve team\n"+
+							reserveTeamInfo);	
 	}
 
 
 
-	public String getClubInput(String action, String option1, String option2) {
-    	while(true) {
-    		System.out.println(action);
-    		System.out.println("(0) "+ option1);
-    		System.out.println("(1) "+ option2);
-    	
-    	try {
-    		String input = scan.next("[01]");
-    		
-    	}
-    	catch (Exception e) {
-    		//Remove bad input
-    		scan.nextLine();
-    	}
-    	}
-    }
+//	public String getClubInput(String action, String option1, String option2) {
+//    	while(true) {
+//    		System.out.println(action);
+//    		System.out.println("(0) "+ option1);
+//    		System.out.println("(1) "+ option2);
+//    	
+//    	try {
+//    		String input = scan.next("[01]");
+//    		
+//    	}
+//    	catch (Exception e) {
+//    		//Remove bad input
+//    		scan.nextLine();
+//    	}
+//    	}
+//    }
     
 }
     

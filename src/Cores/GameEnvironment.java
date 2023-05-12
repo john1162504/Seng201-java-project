@@ -39,6 +39,8 @@ public class GameEnvironment {
 	
 	public static final int MAX_TEAM_SIZE = 4;
 	
+	public static final int MAX_RESERVE_TEAM_SIZE = 5;
+	
 	// current game progress, measure in week
 	private int currentWeek = 1;
 	
@@ -67,6 +69,7 @@ public class GameEnvironment {
 		this.name = name;
 		this.gameLength = gameLength;
 		this.allyTeam = startAthletes;
+		this.reserveTeam = new ArrayList<Athlete>(MAX_RESERVE_TEAM_SIZE);
 		this.difficulty = difficulty;
 		this.market = new Market();
 		this.matches = this.refershMatches();
