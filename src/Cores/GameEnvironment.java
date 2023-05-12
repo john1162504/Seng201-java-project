@@ -69,7 +69,7 @@ public class GameEnvironment {
 		this.name = name;
 		this.gameLength = gameLength;
 		this.allyTeam = startAthletes;
-		this.reserveTeam = new ArrayList<Athlete>(MAX_RESERVE_TEAM_SIZE);
+		this.reserveTeam = generateAthletes(3);
 		this.difficulty = difficulty;
 		this.market = new Market();
 		this.matches = this.refershMatches();
@@ -148,6 +148,14 @@ public class GameEnvironment {
 		return this.reserveTeam;
 	}
 
+	
+	public String swapAthletes(Athlete active, Athlete reserve) {
+		this.allyTeam.remove(active);
+		this.reserveTeam.remove(reserve);
+		this.allyTeam.add(reserve);
+		this.reserveTeam.add(active);
+		return String.format("Athlete %s has swapped with athlete %s!", active.getName(), reserve.getName());
+	}
 
 	
 
@@ -189,6 +197,10 @@ public class GameEnvironment {
 
 	public int availableMatches() {
 		return this.matches.size();
+	}
+	
+	public int teamSize() {
+		return this.allyTeam.size();
 	}
 	
 

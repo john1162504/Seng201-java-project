@@ -135,7 +135,9 @@ public class CmdLineUi implements GameEnvironmentUi{
 		ArrayList<Athlete> availableAthletes = game.generateAthletes(6);
 		ArrayList<Athlete> selectedAthletes = new ArrayList<Athlete>(GameEnvironment.MAX_TEAM_SIZE);
 		while (selectedAthletes.size() < GameEnvironment.MAX_TEAM_SIZE) {
-			Athlete athlete =  selectAthlete(availableAthletes);
+			Athlete athlete =  selectAthlete(availableAthletes, 
+					"Select your athlete");
+			availableAthletes.remove(athlete);
 			selectedAthletes.add(athlete);
 		}
 		return selectedAthletes;
@@ -143,14 +145,13 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 
-	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes) {
+	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
 		while (true) {
-			System.out.println("Select your athlete");
+			System.out.println(prompt);
 			System.out.println(displayAthletes(availableAthletes));
 			try {
 				int index = scan.nextInt();
 				Athlete athlete = availableAthletes.get(index);
-				availableAthletes.remove(index);
 				return athlete;
 			}
 			catch (Exception e) {
@@ -345,8 +346,9 @@ public class CmdLineUi implements GameEnvironmentUi{
     	while (stay) {
     		System.out.println("What would you like to do next?\n"
     				+ "(0) View Your team\n"
-    				+ "(1) View your inventory\n"
-    				+ "(2) Go back");
+    				+ "(1) Bench an athlete\n"
+    				+ "(2) View your inventory\n"
+    				+ "(3) Go back");
     		try {
     			int input = scan.nextInt();
     			switch (input) {
@@ -354,9 +356,12 @@ public class CmdLineUi implements GameEnvironmentUi{
     					displayTeams();
     					break;
     				case 1:
-    					displayItems();
+    					swapAthletes();
     					break;
     				case 2:
+    					displayItems();
+    					break;
+    				case 3:
     					stay = false;
     					break;
     			}
@@ -413,8 +418,25 @@ public class CmdLineUi implements GameEnvironmentUi{
 		System.out.println("Reserve team\n"+
 							reserveTeamInfo);	
 	}
-
-
+	
+	private void swapAthletes() {
+		boolean swapping = true;
+		String swapped = "";
+		while(swapping) {
+			try {
+	    		Athlete athleteMain = selectAthlete(game.getTeam(), 
+	    				"Select active athlete to swap");
+	    		Athlete athleteReserve = selectAthlete(game.getReserves(), 
+	    				"Select reserve athlete to swap");
+	    		swapped += game.swapAthletes(athleteMain, athleteReserve);
+	    		swapping = false;
+			}
+			catch (Exception e) {
+				scan.nextLine();
+			}
+    	}
+		System.out.println(swapped);
+	}
 
 //	public String getClubInput(String action, String option1, String option2) {
 //    	while(true) {
