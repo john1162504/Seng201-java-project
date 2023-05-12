@@ -246,21 +246,27 @@ public class CmdLineUi implements GameEnvironmentUi{
     
     
     private void goToStdium() {
+    	 int index = chooseMatch();
+    	 String result = game.match(index);
+    	 System.out.println(result);
+    	
+	}
+    
+    private int chooseMatch() {
     	while(true) {
     		System.out.println("Select you match\n" + (this.game.getMatchInfos()));
     		try {
     			int index = scan.nextInt();
-    			game.match(index);
+    			if (index < game.availableMatches())
+    				return index;
     		}
     		catch (Exception e) {
     			System.out.println(e.getMessage());
     		}
     	}
-    	
-	}
     
 
-
+    }
 
 
 

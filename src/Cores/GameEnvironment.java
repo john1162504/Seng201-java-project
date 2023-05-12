@@ -68,7 +68,6 @@ public class GameEnvironment {
 		this.gameLength = gameLength;
 		this.allyTeam = startAthletes;
 		this.difficulty = difficulty;
-		this.match = new Match();
 		this.market = new Market();
 		this.matches = this.refershMatches();
 		ui.start();
@@ -169,13 +168,24 @@ public class GameEnvironment {
 		return matches;
 	}
 	
-	public void match(int index) {
-		for (int i = 0; i < 4; i++) {
-			System.out.print(this.match.match(this.allyTeam.get(i), matches.get(index).get(i)));
-		}
+	public String match(int index) {
+		match = new Match(allyTeam,matches.get(index));
+		String matchDetails = match.matchBegin();
+		String matchResult = match.matchResult();
+		matchReward(match);
+		return matchDetails + '\n' + matchResult;
 	}
 	
-	
+	private void matchReward(Match match) {
+		this.score += match.getScore();
+		this.money += match.getMoney();
+		
+	}
+
+
+	public int availableMatches() {
+		return this.matches.size();
+	}
 	
 
 
