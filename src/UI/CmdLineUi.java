@@ -263,6 +263,8 @@ public class CmdLineUi implements GameEnvironmentUi{
     			case 2:
     				stay = false;
     				break;
+    			}public String viewReserves() {
+    				return viewTeam(reserveTeam);
     			}
     		}
     		catch (Exception e) {
@@ -292,7 +294,9 @@ public class CmdLineUi implements GameEnvironmentUi{
 		
 	}
 
-
+	public String viewReserves() {
+		return viewTeam(reserveTeam);
+	}
 
 	private void displayMoney() {
 		System.out.println("you have $" + game.getMoney());
@@ -388,9 +392,12 @@ public class CmdLineUi implements GameEnvironmentUi{
     //0 to 3 
     // enter int to select a athlete then action
 	private void displayTeam() {
-		String teamInfo = game.viewTeam();
-		System.out.println("Viewing team\n"+
-							teamInfo);
+		String teamInfo = game.viewTeam(game.getTeam());
+		String reserveteamInfo = game.viewTeam(game.getReserves()); 
+		System.out.println("Active team\n"+
+							teamInfo+
+							"\nReserve team"+
+							reserveteamInfo);
 		
 	}
 

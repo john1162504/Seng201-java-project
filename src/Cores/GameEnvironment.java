@@ -89,14 +89,14 @@ public class GameEnvironment {
 		
 	}
 	
-	public String getAthleteNames(ArrayList<Athlete> team) {
-    	String returnString = "";
-		for (Athlete athlete: team) {
-			returnString += athlete.getName();
-			returnString += ", ";
-		}
-		return returnString.substring(0, returnString.length() -2);
-    }
+//	public String getAthleteNames(ArrayList<Athlete> team) {
+//    	String returnString = "";
+//		for (Athlete athlete: team) {
+//			returnString += athlete.getName();
+//			returnString += ", ";
+//		}
+//		return returnString.substring(0, returnString.length() -2);
+//    }
 	
 	public void addNewAthlete(ArrayList<Athlete> team , Athlete newAthlete) {
 		if (team.size() < 4) {
@@ -124,14 +124,14 @@ public class GameEnvironment {
 		return "Money: " +this.money + "\nCurrent Week: "+this.currentWeek + "\nRemaining Weeks: "+ this.getRemainingWeeks();
 	}
 	
-	public String viewTeam() {
-		ArrayList<Athlete> team = getTeam();
+	public String viewTeam(ArrayList<Athlete> team) {
 		String teamInfo = "";
 		for(Athlete athlete: team) {
 			teamInfo += athlete.toString()+"\n";
 		}
 		return teamInfo;
 	}
+	
 	
 	public ArrayList<Athlete> getTeam(){
 		return this.allyTeam;
