@@ -214,38 +214,8 @@ public class CmdLineUi implements GameEnvironmentUi{
     }
     
     
-    private void goToMarket() {
-    	boolean stay = true;
-    	while (stay) {
-    		displayMoney();
-    		System.out.println("(0) Buy\n"
-    						 + "(1) Sell an athlete\n"
-    						 + "(2) Sell an item\n"
-    						 + "(3) Go back");
-    		try {
-    			int input = scan.nextInt();
-    			switch (input) {
-    			case 0:
-    				displayShop();
-    				break;
-    			case 1:
-    				displayTeams();
-    				break;
-    			case 2:
-    				displayInventory();
-    			case 3:
-    				stay = false;
-    				break;
-    			}
-    		}
-    		catch (Exception e) {
-    			System.out.print(e.getMessage());
-    			scan.nextLine();
-    		}
-    	}
-		
-	}
-
+   
+  
     private void goToClub() {
     	boolean stay = true;
     	while (stay) {
@@ -264,7 +234,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     					swapAthletes();
     					break;
     				case 2:
-    					displayItems();
+    					displayInventory();
     					break;
     				case 3:
     					stay = false;
@@ -287,6 +257,39 @@ public class CmdLineUi implements GameEnvironmentUi{
     	
 	}
 	
+	 private void goToMarket() {
+	    	boolean stay = true;
+	    	while (stay) {
+	    		displayMoney();
+	    		System.out.println("(0) Buy\n"
+	    						 + "(1) Sell an athlete\n"
+	    						 + "(2) Sell an item\n"
+	    						 + "(3) Go back");
+	    		try {
+	    			int input = scan.nextInt();
+	    			switch (input) {
+	    			case 0:
+	    				displayShop();
+	    				break;
+	    			case 1:
+	    				displayTeams();
+	    				break;
+	    			case 2:
+	    				displayInventory();
+	    			case 3:
+	    				stay = false;
+	    				break;
+	    			}
+	    		}
+	    		catch (Exception e) {
+	    			System.out.print(e.getMessage());
+	    			scan.nextLine();
+	    		}
+	    	}
+			
+		}
+
+	
 	
     
     private int selectMatch() {
@@ -301,8 +304,6 @@ public class CmdLineUi implements GameEnvironmentUi{
     			System.out.println(e.getMessage());
     		}
     	}
-    
-
     }
     
 	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
@@ -331,7 +332,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 
     
 	private void displayInventory() {
-		// TODO Auto-generated method stub
+		System.out.println(game.inventoryInfo());
 		
 	}
 

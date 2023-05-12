@@ -1,6 +1,7 @@
 package Cores;
 import java.util.*;
 
+import Cores.Item.Type;
 import UI.CmdLineUi.Difficulty;
 import UI.GameEnvironmentUi;
 
@@ -22,7 +23,7 @@ public class GameEnvironment {
 	
 	private ArrayList<ArrayList<Athlete>> matches;
 	
-	private HashMap<String, Integer> inventory = new HashMap<>();
+	private HashMap<Item, Integer> inventory = new HashMap<>();
 	
 	private Market market;
 	
@@ -73,6 +74,7 @@ public class GameEnvironment {
 		this.difficulty = difficulty;
 		this.market = new Market();
 		this.matches = this.refershMatches();
+		this.inventory = this.initiateInventory();
 		ui.start();
 		
 	}
@@ -201,6 +203,28 @@ public class GameEnvironment {
 	
 	public int teamSize() {
 		return this.allyTeam.size();
+	}
+	
+	public String inventoryInfo() {
+		String info = "";
+		for (Map.Entry<Item, Integer> inven: inventory.entrySet()) {
+			info += inven.getKey().getName() + ":" + inven.getValue() +'\n';
+		}
+		return info;
+	}
+	private HashMap<Item, Integer> initiateInventory() {
+		HashMap<Item, Integer>  inventory = new HashMap<>();
+		Item food = new Item(1, 1, "Food", 5, Type.FOOD);
+		Item weight = new Item(1, 1, "Weight", 5, Type.WEIGHT);
+		Item medicine = new Item(1, 1, "Medicine", 100, Type.MEDICINE);
+		inventory.put(medicine, 0);
+		inventory.put(food, 0);
+		inventory.put(weight, 0);
+		return inventory;
+	}
+	
+	public HashMap<Item, Integer> getInventory() {
+		return this.inventory;
 	}
 	
 
