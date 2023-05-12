@@ -134,29 +134,40 @@ public class CmdLineUi implements GameEnvironmentUi{
 	private ArrayList<Athlete> getStartAthletes() {
 		ArrayList<Athlete> availableAthletes = game.generateAthletes(6);
 		ArrayList<Athlete> selectedAthletes = new ArrayList<Athlete>(GameEnvironment.MAX_TEAM_SIZE);
-		while(selectedAthletes.size() < GameEnvironment.MAX_TEAM_SIZE) {
-			System.out.println("Select your athletes");
-			this.printTeam(availableAthletes);
+		while (selectedAthletes.size() < GameEnvironment.MAX_TEAM_SIZE) {
+			Athlete athlete =  selectAthlete(availableAthletes);
+			selectedAthletes.add(athlete);
+		}
+		return selectedAthletes;
+	}
+
+
+
+	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes) {
+		while (true) {
+			System.out.println("Select your athlete");
+			System.out.println(displayAthletes(availableAthletes));
 			try {
 				int index = scan.nextInt();
 				Athlete athlete = availableAthletes.get(index);
 				availableAthletes.remove(index);
-				selectedAthletes.add(athlete);
+				return athlete;
 			}
 			catch (Exception e) {
 				System.out.println("Invalid input");
 				scan.nextLine();
 			}
 		}
-		return selectedAthletes;
 	}
 	
-	private void printTeam(ArrayList<Athlete> team) {
+	private String displayAthletes(ArrayList<Athlete> athletes) {
+		String athletesDescription = "";
 		int index = 0;
-		for (Athlete athlete : team) {
-			System.out.println("(" + index + ") " + athlete);
+		for (Athlete athlete : athletes) {
+			athletesDescription += "(" + index + ") " + athlete + '\n';
 			index++;
 		}
+		return athletesDescription;
 	}
 
 
