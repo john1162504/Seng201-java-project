@@ -226,6 +226,17 @@ public class GameEnvironment {
 	public HashMap<Item, Integer> getInventory() {
 		return this.inventory;
 	}
+
+
+	public String athleteinfo(ArrayList<Athlete> athletes) {
+		String athletesDescription = "";
+		int index = 0;
+		for (Athlete athlete : athletes) {
+			athletesDescription += "(" + index + ") " + athlete + '\n';
+			index++;
+		}
+		return athletesDescription;
+	}
 	
 
 

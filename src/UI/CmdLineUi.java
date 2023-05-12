@@ -309,7 +309,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
 		while (true) {
 			System.out.println(prompt);
-			System.out.println(displayAthletes(availableAthletes));
+			System.out.println(game.athleteinfo(availableAthletes));
 			try {
 				int index = scan.nextInt();
 				Athlete athlete = availableAthletes.get(index);
@@ -368,27 +368,19 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	private void displayActiveTeam() {
-		String teamInfo = displayAthletes(game.getTeam());
+		String teamInfo = game.athleteinfo(game.getTeam());
 		System.out.println("Active team\n"+
 							teamInfo);
 	}
 	
 	private void displayReserveTeam() {
-		String reserveTeamInfo = displayAthletes(game.getReserves()); 
+		String reserveTeamInfo = game.athleteinfo(game.getReserves()); 
 		System.out.println("Reserve team\n"+
 							reserveTeamInfo);	
 	}
 	
 	
-	private String displayAthletes(ArrayList<Athlete> athletes) {
-		String athletesDescription = "";
-		int index = 0;
-		for (Athlete athlete : athletes) {
-			athletesDescription += "(" + index + ") " + athlete + '\n';
-			index++;
-		}
-		return athletesDescription;
-	}
+	
 	
 
 	
