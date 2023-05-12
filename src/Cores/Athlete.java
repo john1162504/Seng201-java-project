@@ -145,6 +145,13 @@ public class Athlete implements Purchasable{
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	public void increaseStats(int amount) {
+		this.attack += amount;
+		this.defence += amount;
+		this.maxStamina += amount;
+		this.stamina = this.maxStamina;
+	}
 		
 	public void heal() {
 		this.status = Status.ACTIVE;
