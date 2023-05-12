@@ -130,6 +130,22 @@ public class Item implements Purchasable {
 		
 	}
 	
+	public String toString() {
+		String toString = "";
+		switch (type) {
+		case WEIGHT:
+			toString += String.format("%s increases athlete;s attck by %d", this.getName(), this.getValue());
+			break;
+		case FOOD:
+			toString += String.format("%s increases defence;s attck by %d", this.getName(), this.getValue());
+			break;
+		case MEDICINE:
+			toString += String.format("%s fully recover athlete when he is injuried", this.getName());
+			break;
+ 		}
+		return toString;
+	}
+	
 	
 	
 	

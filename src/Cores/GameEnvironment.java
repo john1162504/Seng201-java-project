@@ -19,9 +19,11 @@ public class GameEnvironment {
 	
 	private ArrayList<Athlete> reserveTeam;
 	
-	private ArrayList<Athlete> opponentTeam;
+	private ArrayList<Item> items;
 	
 	private ArrayList<ArrayList<Athlete>> matches;
+	
+	private ArrayList<Purchasable> purchasable;
 	
 	private HashMap<Item, Integer> inventory = new HashMap<>();
 	
@@ -29,7 +31,6 @@ public class GameEnvironment {
 	
 	private Match match;
 		
-	private final List<Item> items;
 	//Maximum length of the game
 	private final int maxLength = 15;
 	
@@ -58,11 +59,8 @@ public class GameEnvironment {
 
 	
 	
-	public GameEnvironment(GameEnvironmentUi ui, List<Item> items) {
-		this.ui = ui;
-		this.items = items;
-		
-		
+	public GameEnvironment(GameEnvironmentUi ui) {
+		this.ui = ui;		
 	}
 	
 
@@ -74,6 +72,8 @@ public class GameEnvironment {
 		this.difficulty = difficulty;
 		this.market = new Market();
 		this.matches = this.refershMatches();
+		this.items = this.initiateItems();
+		this.purchasable = this.refreshPurchasable();
 		this.inventory = this.initiateInventory();
 		ui.start();
 		
@@ -214,13 +214,21 @@ public class GameEnvironment {
 	}
 	private HashMap<Item, Integer> initiateInventory() {
 		HashMap<Item, Integer>  inventory = new HashMap<>();
+		for (Item item: items) {
+			inventory.put(item, 0);
+		}
+		return inventory;
+	}
+	
+	private ArrayList<Item> initiateItems() {
+		ArrayList<Item> items = new ArrayList<>();
 		Item food = new Item(1, 1, "Food", 5, Type.FOOD);
 		Item weight = new Item(1, 1, "Weight", 5, Type.WEIGHT);
 		Item medicine = new Item(1, 1, "Medicine", 100, Type.MEDICINE);
-		inventory.put(medicine, 0);
-		inventory.put(food, 0);
-		inventory.put(weight, 0);
-		return inventory;
+		items.add(food);
+		items.add(weight);
+		items.add(medicine);
+		return items;
 	}
 	
 	public HashMap<Item, Integer> getInventory() {
@@ -238,6 +246,12 @@ public class GameEnvironment {
 		return athletesDescription;
 	}
 	
+	private ArrayList<Purchasable> refreshPurchasable() {
+		ArrayList<Purchasable> market = new ArrayList<>();
+		market.addAll(items);
+		market.addAll(this.generateAthletes(3));
+		return market;
+	}
 
 
 }

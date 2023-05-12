@@ -434,7 +434,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     
 	public static void main(String[] args) {
 		CmdLineUi ui = new CmdLineUi();
-		GameEnvironment game = new GameEnvironment(ui, null);
+		GameEnvironment game = new GameEnvironment(ui);
 		ui.setup(game);
 //		ArrayList<Athlete> a = ui.getStartAthletes();
 //		ui.printTeam(a);
