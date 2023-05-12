@@ -22,6 +22,8 @@ public class GameEnvironment {
 	
 	private ArrayList<ArrayList<Athlete>> matches;
 	
+	private HashMap<String, Integer> inventory = new HashMap<>();
+	
 	private Market market;
 	
 	private Match match;
@@ -70,7 +72,6 @@ public class GameEnvironment {
 		this.market = new Market();
 		this.matches = this.refershMatches();
 		ui.start();
-		
 		
 	}
 	

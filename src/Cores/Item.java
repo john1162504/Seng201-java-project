@@ -107,7 +107,7 @@ public class Item implements Purchasable {
 	}
 	
 	
-	public void useItem(Athlete target) throws Exception {
+	public void useItem(Athlete target){
 		switch (type) {
 		
 		case WEIGHT:
@@ -122,9 +122,8 @@ public class Item implements Purchasable {
 		case MEDICINE:
 			if (target.getStatus().status == "Injured") {
 				target.heal();
-				System.out.print("Healed");
 			} else {
-				throw new Exception("cant do this");
+				break;
 			}
 			break;
  		}

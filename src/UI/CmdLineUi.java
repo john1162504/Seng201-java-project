@@ -247,8 +247,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     
     private void goToStdium() {
     	while(true) {
-    		System.out.println("Select you match");
-    		System.out.println(this.game.getMatchInfos());
+    		System.out.println("Select you match\n" + (this.game.getMatchInfos()));
     		try {
     			int index = scan.nextInt();
     			game.match(index);
@@ -271,25 +270,69 @@ public class CmdLineUi implements GameEnvironmentUi{
     }
     
     private void goToClub() {
-    	int input = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
-    	if(input==0) {
-    		System.out.println(game.teamName());
-    		String teamInfo = game.viewTeam(game.getTeam());
-    		System.out.println(teamInfo);
-    		System.out.println("Reserves");
-    		String reserveInfo = game.viewTeam(game.getReserves());
-    		System.out.println(reserveInfo);
-    		//Can't do 2 scanners ?
-    		int swapMembers = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
-    		
-    		if(swapMembers==0) {
-    			System.out.println("Which athletes would you like to swap?");    		}
+    	boolean con = true;
+    	while (con) {
+    		System.out.println("What would you like to do next?\n"
+    				+ "(0) View Your team\n"
+    				+ "(1) View your inventory\n"
+    				+ "(2) Go back");
+    		try {
+    			int input = scan.nextInt();
+    			switch (input) {
+    				case 0:
+    					viewTeam();
+    					
+    					break;
+    				case 1:
+    					viewInventory();
+    					break;
+    				case 2:
+    					con = false;
+    					break;
+    			}
+    		}
+    		catch (Exception e) {
+    			scan.nextLine();
+    			System.out.println(e.getMessage());
+    		}
     	}
+//    	int input = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
+//    	if(input==0) {
+//    		System.out.println(game.teamName());
+//    		String teamInfo = game.viewTeam(game.getTeam());
+//    		System.out.println(teamInfo);
+//    		System.out.println("Reserves");
+//    		String reserveInfo = game.viewTeam(game.getReserves());
+//    		System.out.println(reserveInfo);
+//    		//Can't do 2 scanners ?
+//    		int swapMembers = Integer.parseInt(getClubInput("What would you like to do next?", "View your team", "View your inventory"));
+//    		
+//    		if(swapMembers==0) {
+//    			System.out.println("Which athletes would you like to swap?");    		}
+//    	}
     	
     	
     }
     
-    public String getClubInput(String action, String option1, String option2) {
+    //print out all item
+    //0 to use item 1 go back
+    private void viewInventory() {
+    	System.out.println("Viewing in team");
+		
+	}
+
+
+    //print out all athletes 
+    //0 to 3 
+    // enter int to select a athlete then action
+	private void viewTeam() {
+		System.out.println("Viewing in ventory");
+		
+	}
+
+
+
+	public String getClubInput(String action, String option1, String option2) {
     	while(true) {
     		System.out.println(action);
     		System.out.println("(0) "+ option1);
