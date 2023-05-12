@@ -30,6 +30,8 @@ public class GameEnvironment {
 	private Market market;
 	
 	private Match match;
+	
+	private Random rng = new Random();
 		
 	//Maximum length of the game
 	private final int maxLength = 15;
@@ -158,7 +160,6 @@ public class GameEnvironment {
 		this.reserveTeam.add(active);
 		return String.format("Athlete %s has swapped with athlete %s!", active.getName(), reserve.getName());
 	}
-
 	
 
 	public String getMatchInfos() {
@@ -252,6 +253,52 @@ public class GameEnvironment {
 		market.addAll(this.generateAthletes(3));
 		return market;
 	}
+	public void takeABye() {
+		this.currentWeek +=1;
+		//items and athletes are updated
+		refershMatches();
+		healAthletes();
+		
+		
+	}
+	
+	public void healAthletes() {
+		for(Athlete athlete: allyTeam) {
+			athlete.heal();
+		}
+		for(Athlete athlete: reserveTeam) {
+			athlete.heal();
+		}
+	}
+	
+	public String athleteStatIncreaseEvent() {
+		int increaseChance = rng.nextInt(100);
+		String result = "No other athlete's stat's have increased";
+		if(increaseChance < 20) {
+			int chosenAthleteIndex = rng.nextInt(4);
+			Athlete chosenAthlete = allyTeam.get(chosenAthleteIndex);
+			chosenAthlete.increaseStats(5);
+			result = "Athlete "+chosenAthlete.getName()+"'s stats have increased by 5!";
+		}
+		return result;
+	}
+	
+	public String athleteQuitEvent() {
+		String result = "All athletes are high in morale!";
+		for(Athlete athlete: allyTeam) {
+			int quitChance = rng.nextInt(100);
+			if(quitChance < 5 && (athlete.getStamina() > 0)) {
+				removeAthlete(allyTeam, athlete);
+				return "Athlete "+athlete.getName() +" has decided to leave the team...";
+			}
+			else if(quitChance < 30 && (athlete.getStamina() <= 0)){
+				removeAthlete(allyTeam, athlete);
+				return "Athlete "+athlete.getName() +" is injured and has decided to leave the team...";
+			}
+		}
+		return result;
+	}
+	
 
 
 }

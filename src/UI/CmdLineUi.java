@@ -206,7 +206,7 @@ public class CmdLineUi implements GameEnvironmentUi{
                 goToMarket();
                 break;
             case BYE:
-                
+                takeABye();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + option);
@@ -379,7 +379,15 @@ public class CmdLineUi implements GameEnvironmentUi{
 							reserveTeamInfo);	
 	}
 	
-	
+	private void takeABye() {
+		game.takeABye();
+		Athlete chosenAthlete = selectAthlete(game.getTeam(), "Select an athlete to train");
+		chosenAthlete.increaseStats(10);
+		System.out.println("Athlete "+ chosenAthlete.getName()+"'s stats have all increased by 10!");
+		System.out.println(game.athleteStatIncreaseEvent());
+		System.out.println(game.athleteQuitEvent());
+		
+	}
 	
 	
 
