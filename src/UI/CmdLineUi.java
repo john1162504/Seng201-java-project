@@ -439,6 +439,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     	}
 		System.out.println(swapped);
 	}
+	
 
 //	public String getClubInput(String action, String option1, String option2) {
 //    	while(true) {
