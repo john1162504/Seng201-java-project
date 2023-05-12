@@ -260,8 +260,9 @@ public class CmdLineUi implements GameEnvironmentUi{
     	while (stay) {
     		displayMoney();
     		System.out.println("(0) Buy\n"
-    						 + "(1) Sell\n"
-    						 + "(2) Go back");
+    						 + "(1) Sell an athlete\n"
+    						 + "(2) Sell an item\n"
+    						 + "(3) Go back");
     		try {
     			int input = scan.nextInt();
     			switch (input) {
@@ -269,8 +270,11 @@ public class CmdLineUi implements GameEnvironmentUi{
     				displayShop();
     				break;
     			case 1:
-    				displayTeamItem();
+    				displayTeams();
+    				break;
     			case 2:
+    				displayInventory();
+    			case 3:
     				stay = false;
     				break;
     			}
@@ -285,13 +289,11 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 
-	private void displayTeamItem() {
-		boolean stay = true;
-		while (stay) {
-			System.out.println("Select a object to sell");
-			displayTeams();
-			displayItems();
-		}
+
+
+
+	private void displayInventory() {
+		// TODO Auto-generated method stub
 		
 	}
 
