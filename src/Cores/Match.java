@@ -42,7 +42,7 @@ public class Match {
 		}
 		else {
 			this.money += allyPoint;
-			return "Draw\n!";
+			return "Draw!\n";
 		}
 		
 	}

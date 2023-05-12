@@ -225,7 +225,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     private void handleOption(Option option) {
         switch (option) {
             case PROPERTIES:
-                viewProperties();
+                displayProperties();
                 break;
             case CLUB:
                 goToClub();
@@ -234,7 +234,7 @@ public class CmdLineUi implements GameEnvironmentUi{
                 goToStdium();
                 break;
             case MARKET:
-                
+                goToMarket();
                 break;
             case BYE:
                 
@@ -245,7 +245,63 @@ public class CmdLineUi implements GameEnvironmentUi{
     }
     
     
-    private void goToStdium() {
+    private void goToMarket() {
+    	boolean stay = true;
+    	while (stay) {
+    		displayMoney();
+    		System.out.println("(0) Buy\n"
+    						 + "(1) Sell\n"
+    						 + "(2) Go back");
+    		try {
+    			int input = scan.nextInt();
+    			switch (input) {
+    			case 0:
+    				displayShop();
+    				break;
+    			case 1:
+    				displayTeamItem();
+    			case 2:
+    				stay = false;
+    				break;
+    			}
+    		}
+    		catch (Exception e) {
+    			System.out.print(e.getMessage());
+    			scan.nextLine();
+    		}
+    	}
+		
+	}
+
+
+
+	private void displayTeamItem() {
+		boolean stay = true;
+		while (stay) {
+			System.out.println("Select a object to sell");
+			displayTeam();
+			displayItems();
+		}
+		
+	}
+
+
+
+	private void displayShop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	private void displayMoney() {
+		System.out.println("you have $" + game.getMoney());
+		
+	}
+
+
+
+	private void goToStdium() {
     	 int index = chooseMatch();
     	 String result = game.match(index);
     	 System.out.println(result);
@@ -270,14 +326,14 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 
-    private void viewProperties() {
+    private void displayProperties() {
     	String properties = game.getProperties();
     	System.out.println(properties);
     }
     
     private void goToClub() {
-    	boolean con = true;
-    	while (con) {
+    	boolean stay = true;
+    	while (stay) {
     		System.out.println("What would you like to do next?\n"
     				+ "(0) View Your team\n"
     				+ "(1) View your inventory\n"
@@ -286,14 +342,13 @@ public class CmdLineUi implements GameEnvironmentUi{
     			int input = scan.nextInt();
     			switch (input) {
     				case 0:
-    					viewTeam();
-    					
+    					displayTeam();
     					break;
     				case 1:
-    					viewInventory();
+    					displayItems();
     					break;
     				case 2:
-    					con = false;
+    					stay = false;
     					break;
     			}
     		}
@@ -322,7 +377,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     
     //print out all item
     //0 to use item 1 go back
-    private void viewInventory() {
+    private void displayItems() {
     	System.out.println("Viewing in team");
 		
 	}
@@ -331,7 +386,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     //print out all athletes 
     //0 to 3 
     // enter int to select a athlete then action
-	private void viewTeam() {
+	private void displayTeam() {
 		System.out.println("Viewing in ventory");
 		
 	}
