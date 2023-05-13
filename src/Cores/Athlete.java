@@ -169,6 +169,22 @@ public class Athlete implements Purchasable{
     	this.stamina -= amount;
     }
     
+    public String buyMessage() {
+    	return String.format("%s has joined your team!", this.name);
+    }
+    
+    public String sellMessage() {
+    	return String.format("Sold %s you received %d$", this.name, this.worth);
+    }
+    
+    public String buyInfo() {
+    	return String.format("%s need %d$ to purchasae" , this.toString(),this.price);
+    }
+    
+    public String sellInfo() {
+    	return String.format("%s is worth %d$", this.toString(), this.worth);
+    }
+    
     public String toString() {
     	return String.format("%s: Attack:%d Defence:%d Stamina:%d", 
     			this.getName(), this.getAttack(), this.getDefence(), this.getStamina());

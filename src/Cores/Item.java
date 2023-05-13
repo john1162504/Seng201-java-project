@@ -130,14 +130,30 @@ public class Item implements Purchasable {
 		
 	}
 	
+	public String sellMessage() {
+		return String.format("Sold one %s receive %d$\n",this.name, this.worth);
+	}
+	
+	public String buyMessage() {
+		return String.format("A %s is added to your inventory.", this.name);
+	}
+	
+	public String sellInfo() {
+		return String.format("%s is worth %d$", this.toString(), this.worth);
+	}
+	
+	public String buyInfo() {
+		return String.format("%s costs %d$", this.toString(), this.price);
+	}
+	
 	public String toString() {
 		String toString = "";
 		switch (type) {
 		case WEIGHT:
-			toString += String.format("%s increases athlete;s attck by %d", this.getName(), this.getValue());
+			toString += String.format("%s increases athlete's attck by %d", this.getName(), this.getValue());
 			break;
 		case FOOD:
-			toString += String.format("%s increases defence;s attck by %d", this.getName(), this.getValue());
+			toString += String.format("%s increases defence's attck by %d", this.getName(), this.getValue());
 			break;
 		case MEDICINE:
 			toString += String.format("%s fully recover athlete when he is injuried", this.getName());

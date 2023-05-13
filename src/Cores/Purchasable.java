@@ -19,6 +19,13 @@ public interface Purchasable {
 	 */
 	public int getWorth();
 	
+	public String sellInfo();
+	
+	public String buyInfo();
+	
+	public String buyMessage();
+	
+	public String sellMessage();
 	/**
 	 * Description of the object
 	 * 

@@ -6,17 +6,12 @@ import java.util.Scanner;
 
 import Cores.Athlete;
 import Cores.GameEnvironment;
-import Cores.Market;
-import Cores.Match;
 
 
 public class CmdLineUi implements GameEnvironmentUi{
 	
 	private boolean finish = false;
-	
-	private Market market;
-	
-	private Match match;
+
 	
 	private GameEnvironment game;
 	
@@ -269,13 +264,15 @@ public class CmdLineUi implements GameEnvironmentUi{
 	    			int input = scan.nextInt();
 	    			switch (input) {
 	    			case 0:
-	    				displayShop();
+	    				goToBuy();
 	    				break;
 	    			case 1:
+	    				goToSellAthlete();
 	    				displayTeams();
 	    				break;
 	    			case 2:
-	    				displayInventory();
+	    				goToSellItem();
+	    				
 	    			case 3:
 	    				stay = false;
 	    				break;
@@ -292,7 +289,53 @@ public class CmdLineUi implements GameEnvironmentUi{
 	
 	
     
-    private int selectMatch() {
+    private void goToSellItem() {
+    	boolean selling = true;
+    	while (selling) {
+    		displayMoney();
+    		System.out.println("Select an item to sell");
+    		displayInventory();
+    		int index = scan.nextInt();
+    		try {
+    			game.sellItem(index);
+    			selling = false;
+    		}
+    		catch (Exception e) {
+    			scan.nextLine();
+    		}
+    	}
+		
+	}
+
+	private void goToBuy() {
+		boolean buying = true;
+		while (buying) {
+			displayMoney();
+			System.out.println("Select an object to purchase");
+			displayShop();
+			int index = scan.nextInt();
+			try {
+				game.buyPurchasable(index);
+			}
+			catch (Exception e) {
+				scan.nextLine();
+			}
+		}
+		
+	}
+
+	private void goToSellAthlete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+	private int selectMatch() {
     	while(true) {
     		System.out.println("Select you match\n" + (this.game.getMatchInfos()));
     		try {
@@ -339,7 +382,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 	private void displayShop() {
-		// TODO Auto-generated method stub
+		System.out.println(game.getPurchasableInfos());
 		
 	}
 
@@ -349,12 +392,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 		
 	}
     
-    //print out all item
-    //0 to use item 1 go back
-    private void displayItems() {
-    	System.out.println("Viewing inventory");
-		
-	}
 
 
     //print out all athletes
@@ -391,24 +428,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	
 	
 
-	
 
-//	public String getClubInput(String action, String option1, String option2) {
-//    	while(true) {
-//    		System.out.println(action);
-//    		System.out.println("(0) "+ option1);
-//    		System.out.println("(1) "+ option2);
-//    	
-//    	try {
-//    		String input = scan.next("[01]");
-//    		
-//    	}
-//    	catch (Exception e) {
-//    		//Remove bad input
-//    		scan.nextLine();
-//    	}
-//    	}
-//    }
 	
 	private void swapAthletes() {
 		boolean swapping = true;
@@ -444,9 +464,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 		CmdLineUi ui = new CmdLineUi();
 		GameEnvironment game = new GameEnvironment(ui);
 		ui.setup(game);
-//		ArrayList<Athlete> a = ui.getStartAthletes();
-//		ui.printTeam(a);
-		
+
 	
 	}
 }

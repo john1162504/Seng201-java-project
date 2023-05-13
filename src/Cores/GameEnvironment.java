@@ -23,7 +23,7 @@ public class GameEnvironment {
 	
 	private ArrayList<ArrayList<Athlete>> matches;
 	
-	private ArrayList<Purchasable> purchasable;
+	private ArrayList<Purchasable> purchasables;
 	
 	private HashMap<Item, Integer> inventory = new HashMap<>();
 	
@@ -75,7 +75,7 @@ public class GameEnvironment {
 		this.market = new Market();
 		this.matches = this.refershMatches();
 		this.items = this.initiateItems();
-		this.purchasable = this.refreshPurchasable();
+		this.purchasables = this.refreshPurchasable();
 		this.inventory = this.initiateInventory();
 		ui.start();
 		
@@ -169,6 +169,16 @@ public class GameEnvironment {
 		}
 		return infos;
 	}
+	
+	public String getPurchasableInfos() {
+		String infos = "";
+		int index = 0;
+		for (Purchasable purchasable: purchasables) {
+			infos += String.format("(%d) %s\n", index, purchasable);
+			index++;
+		}
+		return infos;
+	}
 
 	
 	public ArrayList<ArrayList<Athlete>> getMatches() {
@@ -253,11 +263,12 @@ public class GameEnvironment {
 		market.addAll(this.generateAthletes(3));
 		return market;
 	}
+	
 	public void takeABye() {
 		this.currentWeek +=1;
-		//items and athletes are updated
-		refershMatches();
-		healAthletes();
+		this.purchasables = refreshPurchasable();
+		this.matches = refershMatches();
+		this.healAthletes();
 		
 		
 	}
@@ -298,6 +309,40 @@ public class GameEnvironment {
 		}
 		return result;
 	}
+
+	private Item getItemInInventory(int index) {
+		return (Item) inventory.keySet().toArray()[index];
+	}
+	
+	private void updateInventory(Item item, int newAmount) {
+		this.inventory.put(item, newAmount);
+	}
+
+	public void sellItem(int index) {
+		Item selected = this.getItemInInventory(index);
+		int newAmount = this.inventory.get(selected);
+		this.updateInventory(selected, newAmount);
+	}
+
+
+	public void buyPurchasable(int index) {
+		Purchasable object = this.purchasables.get(index);
+		if (checkSufficientMoney(object.getPrice())) {
+			if (object instanceof Item) {
+				int newAmount = this.inventory.get(object);
+				this.updateInventory((Item) object, newAmount);
+			} 
+			else {
+				this.reserveTeam.add((Athlete) object);
+			}
+		}
+		
+	}
+	
+	private boolean checkSufficientMoney(int cost) {
+		return this.money >= cost;
+	}
+	
 	
 
 
