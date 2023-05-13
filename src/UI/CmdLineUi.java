@@ -309,13 +309,20 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private void goToBuy() {
 		boolean buying = true;
+		int availablePurchase = game.getPurchasableSize();
 		while (buying) {
 			displayMoney();
 			System.out.println("Select an object to purchase");
 			displayShop();
+			System.out.println("(" + availablePurchase + ") Go back");
 			int index = scan.nextInt();
 			try {
-				game.buyPurchasable(index);
+				if (index == availablePurchase) {
+				 buying = false;
+				}
+				else {
+					game.buyPurchasable(index);
+				}
 			}
 			catch (Exception e) {
 				scan.nextLine();

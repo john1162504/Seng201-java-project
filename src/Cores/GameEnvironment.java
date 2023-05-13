@@ -77,6 +77,7 @@ public class GameEnvironment {
 		this.items = this.initiateItems();
 		this.purchasables = this.refreshPurchasable();
 		this.inventory = this.initiateInventory();
+		this.money += 1000; // for testing delete later
 		ui.start();
 		
 	}
@@ -320,20 +321,25 @@ public class GameEnvironment {
 
 	public void sellItem(int index) {
 		Item selected = this.getItemInInventory(index);
-		int newAmount = this.inventory.get(selected);
-		this.updateInventory(selected, newAmount);
+		if (this.inventory.get(selected) > 0) {
+			int newAmount = this.inventory.get(selected) - 1;
+			this.updateInventory(selected, newAmount);
+			this.money += selected.getWorth();
+		}
 	}
 
 
 	public void buyPurchasable(int index) {
 		Purchasable object = this.purchasables.get(index);
 		if (checkSufficientMoney(object.getPrice())) {
+			this.money -= object.getPrice();
 			if (object instanceof Item) {
-				int newAmount = this.inventory.get(object);
+				int newAmount = this.inventory.get(object) + 1;
 				this.updateInventory((Item) object, newAmount);
 			} 
 			else {
 				this.reserveTeam.add((Athlete) object);
+				this.purchasables.remove(object);
 			}
 		}
 		
@@ -341,6 +347,11 @@ public class GameEnvironment {
 	
 	private boolean checkSufficientMoney(int cost) {
 		return this.money >= cost;
+	}
+
+
+	public int getPurchasableSize() {
+		return this.purchasables.size();
 	}
 	
 	
