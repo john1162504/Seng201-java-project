@@ -228,7 +228,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     					goToTeam(game.getActiveTeam(), "Select an athlete to change their name or go back");
     					break;
     				case 1:
-    					goToTeam(game.getReserve(), "Select an athlete to change their name or go back");
+    					goToTeam(game.getReserves(), "Select an athlete to change their name or go back");
     					break;
     				case 2:
     					swapAthletes();
@@ -277,10 +277,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 				scan.nextLine();
 			}
 		}
-
-		
-		
-		
 	}
 
 	
@@ -405,7 +401,29 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 
 	private void goToSellAthlete() {
-		// TODO Auto-generated method stub
+		boolean selling = true;
+		int reserveSize = game.getReserves().size();
+		while (selling) {
+			System.out.println("Select an athlete to sell (you can only sell reserve athletes)");
+			displayTeam(game.getReserves());
+			System.out.println("(" + reserveSize + ") Goback");
+			int index = scan.nextInt();
+			try {
+				switch ((index < reserveSize) ? 0:
+						(index == reserveSize) ? 1: 2) {
+					case 0:
+						Athlete athlete = game.getReserves().get(index);
+						String result = game.sellAthlete(athlete);
+						System.out.println(result);
+						break;
+					case 1:
+						selling = false;
+				}
+			}
+			catch (Exception e) {
+				scan.nextLine();
+			}
+		}
 		
 	}
 
@@ -432,7 +450,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
 		while (true) {
 			System.out.println(prompt);
-			System.out.println(game.athleteinfo(availableAthletes));
+			displayTeam(availableAthletes);
 			try {
 				int index = scan.nextInt();
 				Athlete athlete = availableAthletes.get(index);
@@ -480,12 +498,6 @@ public class CmdLineUi implements GameEnvironmentUi{
     
 
 
-    //print out all athletes
-    //Call a method which retrieves a string, then print string
-    //0 to 3 
-    // enter int to select a athlete then action
-
-	
 	private void takeABye() {
 		game.takeABye();
 		Athlete chosenAthlete = selectAthlete(game.getTeam(), "Select an athlete to train");

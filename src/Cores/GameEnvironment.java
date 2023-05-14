@@ -26,18 +26,11 @@ public class GameEnvironment {
 	private ArrayList<Purchasable> purchasables;
 	
 	private HashMap<Item, Integer> inventory = new HashMap<>();
-	
-	private Market market;
-	
+		
 	private Match match;
 	
 	private Random rng = new Random();
-		
-	//Maximum length of the game
-	private final int maxLength = 15;
-	
-	//Minimum length of the game 
-	private final int minLength = 3;
+
 	// length of the game
 	private int gameLength;
 	
@@ -72,7 +65,6 @@ public class GameEnvironment {
 		this.activeTeam = startAthletes;
 		this.reserveTeam = generateAthletes(3);
 		this.difficulty = difficulty;
-		this.market = new Market();
 		this.matches = this.refershMatches();
 		this.items = this.initiateItems();
 		this.purchasables = this.refreshPurchasable();
@@ -380,15 +372,21 @@ public class GameEnvironment {
 		return this.activeTeam;
 	}
 	
-	public ArrayList<Athlete> getReserve() {
-		return this.reserveTeam;
-	}
+
 
 
 	public String cahngeAtheleName(Athlete athlete, String newName) {
 		String oldName = athlete.getName();
 		athlete.setName(newName);
 		return String.format("%s has changed his name to %s", oldName, newName);
+	}
+
+
+	public String sellAthlete(Athlete athlete) {
+		int earn = athlete.getWorth();
+		this.money += earn;
+		this.removeAthlete(reserveTeam, athlete);
+		return athlete.sellMessage();
 	}
 	
 
