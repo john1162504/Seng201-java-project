@@ -225,10 +225,10 @@ public class CmdLineUi implements GameEnvironmentUi{
     			int input = scan.nextInt();
     			switch (input) {
     				case 0:
-    					displayActiveTeam();
+    					goToTeam(game.getActiveTeam(), "Select an athlete to change their name or go back");
     					break;
     				case 1:
-    					displayReserveTeam();
+    					goToTeam(game.getReserve(), "Select an athlete to change their name or go back");
     					break;
     				case 2:
     					swapAthletes();
@@ -249,6 +249,41 @@ public class CmdLineUi implements GameEnvironmentUi{
     }
 
 
+
+	private void goToTeam(ArrayList<Athlete> team, String description) {
+		boolean viewing = true;
+		int teamSize = team.size();
+		while (viewing) {
+			System.out.println(game.getTeamName()  + "'s team\n" +  description);
+			displayTeam(team);	
+			System.out.println("(" + teamSize + ") Go back");
+			int index = scan.nextInt();
+			try {
+				switch ((index < teamSize) ? 0:
+						(index == teamSize) ? 1: 2) {
+					case 0:
+						scan.nextLine();
+						String newName = this.getName();
+						Athlete athlete = team.get(index);
+						String result = game.cahngeAtheleName(athlete, newName);
+						System.out.println(result);
+						break;
+					case 1:
+						viewing = false;
+						break;
+				}
+			}
+			catch (Exception e) {
+				scan.nextLine();
+			}
+		}
+
+		
+		
+		
+	}
+
+	
 
 	private void gotoInventory() {
 		boolean viewing = true;
@@ -307,7 +342,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 	    				break;
 	    			case 1:
 	    				goToSellAthlete();
-	    				displayTeams();
 	    				break;
 	    			case 2:
 	    				goToSellItem();
@@ -437,6 +471,12 @@ public class CmdLineUi implements GameEnvironmentUi{
 		System.out.println("you have $" + game.getMoney());
 		
 	}
+	
+	private void displayTeam(ArrayList<Athlete> team) {
+		String teamInfo = game.athleteinfo(team);
+		System.out.println(teamInfo);
+		
+	}
     
 
 
@@ -444,23 +484,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     //Call a method which retrieves a string, then print string
     //0 to 3 
     // enter int to select a athlete then action
-	private void displayTeams() {
-		displayActiveTeam();
-		displayReserveTeam();
-		
-	}
-	
-	private void displayActiveTeam() {
-		String teamInfo = game.athleteinfo(game.getTeam());
-		System.out.println("Active team\n"+
-							teamInfo);
-	}
-	
-	private void displayReserveTeam() {
-		String reserveTeamInfo = game.athleteinfo(game.getReserves()); 
-		System.out.println("Reserve team\n"+
-							reserveTeamInfo);	
-	}
+
 	
 	private void takeABye() {
 		game.takeABye();

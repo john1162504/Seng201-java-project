@@ -15,7 +15,7 @@ public class GameEnvironment {
 	
 	private final GameEnvironmentUi ui;
 	
-	private ArrayList<Athlete> allyTeam;
+	private ArrayList<Athlete> activeTeam;
 	
 	private ArrayList<Athlete> reserveTeam;
 	
@@ -54,7 +54,7 @@ public class GameEnvironment {
 	// money obtained by player
 	private int money = 0;
 	
-	private String name;
+	private String teamName;
 	
 	private Difficulty difficulty;
 	
@@ -67,9 +67,9 @@ public class GameEnvironment {
 	
 
 	public void onSetupFinished(String name, int gameLength, ArrayList<Athlete> startAthletes, Difficulty difficulty) {
-		this.name = name;
+		this.teamName = name;
 		this.gameLength = gameLength;
-		this.allyTeam = startAthletes;
+		this.activeTeam = startAthletes;
 		this.reserveTeam = generateAthletes(3);
 		this.difficulty = difficulty;
 		this.market = new Market();
@@ -148,11 +148,11 @@ public class GameEnvironment {
 	
 	
 	public ArrayList<Athlete> getTeam(){
-		return this.allyTeam;
+		return this.activeTeam;
 	}
 	
-	public String teamName() {
-		return this.name;
+	public String getTeamName() {
+		return this.teamName;
 	}
 	
 	public ArrayList<Athlete> getReserves(){
@@ -161,9 +161,9 @@ public class GameEnvironment {
 
 	
 	public String swapAthletes(Athlete active, Athlete reserve) {
-		this.allyTeam.remove(active);
+		this.activeTeam.remove(active);
 		this.reserveTeam.remove(reserve);
-		this.allyTeam.add(reserve);
+		this.activeTeam.add(reserve);
 		this.reserveTeam.add(active);
 		return String.format("Athlete %s has swapped with athlete %s!", active.getName(), reserve.getName());
 	}
@@ -201,7 +201,7 @@ public class GameEnvironment {
 	}
 	
 	public String match(int index) {
-		match = new Match(allyTeam,matches.get(index));
+		match = new Match(activeTeam,matches.get(index));
 		String matchDetails = match.matchBegin();
 		String matchResult = match.matchResult();
 		matchReward(match);
@@ -220,7 +220,7 @@ public class GameEnvironment {
 	}
 	
 	public int teamSize() {
-		return this.allyTeam.size();
+		return this.activeTeam.size();
 	}
 	
 	public String inventoryInfo() {
@@ -283,7 +283,7 @@ public class GameEnvironment {
 	}
 	
 	public void healAthletes() {
-		for(Athlete athlete: allyTeam) {
+		for(Athlete athlete: activeTeam) {
 			athlete.heal();
 		}
 		for(Athlete athlete: reserveTeam) {
@@ -296,7 +296,7 @@ public class GameEnvironment {
 		String result = "No other athlete's stat's have increased";
 		if(increaseChance < 20) {
 			int chosenAthleteIndex = rng.nextInt(4);
-			Athlete chosenAthlete = allyTeam.get(chosenAthleteIndex);
+			Athlete chosenAthlete = activeTeam.get(chosenAthleteIndex);
 			chosenAthlete.increaseStats(5);
 			result = "Athlete "+chosenAthlete.getName()+"'s stats have increased by 5!";
 		}
@@ -305,14 +305,14 @@ public class GameEnvironment {
 	
 	public String athleteQuitEvent() {
 		String result = "All athletes are high in morale!";
-		for(Athlete athlete: allyTeam) {
+		for(Athlete athlete: activeTeam) {
 			int quitChance = rng.nextInt(100);
 			if(quitChance < 5 && (athlete.getStamina() > 0)) {
-				removeAthlete(allyTeam, athlete);
+				removeAthlete(activeTeam, athlete);
 				return "Athlete "+athlete.getName() +" has decided to leave the team...";
 			}
 			else if(quitChance < 30 && (athlete.getStamina() <= 0)){
-				removeAthlete(allyTeam, athlete);
+				removeAthlete(activeTeam, athlete);
 				return "Athlete "+athlete.getName() +" is injured and has decided to leave the team...";
 			}
 		}
@@ -364,7 +364,7 @@ public class GameEnvironment {
 	
 	public ArrayList<Athlete> getAllAthlete() {
 		ArrayList<Athlete> all = new ArrayList<>();
-		all.addAll(allyTeam);
+		all.addAll(activeTeam);
 		all.addAll(reserveTeam);
 		return all;
 	}
@@ -376,6 +376,20 @@ public class GameEnvironment {
 		return itemEffect;
 	}
 	
+	public ArrayList<Athlete> getActiveTeam() {
+		return this.activeTeam;
+	}
+	
+	public ArrayList<Athlete> getReserve() {
+		return this.reserveTeam;
+	}
+
+
+	public String cahngeAtheleName(Athlete athlete, String newName) {
+		String oldName = athlete.getName();
+		athlete.setName(newName);
+		return String.format("%s has changed his name to %s", oldName, newName);
+	}
 	
 
 
