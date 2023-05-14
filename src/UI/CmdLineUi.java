@@ -535,7 +535,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 		GameEnvironment game = new GameEnvironment(ui);
 		ui.setup(game);
 
-	
 	}
 }
     
