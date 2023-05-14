@@ -107,26 +107,29 @@ public class Item implements Purchasable {
 	}
 	
 	
-	public void useItem(Athlete target){
+	public String useItem(Athlete target){
+		String effect = "";
 		switch (type) {
-		
 		case WEIGHT:
 			int newAtk = target.getAttack() + this.value;
 			target.setAttack(newAtk);
+			effect = String.format("%s increased %s's attack by %d", name, target.getName(), value);
 			break;
-		
 		case FOOD:
 			int newDef = target.getDefence() + this.value;
 			target.setAttack(newDef);
+			effect = String.format("%s increased %s's defence by %d", name, target.getName(), value);
 			break;
 		case MEDICINE:
 			if (target.getStatus().status == "Injured") {
 				target.heal();
+				effect = String.format("%s is fully recovered!", target.getName());
 			} else {
+				effect = String.format("You used %s on %s, nothing happened...", name, target.getName());
 				break;
 			}
-			break;
  		}
+		return effect;
 		
 	}
 	
@@ -153,7 +156,7 @@ public class Item implements Purchasable {
 			toString += String.format("%s increases athlete's attck by %d", this.getName(), this.getValue());
 			break;
 		case FOOD:
-			toString += String.format("%s increases defence's attck by %d", this.getName(), this.getValue());
+			toString += String.format("%s increases athlete's defence by %d", this.getName(), this.getValue());
 			break;
 		case MEDICINE:
 			toString += String.format("%s fully recover athlete when he is injuried", this.getName());

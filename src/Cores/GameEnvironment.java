@@ -78,6 +78,12 @@ public class GameEnvironment {
 		this.purchasables = this.refreshPurchasable();
 		this.inventory = this.initiateInventory();
 		this.money += 1000; // for testing delete later
+//		if (this.difficulty == Difficulty.NORMAL) {
+//			this.money = 100;
+//		}
+//		else {
+//			this.money = 0;
+//		}
 		ui.start();
 		
 	}
@@ -129,7 +135,7 @@ public class GameEnvironment {
 	}
 	
 	public String getProperties() {
-		return "Money: " +this.money + "\nCurrent Week: "+this.currentWeek + "\nRemaining Weeks: "+ this.getRemainingWeeks();
+		return "Money: " + this.money + "\nScore: " + this.score + "\nCurrent Week: "+ this.currentWeek + "\nRemaining Weeks: "+ this.getRemainingWeeks();
 	}
 	
 	public String viewTeam(ArrayList<Athlete> team) {
@@ -219,8 +225,10 @@ public class GameEnvironment {
 	
 	public String inventoryInfo() {
 		String info = "";
-		for (Map.Entry<Item, Integer> inven: inventory.entrySet()) {
-			info += inven.getKey().getName() + ":" + inven.getValue() +'\n';
+		int i = 0;
+		for (Map.Entry<Item, Integer> item: inventory.entrySet()) {
+			info += String.format("(%d) %s you have (%d)\n", i, item.getKey().toString(), item.getValue());
+			i++;
 		}
 		return info;
 	}
@@ -311,7 +319,7 @@ public class GameEnvironment {
 		return result;
 	}
 
-	private Item getItemInInventory(int index) {
+	public Item getItemInInventory(int index) {
 		return (Item) inventory.keySet().toArray()[index];
 	}
 	
@@ -352,6 +360,20 @@ public class GameEnvironment {
 
 	public int getPurchasableSize() {
 		return this.purchasables.size();
+	}
+	
+	public ArrayList<Athlete> getAllAthlete() {
+		ArrayList<Athlete> all = new ArrayList<>();
+		all.addAll(allyTeam);
+		all.addAll(reserveTeam);
+		return all;
+	}
+
+
+	public String useItem(Item item, Athlete target) {
+		String itemEffect = item.useItem(target);
+		this.updateInventory(item, inventory.get(item) - 1);
+		return itemEffect;
 	}
 	
 	

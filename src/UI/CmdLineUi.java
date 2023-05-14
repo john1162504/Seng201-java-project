@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import Cores.Athlete;
 import Cores.GameEnvironment;
+import Cores.Item;
 
 
 public class CmdLineUi implements GameEnvironmentUi{
@@ -215,23 +216,27 @@ public class CmdLineUi implements GameEnvironmentUi{
     	boolean stay = true;
     	while (stay) {
     		System.out.println("What would you like to do next?\n"
-    				+ "(0) View Your team\n"
-    				+ "(1) Bench an athlete\n"
-    				+ "(2) View your inventory\n"
-    				+ "(3) Go back");
+    				+ "(0) View your active team\n"
+    				+ "(1) View your reserve team\n"
+    				+ "(2) Bench an athlete\n"
+    				+ "(3) View your inventory\n"
+    				+ "(4) Go back");
     		try {
     			int input = scan.nextInt();
     			switch (input) {
     				case 0:
-    					displayTeams();
+    					displayActiveTeam();
     					break;
     				case 1:
-    					swapAthletes();
+    					displayReserveTeam();
     					break;
     				case 2:
-    					displayInventory();
+    					swapAthletes();
     					break;
     				case 3:
+    					gotoInventory();
+    					break;
+    				case 4:
     					stay = false;
     					break;
     			}
@@ -242,6 +247,40 @@ public class CmdLineUi implements GameEnvironmentUi{
     		}
     	}
     }
+
+
+
+	private void gotoInventory() {
+		boolean viewing = true;
+		while (viewing) {
+			System.out.println("Select an item to use or go back\n");
+			displayInventory();
+			System.out.println("(3) Go back");
+			int index = scan.nextInt();
+			try {
+				switch (index) {
+					case 0, 1, 2:
+						Item item = game.getItemInInventory(index);
+						if (game.getInventory().get(item) > 0) {
+							Athlete target = selectAthlete(game.getAllAthlete(), "Select an Athlete to use " + item.getName() + " on");
+							String result = game.useItem(item, target);
+							System.out.println(result);
+						} 
+						else {
+							System.out.println("You do not have this item");
+						}
+						break;
+					case 3:
+						viewing = false;
+						break;
+				}
+			}
+			catch (Exception e) {
+				scan.hasNextLine();
+			}
+		}
+		
+	}
 
 
 
