@@ -38,6 +38,9 @@ public class GameEnvironment {
 	
 	public static final int MAX_RESERVE_TEAM_SIZE = 5;
 	
+	public static final int MAX_MATCHES_AVAILABLE = 5;
+	
+	
 	// current game progress, measure in week
 	private int currentWeek = 1;
 	
@@ -185,8 +188,8 @@ public class GameEnvironment {
 	}
 	
 	public ArrayList<ArrayList<Athlete>> refershMatches() {
-		ArrayList<ArrayList<Athlete>> matches = new ArrayList<ArrayList<Athlete>>(3);
-		for (int i = 0; i < 3; i++) {
+		ArrayList<ArrayList<Athlete>> matches = new ArrayList<ArrayList<Athlete>>(MAX_MATCHES_AVAILABLE);
+		for (int i = 0; i < MAX_MATCHES_AVAILABLE; i++) {
 			matches.add(this.generateAthletes(MAX_TEAM_SIZE));
 		}
 		return matches;
@@ -319,29 +322,42 @@ public class GameEnvironment {
 		this.inventory.put(item, newAmount);
 	}
 
-	public void sellItem(int index) {
+	public String sellItem(int index) {
 		Item selected = this.getItemInInventory(index);
+		String sellMessage = "You do not own any of this item.";
 		if (this.inventory.get(selected) > 0) {
 			int newAmount = this.inventory.get(selected) - 1;
 			this.updateInventory(selected, newAmount);
 			this.money += selected.getWorth();
+			sellMessage = selected.sellMessage();
 		}
+		return sellMessage;
 	}
 
 
-	public void buyPurchasable(int index) {
+	public String buyPurchasable(int index) {
 		Purchasable object = this.purchasables.get(index);
+		String buyMessage = "You do not have sufficient funds.";
 		if (checkSufficientMoney(object.getPrice())) {
-			this.money -= object.getPrice();
 			if (object instanceof Item) {
 				int newAmount = this.inventory.get(object) + 1;
 				this.updateInventory((Item) object, newAmount);
+				this.money -= object.getPrice();
+				buyMessage = object.buyMessage();
 			} 
 			else {
-				this.reserveTeam.add((Athlete) object);
-				this.purchasables.remove(object);
+				if (reserveTeam.size() < MAX_RESERVE_TEAM_SIZE) {
+					this.reserveTeam.add((Athlete) object);
+					this.purchasables.remove(object);
+					buyMessage = object.buyMessage();
+					this.money -= object.getPrice();
+				} 
+				else {
+					buyMessage = "Reserve team is full!";
+				}
 			}
 		}
+		return buyMessage;
 		
 	}
 	
@@ -389,6 +405,35 @@ public class GameEnvironment {
 		return athlete.sellMessage();
 	}
 	
+	public String getSellInfoItem() {
+		int i = 0;
+		String infos = "";
+		for (Item item: (inventory.keySet())) {
+			infos += "(" + i + ")" + item.sellInfo() + " you have " + inventory.get(item) + '\n';
+			i++;
+		}
+		return infos;
+	}
+	
+	public String getSellInfoAthlete(ArrayList<Athlete> athletes) {
+		int i = 0;
+		String infos = "";
+		for (Athlete athlete: athletes) {
+			infos += "(" + i + ")" + athlete.sellInfo() +'\n';
+			i++;
+		}
+		return infos;
+	}
+	
+	public String getBuyInfo() {
+		int i =0;
+		String infos = "";
+		for (Purchasable purchasable: purchasables) {
+			infos += "(" + i + ")" + purchasable.buyInfo() +'\n';
+			i++;
+		}
+		return infos;
+	}
 
 
 }

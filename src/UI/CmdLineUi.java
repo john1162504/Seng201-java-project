@@ -7,6 +7,7 @@ import java.util.Scanner;
 import Cores.Athlete;
 import Cores.GameEnvironment;
 import Cores.Item;
+import Cores.Purchasable;
 
 
 public class CmdLineUi implements GameEnvironmentUi{
@@ -189,24 +190,24 @@ public class CmdLineUi implements GameEnvironmentUi{
     
     private void handleOption(Option option) {
         switch (option) {
-            case PROPERTIES:
-                displayProperties();
-                break;
-            case CLUB:
-                goToClub();
-                break;
-            case STADIUM:
-                goToStdium();
-                break;
-            case MARKET:
-                goToMarket();
-                break;
-            case BYE:
-                takeABye();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + option);
-        }
+        case PROPERTIES:
+            displayProperties();
+            break;
+        case CLUB:
+            goToClub();
+            break;
+        case STADIUM:
+            goToStdium();
+            break;
+        case MARKET:
+            goToMarket();
+            break;
+        case BYE:
+            takeABye();
+            break;
+        default:
+            throw new IllegalStateException("Unexpected value: " + option);
+    }
     }
     
     
@@ -224,22 +225,22 @@ public class CmdLineUi implements GameEnvironmentUi{
     		try {
     			int input = scan.nextInt();
     			switch (input) {
-    				case 0:
-    					goToTeam(game.getActiveTeam(), "Select an athlete to change their name or go back");
-    					break;
-    				case 1:
-    					goToTeam(game.getReserves(), "Select an athlete to change their name or go back");
-    					break;
-    				case 2:
-    					swapAthletes();
-    					break;
-    				case 3:
-    					gotoInventory();
-    					break;
-    				case 4:
-    					stay = false;
-    					break;
-    			}
+				case 0:
+					goToTeam(game.getActiveTeam(), "Select an athlete to change their name or go back");
+					break;
+				case 1:
+					goToTeam(game.getReserves(), "Select an athlete to change their name or go back");
+					break;
+				case 2:
+					swapAthletes();
+					break;
+				case 3:
+					gotoInventory();
+					break;
+				case 4:
+					stay = false;
+					break;
+			}
     		}
     		catch (Exception e) {
     			scan.nextLine();
@@ -261,16 +262,16 @@ public class CmdLineUi implements GameEnvironmentUi{
 			try {
 				switch ((index < teamSize) ? 0:
 						(index == teamSize) ? 1: 2) {
-					case 0:
-						scan.nextLine();
-						String newName = this.getName();
-						Athlete athlete = team.get(index);
-						String result = game.cahngeAtheleName(athlete, newName);
-						System.out.println(result);
-						break;
-					case 1:
-						viewing = false;
-						break;
+				case 0:
+					scan.nextLine();
+					String newName = this.getName();
+					Athlete athlete = team.get(index);
+					String result = game.cahngeAtheleName(athlete, newName);
+					System.out.println(result);
+					break;
+				case 1:
+					viewing = false;
+					break;
 				}
 			}
 			catch (Exception e) {
@@ -290,20 +291,20 @@ public class CmdLineUi implements GameEnvironmentUi{
 			int index = scan.nextInt();
 			try {
 				switch (index) {
-					case 0, 1, 2:
-						Item item = game.getItemInInventory(index);
-						if (game.getInventory().get(item) > 0) {
-							Athlete target = selectAthlete(game.getAllAthlete(), "Select an Athlete to use " + item.getName() + " on");
-							String result = game.useItem(item, target);
-							System.out.println(result);
-						} 
-						else {
-							System.out.println("You do not have this item");
-						}
-						break;
-					case 3:
-						viewing = false;
-						break;
+				case 0, 1, 2:
+					Item item = game.getItemInInventory(index);
+					if (game.getInventory().get(item) > 0) {
+						Athlete target = selectAthlete(game.getAllAthlete(), "Select an Athlete to use " + item.getName() + " on");
+						String result = game.useItem(item, target);
+						System.out.println(result);
+					} 
+					else {
+						System.out.println("You do not have this item");
+					}
+					break;
+				case 3:
+					viewing = false;
+					break;
 				}
 			}
 			catch (Exception e) {
@@ -363,11 +364,19 @@ public class CmdLineUi implements GameEnvironmentUi{
     	while (selling) {
     		displayMoney();
     		System.out.println("Select an item to sell");
-    		displayInventory();
+    		displayItemSellInfos();
+    		System.out.println("(3) Go back");
     		int index = scan.nextInt();
     		try {
-    			game.sellItem(index);
+    			switch (index) {
+    			case 0, 1, 2:
+    			String result = game.sellItem(index);
+    			System.out.println(result);
+    			break;
+    			case 3:
     			selling = false;
+    			break;
+    			}
     		}
     		catch (Exception e) {
     			scan.nextLine();
@@ -378,19 +387,24 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private void goToBuy() {
 		boolean buying = true;
-		int availablePurchase = game.getPurchasableSize();
 		while (buying) {
+			int availablePurchase = game.getPurchasableSize();
 			displayMoney();
 			System.out.println("Select an object to purchase");
-			displayShop();
+			displayPurchasableBuyInfo();
 			System.out.println("(" + availablePurchase + ") Go back");
 			int index = scan.nextInt();
 			try {
-				if (index == availablePurchase) {
-				 buying = false;
-				}
-				else {
-					game.buyPurchasable(index);
+				
+				switch ((index < availablePurchase) ? 0:
+						(index == availablePurchase) ? 1: 2) {
+				case 0:
+					String result = game.buyPurchasable(index);
+					System.out.println(result);
+					break;
+				case 1:
+					buying = false;
+					break;
 				}
 			}
 			catch (Exception e) {
@@ -405,19 +419,19 @@ public class CmdLineUi implements GameEnvironmentUi{
 		int reserveSize = game.getReserves().size();
 		while (selling) {
 			System.out.println("Select an athlete to sell (you can only sell reserve athletes)");
-			displayTeam(game.getReserves());
+			displayAthleteSellInfos(game.getReserves());
 			System.out.println("(" + reserveSize + ") Goback");
 			int index = scan.nextInt();
 			try {
 				switch ((index < reserveSize) ? 0:
 						(index == reserveSize) ? 1: 2) {
-					case 0:
-						Athlete athlete = game.getReserves().get(index);
-						String result = game.sellAthlete(athlete);
-						System.out.println(result);
-						break;
-					case 1:
-						selling = false;
+				case 0:
+					Athlete athlete = game.getReserves().get(index);
+					String result = game.sellAthlete(athlete);
+					System.out.println(result);
+					break;
+				case 1:
+					selling = false;
 				}
 			}
 			catch (Exception e) {
@@ -479,12 +493,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 
-	private void displayShop() {
-		System.out.println(game.getPurchasableInfos());
-		
-	}
-
-
 	private void displayMoney() {
 		System.out.println("you have $" + game.getMoney());
 		
@@ -495,7 +503,18 @@ public class CmdLineUi implements GameEnvironmentUi{
 		System.out.println(teamInfo);
 		
 	}
+	
+	private void displayItemSellInfos() {
+		System.out.println(game.getSellInfoItem());
+	}
     
+	private void displayAthleteSellInfos(ArrayList<Athlete> athletes) {
+		System.out.println(game.getSellInfoAthlete(athletes));
+	}
+	
+	private void displayPurchasableBuyInfo() {
+		System.out.println(game.getBuyInfo());
+	}
 
 
 	private void takeABye() {
