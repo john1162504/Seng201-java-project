@@ -73,6 +73,9 @@ public class GameEnvironment {
 		this.items = this.initiateItems();
 		this.purchasables = this.refreshPurchasable();
 		this.inventory = this.initiateInventory();
+		this.currentWeek = 1;
+		this.money = 0;
+		this.score = 0;
 		this.money += 1000; // for testing delete later
 //		if (this.difficulty == Difficulty.NORMAL) {
 //			this.money = 100;
@@ -82,6 +85,12 @@ public class GameEnvironment {
 //		}
 		ui.start();
 		
+	}
+	
+	public void onFinish() {
+		if (ui.confirmQuit()) {
+			ui.quit();
+		}
 	}
 	
 	public ArrayList<Athlete> generateAthletes(int num) {
@@ -99,14 +108,6 @@ public class GameEnvironment {
 		
 	}
 	
-//	public String getAthleteNames(ArrayList<Athlete> team) {
-//    	String returnString = "";
-//		for (Athlete athlete: team) {
-//			returnString += athlete.getName();
-//			returnString += ", ";
-//		}
-//		return returnString.substring(0, returnString.length() -2);
-//    }
 	
 	public void addNewAthlete(ArrayList<Athlete> team , Athlete newAthlete) {
 		if (team.size() < 4) {
@@ -284,12 +285,23 @@ public class GameEnvironment {
 		return market;
 	}
 	
-	public void takeABye() {
+	public String takeABye() {
 		this.currentWeek +=1;
-		this.purchasables = refreshPurchasable();
-		this.matches = refershMatches();
-		this.healAthletes();
+		if (currentWeek > gameLength) {
+			return gameFinished();
+		}
+		else {
+			this.purchasables = refreshPurchasable();
+			this.matches = refershMatches();
+			this.healAthletes();
+			return "";
+		}
 		
+		
+	}
+	
+	private String gameFinished() {
+		return String.format("Game Over!\nYour score is %d", this.score);
 		
 	}
 	
@@ -440,6 +452,11 @@ public class GameEnvironment {
 		}
 		return infos;
 	}
+	
+	public int getGameLength() {
+		return this.gameLength;
+	}
+	
 	
 	public String getBuyInfo() {
 		int i =0;
