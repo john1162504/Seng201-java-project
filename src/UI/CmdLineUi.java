@@ -315,13 +315,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 
 
-
-	private void goToStdium() {
-    	 int index = selectMatch();
-    	 String result = game.match(index);
-    	 System.out.println(result);
-    	
-	}
 	
 	 private void goToMarket() {
 	    	boolean stay = true;
@@ -440,26 +433,38 @@ public class CmdLineUi implements GameEnvironmentUi{
 		}
 		
 	}
+	
+	
+	private void goToStdium() {
+		boolean matching = true;
+		while (matching) {
+			int availableMatches = game.getAvailableMatches();
+			System.out.println("Select your match or go back");
+			displayMatches();
+			System.out.println("(" + availableMatches + ") Go back");
+			try {
+				int index = scan.nextInt();
+				switch ((index < availableMatches) ? 0:
+						(index == availableMatches) ? 1: 2) {
+					case 0:
+						String result = game.matchStart(index);
+						System.out.println(result);
+						matching = false;
+						break;
+					case 1:
+						matching = false;
+						break;
+				}
+
+			}
+			catch (Exception e) {
+				scan.nextLine();
+			}
+		}
+	}
 
 
 
-
-
-
-
-	private int selectMatch() {
-    	while(true) {
-    		System.out.println("Select you match\n" + (this.game.getMatchInfos()));
-    		try {
-    			int index = scan.nextInt();
-    			if (index < game.availableMatches())
-    				return index;
-    		}
-    		catch (Exception e) {
-    			System.out.println(e.getMessage());
-    		}
-    	}
-    }
     
 	private Athlete selectAthlete(ArrayList<Athlete> availableAthletes, String prompt) {
 		while (true) {
@@ -475,6 +480,10 @@ public class CmdLineUi implements GameEnvironmentUi{
 				scan.nextLine();
 			}
 		}
+	}
+	
+	private void displayMatches() {
+		System.out.println(game.getMatchInfos());
 	}
 
 

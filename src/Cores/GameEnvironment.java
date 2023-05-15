@@ -1,6 +1,7 @@
 package Cores;
 import java.util.*;
 
+import Cores.Athlete.Status;
 import Cores.Item.Type;
 import UI.CmdLineUi.Difficulty;
 import UI.GameEnvironmentUi;
@@ -90,7 +91,7 @@ public class GameEnvironment {
 		for (int i = 0; i < num; i++) {
 			int atk = (10 * currentWeek) + ran.nextInt(5 * currentWeek);
 			int def = (5 * currentWeek) + ran.nextInt(3 * currentWeek);
-			int sta = (15 * currentWeek) + ran.nextInt(10 * currentWeek);
+			int sta = 5;
 			Athlete athlete = new Athlete(atk, def, sta);
 			athletes.add(athlete);
 		}
@@ -167,7 +168,7 @@ public class GameEnvironment {
 	public String getMatchInfos() {
 		String infos = "";
 		for (int i = 0; i < matches.size(); i++) {
-			infos += "Macth " + i + "\n" + viewTeam(matches.get(i));
+			infos += "("+ i + ")\nTeam " + i + "\n" + viewTeam(matches.get(i));
 		}
 		return infos;
 	}
@@ -195,12 +196,16 @@ public class GameEnvironment {
 		return matches;
 	}
 	
-	public String match(int index) {
-		match = new Match(activeTeam,matches.get(index));
-		String matchDetails = match.matchBegin();
-		String matchResult = match.matchResult();
-		matchReward(match);
-		return matchDetails + '\n' + matchResult;
+	public String matchStart(int index) {
+		String result = "Your team is not ready to match!";
+		if (readyToMatch()) {
+			match = new Match(activeTeam,matches.get(index));
+			this.matches.remove(index);
+			result = match.matchBegin();
+			result += match.matchResult();
+			matchReward(match);
+		}
+		return result;
 	}
 	
 	private void matchReward(Match match) {
@@ -208,9 +213,20 @@ public class GameEnvironment {
 		this.money += match.getMoney();
 		
 	}
+	
+	private boolean readyToMatch() {
+		boolean ready = true;
+		for (Athlete athlete: activeTeam) {
+			if (athlete.getStatus() == Status.INJURED) {
+				ready = false;
+				return ready;
+			}
+		}
+		return ready;
+	}
 
 
-	public int availableMatches() {
+	public int getAvailableMatches() {
 		return this.matches.size();
 	}
 	
