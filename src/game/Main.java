@@ -24,8 +24,7 @@ public class Main {
      *             When no argument is specified the application will use a graphical interface.
      */
     public static void main(String[] args) {
-
-
+    	
         GameEnvironmentUi ui;
 
         if (args.length > 0 && (args[0].equals("cmd"))) {

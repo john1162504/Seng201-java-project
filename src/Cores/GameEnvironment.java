@@ -1,5 +1,4 @@
 package Cores;
-import GUI.SetupScreen;
 import java.util.*;
 
 import Cores.Athlete.Status;

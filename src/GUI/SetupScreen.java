@@ -3,6 +3,7 @@ import Cores.Athlete;
 import Cores.GameEnvironment;
 import UI.CmdLineUi.Difficulty;
 //import seng201.rocketmanager.ui.gui.RocketTableModel;
+import seng201.rocketmanager.ui.gui.GridBagConstraintsBuilder;
 
 import java.awt.Container;
 import java.awt.EventQueue;
@@ -10,27 +11,34 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+
 import java.util.ArrayList;
 
 public class SetupScreen extends Screen {
 
-	private JFrame frame;
-	private JTextField nameTextField;
-	private ArrayList<Athlete> startingAthletes = new ArrayList<>();
-	private GameEnvironment manager;
+	
+	private JTextField fieldName;
+
+	private JTable table;
+		
+	private JButton btnAccept;
+
+	private JLabel lblError;
 
 	/**
 	 * Create the application.
 	 */
 	protected SetupScreen(GameEnvironment incomingManager) {
 		super("GameEnvironment Setup", incomingManager);
-//		startingAthletes = manager.generateAthletes(6);
 	}
 	
 	/**
@@ -44,16 +52,13 @@ public class SetupScreen extends Screen {
 		//getManager().onSetupFinished(name, gameLength, startAthletes, difficulty);
 	}
 	
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	protected void initialize() {
-
-	}
-
+	
 	@Override
-	protected void initialize(final Container container) {
-		// TODO Auto-generated method stub
+	protected void initialise(final Container container) {
+		// Set the layout manager to a grid bag layout
+		container.setLayout(new GridBagLayout());
+
+		final GridBagConstraintsBuilder layoutBuilder = new GridBagConstraintsBuilder();
 		
 		frame = new JFrame();
 		frame.setTitle("GameEnvironment Setup Screen");

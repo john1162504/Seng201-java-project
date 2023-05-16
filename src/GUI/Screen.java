@@ -27,13 +27,13 @@ public abstract class Screen {
     protected Screen(final String title, final GameEnvironment manager) {
         this.manager = manager;
 
-        initialize(title);
+        initialise(title);
     }
 
     /**
      * Initialises this screen's UI.
      */
-    private void initialize(final String title) {
+    private void initialise(final String title) {
         frame = new JFrame();
         frame.setTitle(title);
 
@@ -49,7 +49,7 @@ public abstract class Screen {
             }
         });
 
-        initialize(frame);
+        initialise(frame);
 
         // Size our frame
         frame.pack();
@@ -64,7 +64,7 @@ public abstract class Screen {
      *
      * @param container The container to add content to
      */
-    protected abstract void initialize(Container container);
+    protected abstract void initialise(Container container);
 
     /**
      * Gets the top level component of this screen.
