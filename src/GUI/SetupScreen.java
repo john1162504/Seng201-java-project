@@ -84,8 +84,11 @@ public class SetupScreen {
 		frmGameenvironmentSetupScreen.getContentPane().add(lengthSlider);
 		
 		DefaultListModel<Athlete> athleteListModel = new DefaultListModel<Athlete>();
+		athleteListModel.addAll(startingAthletes);
 		JList<Athlete> athleteList = new JList<Athlete>(athleteListModel);
 		athleteList.setBounds(20, 171, 362, -62);
 		frmGameenvironmentSetupScreen.getContentPane().add(athleteList);
+		
+		athleteList.getSelectedValue();
 	}
 }
