@@ -12,8 +12,7 @@ public class Athlete implements Purchasable{
 	 */
 	public enum Status {
 		INJURED("Injured"),
-		ACTIVE("Active"),
-		RESERVE("Reserve");
+		ACTIVE("Active");
 		
 		/**
 		 * A User friendly description of the value of this enum

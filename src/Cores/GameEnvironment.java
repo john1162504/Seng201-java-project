@@ -1,6 +1,7 @@
 package Cores;
 import java.util.*;
 
+import Cores.Athlete.Status;
 import Cores.Item.Type;
 import UI.CmdLineUi.Difficulty;
 import UI.GameEnvironmentUi;
@@ -72,6 +73,9 @@ public class GameEnvironment {
 		this.items = this.initiateItems();
 		this.purchasables = this.refreshPurchasable();
 		this.inventory = this.initiateInventory();
+		this.currentWeek = 1;
+		this.money = 0;
+		this.score = 0;
 		this.money += 1000; // for testing delete later
 //		if (this.difficulty == Difficulty.NORMAL) {
 //			this.money = 100;
@@ -83,6 +87,12 @@ public class GameEnvironment {
 		
 	}
 	
+	public void onFinish() {
+		if (ui.confirmQuit()) {
+			ui.quit();
+		}
+	}
+	
 	public ArrayList<Athlete> generateAthletes(int num) {
 		Random ran = new Random();
 		int currentWeek = this.getCurrentWeek();
@@ -90,7 +100,7 @@ public class GameEnvironment {
 		for (int i = 0; i < num; i++) {
 			int atk = (10 * currentWeek) + ran.nextInt(5 * currentWeek);
 			int def = (5 * currentWeek) + ran.nextInt(3 * currentWeek);
-			int sta = (15 * currentWeek) + ran.nextInt(10 * currentWeek);
+			int sta = 5;
 			Athlete athlete = new Athlete(atk, def, sta);
 			athletes.add(athlete);
 		}
@@ -98,14 +108,6 @@ public class GameEnvironment {
 		
 	}
 	
-//	public String getAthleteNames(ArrayList<Athlete> team) {
-//    	String returnString = "";
-//		for (Athlete athlete: team) {
-//			returnString += athlete.getName();
-//			returnString += ", ";
-//		}
-//		return returnString.substring(0, returnString.length() -2);
-//    }
 	
 	public void addNewAthlete(ArrayList<Athlete> team , Athlete newAthlete) {
 		if (team.size() < 4) {
@@ -167,7 +169,7 @@ public class GameEnvironment {
 	public String getMatchInfos() {
 		String infos = "";
 		for (int i = 0; i < matches.size(); i++) {
-			infos += "Macth " + i + "\n" + viewTeam(matches.get(i));
+			infos += "("+ i + ")\nTeam " + i + "\n" + viewTeam(matches.get(i));
 		}
 		return infos;
 	}
@@ -195,12 +197,16 @@ public class GameEnvironment {
 		return matches;
 	}
 	
-	public String match(int index) {
-		match = new Match(activeTeam,matches.get(index));
-		String matchDetails = match.matchBegin();
-		String matchResult = match.matchResult();
-		matchReward(match);
-		return matchDetails + '\n' + matchResult;
+	public String matchStart(int index) {
+		String result = "Your team is not ready to match!";
+		if (readyToMatch()) {
+			match = new Match(activeTeam,matches.get(index));
+			this.matches.remove(index);
+			result = match.matchBegin();
+			result += match.matchResult();
+			matchReward(match);
+		}
+		return result;
 	}
 	
 	private void matchReward(Match match) {
@@ -208,9 +214,20 @@ public class GameEnvironment {
 		this.money += match.getMoney();
 		
 	}
+	
+	private boolean readyToMatch() {
+		boolean ready = true;
+		for (Athlete athlete: activeTeam) {
+			if (athlete.getStatus() == Status.INJURED) {
+				ready = false;
+				return ready;
+			}
+		}
+		return ready;
+	}
 
 
-	public int availableMatches() {
+	public int getAvailableMatches() {
 		return this.matches.size();
 	}
 	
@@ -268,12 +285,23 @@ public class GameEnvironment {
 		return market;
 	}
 	
-	public void takeABye() {
+	public String takeABye() {
 		this.currentWeek +=1;
-		this.purchasables = refreshPurchasable();
-		this.matches = refershMatches();
-		this.healAthletes();
+		if (currentWeek > gameLength) {
+			return gameFinished();
+		}
+		else {
+			this.purchasables = refreshPurchasable();
+			this.matches = refershMatches();
+			this.healAthletes();
+			return "";
+		}
 		
+		
+	}
+	
+	private String gameFinished() {
+		return String.format("Game Over!\nYour score is %d", this.score);
 		
 	}
 	
@@ -424,6 +452,11 @@ public class GameEnvironment {
 		}
 		return infos;
 	}
+	
+	public int getGameLength() {
+		return this.gameLength;
+	}
+	
 	
 	public String getBuyInfo() {
 		int i =0;
