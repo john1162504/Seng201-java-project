@@ -1,4 +1,5 @@
 package Cores;
+import GUI.SetupScreen;
 import java.util.*;
 
 import Cores.Athlete.Status;
@@ -85,6 +86,10 @@ public class GameEnvironment {
 //		}
 		ui.start();
 		
+	}
+	
+	public void start() {
+		ui.setup(this);
 	}
 	
 	public void onFinish() {
@@ -467,6 +472,4 @@ public class GameEnvironment {
 		}
 		return infos;
 	}
-
-
 }

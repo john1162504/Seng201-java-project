@@ -1,6 +1,10 @@
 package GUI;
 import Cores.Athlete;
 import Cores.GameEnvironment;
+import UI.CmdLineUi.Difficulty;
+//import seng201.rocketmanager.ui.gui.RocketTableModel;
+
+import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,7 +18,7 @@ import javax.swing.JList;
 import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 
-public class SetupScreen {
+public class SetupScreen extends Screen {
 
 	private JFrame frame;
 	private JTextField nameTextField;
@@ -22,34 +26,35 @@ public class SetupScreen {
 	private GameEnvironment manager;
 
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SetupScreen window = new SetupScreen();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
 	 * Create the application.
 	 */
-	public SetupScreen(GameEnvironment incomingManager) {
-		manager = incomingManager;
-		startingAthletes = manager.generateAthletes(6);
-		initialize();
+	protected SetupScreen(GameEnvironment incomingManager) {
+		super("GameEnvironment Setup", incomingManager);
+//		startingAthletes = manager.generateAthletes(6);
 	}
-
+	
+	/**
+	 * Completes the setup of our {@link GameEnvironment}.
+	 */
+	private void setupComplete() {
+		String name;
+		int gameLength;
+		ArrayList<Athlete> startAthletes;
+		Difficulty difficulty;
+		//getManager().onSetupFinished(name, gameLength, startAthletes, difficulty);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	protected void initialize() {
+
+	}
+
+	@Override
+	protected void initialize(final Container container) {
+		// TODO Auto-generated method stub
+		
 		frame = new JFrame();
 		frame.setTitle("GameEnvironment Setup Screen");
 		frame.setBounds(100, 100, 450, 300);
@@ -84,6 +89,7 @@ public class SetupScreen {
 		frame.getContentPane().add(lengthSlider);
 		
 		DefaultListModel<Athlete> athleteListModel = new DefaultListModel<Athlete>();
+		startingAthletes = manager.generateAthletes(6);
 		athleteListModel.addAll(startingAthletes);
 		JList<Athlete> athleteList = new JList<Athlete>(athleteListModel);
 		athleteList.setBounds(20, 171, 362, -62);
@@ -91,4 +97,8 @@ public class SetupScreen {
 		
 		athleteList.getSelectedValue();
 	}
+
+	
+	
+	
 }
