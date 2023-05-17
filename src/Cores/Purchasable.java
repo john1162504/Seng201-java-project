@@ -19,13 +19,34 @@ public interface Purchasable {
 	 */
 	public int getWorth();
 	
-	public String sellInfo();
+	/**
+	 * get the information of purchasable object
+	 * 
+	 * @return A information for {@Link Purchasable} when it appears in selling screen
+	 */
+	public String getSellInfo();
 	
-	public String buyInfo();
+	/**
+	 * get the information of purchasable object
+	 * 
+	 * @return A information for {@Link Purchasable} when it appears in buying screen
+	 */
+	public String getBuyInfo();
 	
-	public String buyMessage();
+	/**
+	 * get the message use after purchased this object
+	 * 
+	 * @return A message use as a feedback after a purchase 
+	 */
+	public String getBuyMessage();
 	
-	public String sellMessage();
+	/**
+	 * get the message use after sold this object
+	 * 
+	 * @return A message use as a feedback after a sell
+	 */
+	public String getSellMessage();
+	
 	/**
 	 * Description of the object
 	 * 

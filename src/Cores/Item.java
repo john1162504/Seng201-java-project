@@ -133,19 +133,19 @@ public class Item implements Purchasable {
 		
 	}
 	
-	public String sellMessage() {
+	public String getSellMessage() {
 		return String.format("Sold one %s receive %d$\n",this.name, this.worth);
 	}
 	
-	public String buyMessage() {
+	public String getBuyMessage() {
 		return String.format("A %s is added to your inventory.", this.name);
 	}
 	
-	public String sellInfo() {
+	public String getSellInfo() {
 		return String.format("%s is worth %d$", this.toString(), this.worth);
 	}
 	
-	public String buyInfo() {
+	public String getBuyInfo() {
 		return String.format("%s costs %d$", this.toString(), this.price);
 	}
 	

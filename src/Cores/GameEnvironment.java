@@ -361,7 +361,7 @@ public class GameEnvironment {
 			int newAmount = this.inventory.get(selected) - 1;
 			this.updateInventory(selected, newAmount);
 			this.money += selected.getWorth();
-			sellMessage = selected.sellMessage();
+			sellMessage = selected.getSellMessage();
 		}
 		return sellMessage;
 	}
@@ -375,13 +375,13 @@ public class GameEnvironment {
 				int newAmount = this.inventory.get(object) + 1;
 				this.updateInventory((Item) object, newAmount);
 				this.money -= object.getPrice();
-				buyMessage = object.buyMessage();
+				buyMessage = object.getBuyMessage();
 			} 
 			else {
 				if (reserveTeam.size() < MAX_RESERVE_TEAM_SIZE) {
 					this.reserveTeam.add((Athlete) object);
 					this.purchasables.remove(object);
-					buyMessage = object.buyMessage();
+					buyMessage = object.getBuyMessage();
 					this.money -= object.getPrice();
 				} 
 				else {
@@ -434,14 +434,14 @@ public class GameEnvironment {
 		int earn = athlete.getWorth();
 		this.money += earn;
 		this.removeAthlete(reserveTeam, athlete);
-		return athlete.sellMessage();
+		return athlete.getSellMessage();
 	}
 	
 	public String getSellInfoItem() {
 		int i = 0;
 		String infos = "";
 		for (Item item: (inventory.keySet())) {
-			infos += "(" + i + ")" + item.sellInfo() + " you have " + inventory.get(item) + '\n';
+			infos += "(" + i + ")" + item.getSellInfo() + " you have " + inventory.get(item) + '\n';
 			i++;
 		}
 		return infos;
@@ -451,7 +451,7 @@ public class GameEnvironment {
 		int i = 0;
 		String infos = "";
 		for (Athlete athlete: athletes) {
-			infos += "(" + i + ")" + athlete.sellInfo() +'\n';
+			infos += "(" + i + ")" + athlete.getSellInfo() +'\n';
 			i++;
 		}
 		return infos;
@@ -466,7 +466,7 @@ public class GameEnvironment {
 		int i =0;
 		String infos = "";
 		for (Purchasable purchasable: purchasables) {
-			infos += "(" + i + ")" + purchasable.buyInfo() +'\n';
+			infos += "(" + i + ")" + purchasable.getBuyInfo() +'\n';
 			i++;
 		}
 		return infos;

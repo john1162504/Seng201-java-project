@@ -235,22 +235,22 @@ public class Athlete implements Purchasable{
     }
     
     @Override
-    public String buyMessage() {
+    public String getBuyMessage() {
     	return String.format("%s has joined your team!", this.name);
     }
     
     @Override
-    public String sellMessage() {
+    public String getSellMessage() {
     	return String.format("Sold %s you received %d$", this.name, this.worth);
     }
     
     @Override
-    public String buyInfo() {
+    public String getBuyInfo() {
     	return String.format("%s need %d$ to purchasae" , this.toString(),this.price);
     }
     
     @Override
-    public String sellInfo() {
+    public String getSellInfo() {
     	return String.format("%s is worth %d$", this.toString(), this.worth);
     }
     
