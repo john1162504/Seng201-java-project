@@ -24,6 +24,11 @@ public class Athlete implements Purchasable{
 		}
 	}
 	
+	/**
+	 * 
+	 * contain available names for {@link Athlete}
+	 *
+	 */
 	private enum Names {
 	    ETHAN("Ethan"),
 	    JACOB("Jacob"),
@@ -59,11 +64,11 @@ public class Athlete implements Purchasable{
 	//attack value of athlete
 	private int attack;
 	//defence value of athlete
-	private int defence;
+	private int defense;
 	//Max stamina value of athlete
 	private int maxStamina;
 	//Current stamina of this athlete
-	private int stamina;
+	private int currentStamina;
 	//name of athlete
 	private String name;
 	//how much given athlete contract costs in the market
@@ -76,40 +81,65 @@ public class Athlete implements Purchasable{
 	
 	/**
 	 * Constructor for athlete objects
-	 * @param atkInput
-	 * @param defInput
-	 * @param staInput
+	 * @param attack
+	 * @param defence
+	 * @param maxStamina
 	 */
 	public Athlete(int attack, int defence, int maxStamina) {
 		this.attack = attack;
-		this.defence = defence;
+		this.defense = defence;
 		this.maxStamina = maxStamina;
-		this.stamina = this.maxStamina;
-		this.worth = (this.attack + this.defence + this.stamina); 
+		this.currentStamina = this.maxStamina;
+		this.worth = (this.attack + this.defense + this.currentStamina); 
 		this.price = (this.worth) * 2;
 		this.name = this.getRandomName();
 		this.status = Status.ACTIVE;
 	}
-	
+	/**
+	 * getter for {@link Athlete} attack value as int
+	 * 
+	 * @return attack of {@link Athlete}
+	 */
 	public int getAttack() {
 		return this.attack;
 	}
 	
+	/**
+	 * getter for {@link Athlete} defense value as int
+	 * 
+	 * @return defense of {@link Athlete}
+	 */
 	public int getDefence() {
-		return this.defence;
+		return this.defense;
 	}
 	
-	public int getStamina() {
-		return this.stamina;
+	/**
+	 * getter for {@link Athlete} current stamina value as int
+	 * 
+	 * @return current stamina of {@link Athlete}
+	 */
+	public int getCurrentStamina() {
+		return this.currentStamina;
 	}
 	
+	/**
+	 * getter for {@link Athlete} max stamina value as int 
+	 * 
+	 * @return max stamina of {@link Athlete}
+	 */
 	public int getMaxStamina() {
 		return this.maxStamina;
 	}
 
+	/**
+	 * getter for {@link Athlete} name as String 
+	 * 
+	 * @return name of {@link Athlete}
+	 */
 	public String getName() {
 		return this.name;
 	}
+	
 	@Override
 	public int getPrice() {
 		return (this.worth) * 2;
@@ -117,46 +147,86 @@ public class Athlete implements Purchasable{
 
 	@Override
 	public int getWorth() {
-		return (this.attack + this.defence + this.stamina); 
+		return (this.attack + this.defense + this.currentStamina); 
 	}
 	
+	/**
+	 * getter for {@link Athlete} status as Status
+	 * 
+	 * @return status of {@link Athlete}
+	 */
 	public Status getStatus() {
 		return this.status;
 	}
 	
+	/**
+	 * setter for {@Link Athlete} attack
+	 * 
+	 * @param newAttack to replace {@Link Athlete} attack
+	 */
 	public void setAttack(int newAttack) {
 		this.attack = newAttack;
 	}
 	
-	public void setDefence(int newDefence) {
-		this.defence = newDefence;
+	/**
+	 * setter for {@Link Athlete} defense
+	 * 
+	 * @param newdefense to replace {@Link Athlete} defense
+	 */
+	public void setDefense(int newDefense) {
+		this.defense = newDefense;
 	}
 	
-	public void setStamina(int newStamina) {
-		this.stamina = newStamina;
+	/**
+	 * setter for {@Link Athlete} current stamina
+	 * 
+	 * @param newStamina to replace {@Link Athlete} current stamina
+	 */
+	public void setCurrentStamina(int newStamina) {
+		this.currentStamina = newStamina;
 	}
 	
-	
+	/**
+	 * setter for {@Link Athlete} name
+	 * 
+	 * @param newName to replace {@Link Athlete} name
+	 */
 	public void setName(String newName) {
 		this.name = newName;
 	}
 	
+	/**
+	 * setter for {@Link Athlete} status
+	 * 
+	 * @param status to replace {@Link Athlete} status
+	 */
 	public void setStatus(Status status) {
 		this.status = status;
 	}
 	
+	/**
+	 * method that increase {@Link Athlete} attack and defense
+	 * 
+	 * @param amount increase {@Link Athlete} stats by amount
+	 */
 	public void increaseStats(int amount) {
 		this.attack += amount;
-		this.defence += amount;
-		this.maxStamina += amount;
-		this.stamina = this.maxStamina;
+		this.defense += amount;
 	}
 		
+	/**
+	 * set {@Link Athlete} status to be Status.ACTIVE and restore current stamina to max
+	 * 
+	 */
 	public void heal() {
 		this.status = Status.ACTIVE;
-		this.stamina = this.maxStamina;
+		this.currentStamina = this.maxStamina;
 	}
 	
+	/**
+	 * 
+	 * @return a random name from enum Names
+	 */
     public String getRandomName() {
         Names[] names = Names.values();
         Random random = new Random();
@@ -164,29 +234,33 @@ public class Athlete implements Purchasable{
         return names[index].name;
     }
     
-    public void reduceStamina(int amount) {
-    	this.stamina -= amount;
-    }
-    
+    @Override
     public String buyMessage() {
     	return String.format("%s has joined your team!", this.name);
     }
     
+    @Override
     public String sellMessage() {
     	return String.format("Sold %s you received %d$", this.name, this.worth);
     }
     
+    @Override
     public String buyInfo() {
     	return String.format("%s need %d$ to purchasae" , this.toString(),this.price);
     }
     
+    @Override
     public String sellInfo() {
     	return String.format("%s is worth %d$", this.toString(), this.worth);
     }
     
+    /**
+     * 
+     * return information of {@Link Athlete} 
+     */
     public String toString() {
     	return String.format("%s: Attack:%d Defence:%d Stamina:%d", 
-    			this.getName(), this.getAttack(), this.getDefence(), this.getStamina());
+    			this.getName(), this.getAttack(), this.getDefence(), this.getCurrentStamina());
     }
 
 	

@@ -334,11 +334,11 @@ public class GameEnvironment {
 		String result = "All athletes are high in morale!";
 		for(Athlete athlete: activeTeam) {
 			int quitChance = rng.nextInt(100);
-			if(quitChance < 5 && (athlete.getStamina() > 0)) {
+			if(quitChance < 5 && (athlete.getCurrentStamina() > 0)) {
 				removeAthlete(activeTeam, athlete);
 				return "Athlete "+athlete.getName() +" has decided to leave the team...";
 			}
-			else if(quitChance < 30 && (athlete.getStamina() <= 0)){
+			else if(quitChance < 30 && (athlete.getCurrentStamina() <= 0)){
 				removeAthlete(activeTeam, athlete);
 				return "Athlete "+athlete.getName() +" is injured and has decided to leave the team...";
 			}
