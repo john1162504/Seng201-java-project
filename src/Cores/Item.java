@@ -1,6 +1,5 @@
 package Cores;
 
-import Cores.Athlete.Status;
 
 /**
  * 
@@ -107,6 +106,12 @@ public class Item implements Purchasable {
 	}
 	
 	
+	/**
+	 * use this item on @{Link Athlete} and return a String indicate the effect
+	 * 
+	 * @param target the target item effect on 
+	 * @return A description of this item effect
+	 */
 	public String useItem(Athlete target){
 		String effect = "";
 		switch (type) {
@@ -132,23 +137,32 @@ public class Item implements Purchasable {
 		return effect;
 		
 	}
-	
+	@Override
 	public String getSellMessage() {
 		return String.format("Sold one %s receive %d$\n",this.name, this.worth);
 	}
 	
+	@Override
 	public String getBuyMessage() {
 		return String.format("A %s is added to your inventory.", this.name);
 	}
 	
+	@Override
 	public String getSellInfo() {
 		return String.format("%s is worth %d$", this.toString(), this.worth);
 	}
 	
+	@Override
 	public String getBuyInfo() {
 		return String.format("%s costs %d$", this.toString(), this.price);
 	}
+		
 	
+	/**
+	 * A description of this item
+	 * 
+	 * @return A description of this item, vary depends on {@Item #type}
+	 */
 	public String toString() {
 		String toString = "";
 		switch (type) {
