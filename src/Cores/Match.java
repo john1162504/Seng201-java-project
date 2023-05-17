@@ -4,13 +4,28 @@ import java.util.ArrayList;
 
 import Cores.Athlete.Status;
 
+/**
+ * 
+ * Class that models a Match
+ */
 public class Match {
-	// 4 athletes from each  team who will compete
+	//player's team
 	private ArrayList<Athlete> ally;
+	
+	//team that player play against
 	private ArrayList<Athlete> opponent;
+	
+	//score gained by the player from this match
 	private int score;
+	
+	//money gained by the player from this match
 	private int money;
+	
+	//opponent's score
 	private int opponentScore;
+
+	
+	
 	/**
 	 * Constructor to initialize  all  players of the match
 	 * @param player object of type Team representing the players team
@@ -22,7 +37,12 @@ public class Match {
 		}
 	
 	
-	
+	/**
+	 * 
+	 * Feed all athletes in ally team and opponent team to {@link #match(Athlete, Athlete)} 
+	 * 
+	 * @return match details from {@Link Match#match(Athlete, Athlete)}
+	 */
 	public String matchBegin() {
 		String matchDetails = "";
 		for (int i = 0; i < GameEnvironment.MAX_TEAM_SIZE; i++) {
@@ -32,7 +52,14 @@ public class Match {
 		return matchDetails;
 				
 	}
-	//match played, athlete A and B on each team are defenders, C and  D are attackers, return winning team
+	
+	/**
+	 *  Construct a description depends on the match result, match result determines by athletes's stats
+	 * 
+	 * @param ally Athlete in player's team
+	 * @param opponent Athlete in opponent's team
+	 * @return match details from two input athletes 
+	 */
 	public String match(Athlete ally, Athlete opponent) {
 		ally.setCurrentStamina(ally.getCurrentStamina() - 1); 
 		int allyPoint = ally.getAttack() - opponent.getDefence();
@@ -54,6 +81,11 @@ public class Match {
 		
 	}
 	
+	/**
+	 *  For athlete in ally check if stamina below or equal to 0, if yes set {@Link Athlete#Status} to be {@Link Status#INJURIED}
+	 * 
+	 * @return Return a message if an athlete is injured 
+	 */
 	private String matchCleanUp() {
 		String infos = "";
 		for (int i = 0; i < GameEnvironment.MAX_TEAM_SIZE; i++) {
@@ -65,15 +97,30 @@ public class Match {
 		return infos;
 	}
 	
-	
+	/**
+	 * get score of this match
+	 * 
+	 * @return score of this match
+	 */
 	public int getScore() {
 		return this.score;
 	}
 	
+	/**
+	 * get money of this match
+	 * 
+	 * @return money of this match
+	 */
 	public int getMoney() {
 		return this.money;
 	}
 	
+	/**
+	 * provides a string represent result of this match
+	 * 
+	 * @return a string represent result of this match, string vary depends on match result, 
+	 * string contains score and money obtained from this match
+	 */
 	public String matchResult() {
 		String result = "";
 		if (this.score > this.opponentScore) {
