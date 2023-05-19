@@ -80,7 +80,6 @@ public class GameEnvironment {
 	private Difficulty difficulty;
 	
 
-	
 	/**
 	 * Constructor of this class
 	 * 

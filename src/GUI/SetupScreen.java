@@ -1,109 +1,168 @@
 package GUI;
-import Cores.Athlete;
-import Cores.GameEnvironment;
-import UI.CmdLineUi.Difficulty;
-//import seng201.rocketmanager.ui.gui.RocketTableModel;
-import seng201.rocketmanager.ui.gui.GridBagConstraintsBuilder;
 
-import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
+import javax.swing.JTextField;
+
+import Cores.Athlete;
+import Cores.GameEnvironment;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import java.awt.Font;
+import java.util.*;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JSlider;
-import javax.swing.JTable;
-import javax.swing.JList;
-import javax.swing.DefaultListModel;
+import java.awt.Color;
+
 import javax.swing.JButton;
+import javax.swing.JList;
 
-import java.util.ArrayList;
-
-public class SetupScreen extends Screen {
-
+public class SetupScreen extends Screen{
 	
-	private JTextField fieldName;
+	private GameEnvironment game;
+	ArrayList<Athlete> athletes;
 
-	private JTable table;
-		
-	private JButton btnAccept;
+	private JFrame frmSetUp;
+	String name;
+	private JTextField textField;
+	private JSlider lengthSlider;
+	private JList list;
 
-	private JLabel lblError;
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			Gui gui = new Gui();
+			GameEnvironment game = new GameEnvironment(gui);
+			public void run() {
+				try {
+					SetupScreen window = new SetupScreen(game);
+					window.frmSetUp.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the application.
 	 */
-	protected SetupScreen(GameEnvironment incomingManager) {
-		super("GameEnvironment Setup", incomingManager);
+	public SetupScreen(GameEnvironment game) {
+		super(game);
+		this.athletes = game.generateAthletes(6);
+		initialize();
 	}
 	
+	public void onSetupFinish() {
+		game.onSetupFinished(name, 0, athletes, null);
+	}
+
 	/**
-	 * Completes the setup of our {@link GameEnvironment}.
+	 * Initialize the contents of the frame.
 	 */
-	private void setupComplete() {
-		String name;
-		int gameLength;
-		ArrayList<Athlete> startAthletes;
-		Difficulty difficulty;
-		//getManager().onSetupFinished(name, gameLength, startAthletes, difficulty);
+	private void initialize() {
+		setupFrame();
+		addLables();
+		addTextField();
+		addCheckBoxes();
+		addSlider();
+		addAthleteList();
+		addButtom();
+	}
+
+	private void addAthleteList() {
+		list = new JList(athletes.toArray());
+		list.setVisibleRowCount(6);
+		list.setBounds(20, 212, 298, 139);
+		frmSetUp.getContentPane().add(list);
 	}
 	
-	
-	@Override
-	protected void initialise(final Container container) {
-		// Set the layout manager to a grid bag layout
-		container.setLayout(new GridBagLayout());
 
-		final GridBagConstraintsBuilder layoutBuilder = new GridBagConstraintsBuilder();
-		
-		frame = new JFrame();
-		frame.setTitle("GameEnvironment Setup Screen");
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
-		JLabel lblWelcome = new JLabel("Welcome to the Game!");
-		lblWelcome.setBounds(10, 11, 118, 14);
-		frame.getContentPane().add(lblWelcome);
-		
-		JLabel lblName = new JLabel("What is the name of your team?");
-		lblName.setBounds(10, 33, 164, 14);
-		frame.getContentPane().add(lblName);
-		
-		JLabel lblLength = new JLabel("Select your season length");
-		lblLength.setBounds(10, 58, 164, 14);
-		frame.getContentPane().add(lblLength);
-		
-		JLabel lblAthletes = new JLabel("Select your starting Athletes");
-		lblAthletes.setBounds(10, 83, 164, 14);
-		frame.getContentPane().add(lblAthletes);
-		
-		nameTextField = new JTextField();
-		nameTextField.setBounds(255, 30, 129, 20);
-		frame.getContentPane().add(nameTextField);
-		nameTextField.setColumns(10);
-		
-		JSlider lengthSlider = new JSlider();
-		lengthSlider.setMaximum(15);
+
+	private void addSlider() {
+		lengthSlider = new JSlider();
+		lengthSlider.setBackground(new Color(65, 138, 255));
+		lengthSlider.setMajorTickSpacing(5);
+		lengthSlider.setMinorTickSpacing(1);
+		lengthSlider.setSnapToTicks(true);
+		lengthSlider.setPaintLabels(true);
+		lengthSlider.setPaintTicks(true);
 		lengthSlider.setMinimum(5);
-		lengthSlider.setBounds(184, 58, 200, 26);
-		frame.getContentPane().add(lengthSlider);
-		
-		DefaultListModel<Athlete> athleteListModel = new DefaultListModel<Athlete>();
-		startingAthletes = manager.generateAthletes(6);
-		athleteListModel.addAll(startingAthletes);
-		JList<Athlete> athleteList = new JList<Athlete>(athleteListModel);
-		athleteList.setBounds(20, 171, 362, -62);
-		frame.getContentPane().add(athleteList);
-		
-		athleteList.getSelectedValue();
+		lengthSlider.setMaximum(15);
+		lengthSlider.setBounds(319, 153, 190, 42);
+		frmSetUp.getContentPane().add(lengthSlider);
+
+	}
+	
+
+	private void addTextField() {
+		textField = new JTextField();
+		textField.setBounds(319, 80, 262, 26);
+		frmSetUp.getContentPane().add(textField);
+		textField.setColumns(10);
 	}
 
+	private void addCheckBoxes() {
+		JCheckBox normalCheckBox = new JCheckBox("Normal");
+		normalCheckBox.setBounds(319, 118, 128, 23);
+		frmSetUp.getContentPane().add(normalCheckBox);
+		
+		JCheckBox HardCheckBox = new JCheckBox("Hard");
+		HardCheckBox.setBounds(453, 118, 128, 23);
+		frmSetUp.getContentPane().add(HardCheckBox);
+
+		
+		ButtonGroup checkBoxGroup = new ButtonGroup();
+		checkBoxGroup.add(HardCheckBox);
+		checkBoxGroup.add(normalCheckBox);
+	}
+
+	private void setupFrame() {
+		frmSetUp = new JFrame();
+		frmSetUp.setResizable(false);
+		frmSetUp.setTitle("Set up");
+		frmSetUp.setBounds(100, 100, 610, 400);
+		frmSetUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSetUp.getContentPane().setLayout(null);
+	}
 	
+	public void addLables() {
+		JLabel titleLable = new JLabel("Welcome to SUMO AGENT");
+		titleLable.setFont(new Font("Lucida Grande", Font.BOLD, 18));
+		titleLable.setBounds(172, 6, 253, 62);
+		frmSetUp.getContentPane().add(titleLable);
+		
+		JLabel enterNameLaabel = new JLabel("What's the name of your team?");
+		enterNameLaabel.setBounds(20, 76, 239, 35);
+		frmSetUp.getContentPane().add(enterNameLaabel);
+		
+		
+		JLabel difficultyLabel = new JLabel("Select difficulty of your tournament");
+		difficultyLabel.setBounds(20, 123, 239, 16);
+		frmSetUp.getContentPane().add(difficultyLabel);
+		
+		JLabel lengthLabel = new JLabel("How long would your tournament be?");
+		lengthLabel.setBounds(20, 166, 253, 16);
+		frmSetUp.getContentPane().add(lengthLabel);
+	}
+
+	private void addButtom() {
+		JButton continueButton = new JButton("Continue");
+		continueButton.addActionListener(e -> onSetupFinish());
+		continueButton.setEnabled(false);
+		continueButton.setBounds(487, 337, 117, 29);
+		frmSetUp.getContentPane().add(continueButton);
+	}
 	
+	public Color getLengthSliderBackground() {
+		return lengthSlider.getBackground();
+	}
 	
+	public void setLengthSliderBackground(Color background) {
+		lengthSlider.setBackground(background);
+	
+	}
 }

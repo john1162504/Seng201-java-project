@@ -9,15 +9,15 @@ import UI.GameEnvironmentUi;
 public class Gui implements GameEnvironmentUi {
 
     // The rocket manager this gui interacts with
-    private GameEnvironment gameManager;
+    private GameEnvironment game;
 
     // The currently active screen in this gui
     private Screen screen;
 
     @Override
-    public void setup(GameEnvironment manager) {
-        this.gameManager = manager;
-        screen = new SetupScreen(gameManager);
+    public void setup(GameEnvironment game) {
+        this.game = game;
+        screen = new SetupScreen(game);
         screen.show();
     }
 
@@ -42,4 +42,9 @@ public class Gui implements GameEnvironmentUi {
     public void quit() {
         screen.quit();
     }
+//    
+//    public void closeSetUpScreen() {
+//    	// close the setup screen 
+//    	screenManager.openMainScreen()
+//    }
 }
