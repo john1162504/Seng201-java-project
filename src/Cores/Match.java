@@ -45,7 +45,7 @@ public class Match {
 	 */
 	public String matchBegin() {
 		String matchDetails = "";
-		for (int i = 0; i < GameEnvironment.MAX_TEAM_SIZE; i++) {
+		for (int i = 0; i < GameEnvironment.MAX_ACTIVE_TEAM_SIZE; i++) {
 			matchDetails += match(ally.get(i), opponent.get(i));
 			
 		}
@@ -88,7 +88,7 @@ public class Match {
 	 */
 	private String matchCleanUp() {
 		String infos = "";
-		for (int i = 0; i < GameEnvironment.MAX_TEAM_SIZE; i++) {
+		for (int i = 0; i < GameEnvironment.MAX_ACTIVE_TEAM_SIZE; i++) {
 			if (ally.get(i).getCurrentStamina() <= 0) {
 				ally.get(i).setStatus(Status.INJURED);
 				infos += ally.get(i).getName() + " is injuried!\n";

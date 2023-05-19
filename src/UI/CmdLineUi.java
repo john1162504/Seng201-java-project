@@ -23,7 +23,8 @@ public class CmdLineUi implements GameEnvironmentUi{
 		CLUB("Club"),
 		STADIUM("Stadium"),
 		MARKET("Market"),
-		BYE("Take a bye");
+		BYE("Take a bye"),
+		QUIT("Quit game");
 		
 		public final String name;
 		
@@ -127,8 +128,8 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private ArrayList<Athlete> getStartAthletes() {
 		ArrayList<Athlete> availableAthletes = game.generateAthletes(6);
-		ArrayList<Athlete> selectedAthletes = new ArrayList<Athlete>(GameEnvironment.MAX_TEAM_SIZE);
-		while (selectedAthletes.size() < GameEnvironment.MAX_TEAM_SIZE) {
+		ArrayList<Athlete> selectedAthletes = new ArrayList<Athlete>(GameEnvironment.MAX_ACTIVE_TEAM_SIZE);
+		while (selectedAthletes.size() < GameEnvironment.MAX_ACTIVE_TEAM_SIZE) {
 			Athlete athlete =  selectAthlete(availableAthletes, 
 					"Select your athlete");
 			availableAthletes.remove(athlete);
@@ -210,6 +211,9 @@ public class CmdLineUi implements GameEnvironmentUi{
 	        case BYE:
 	            takeABye();
 	            break;
+	        case QUIT:
+	        	game.onFinish();
+	        	break;
 	        default:
 	            throw new IllegalStateException("Unexpected value: " + option);
 	    }
@@ -441,7 +445,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	private void goToStdium() {
 		boolean matching = true;
 		while (matching) {
-			int availableMatches = game.getAvailableMatches();
+			int availableMatches = game.getNumberOfAvailableMatches();
 			System.out.println("Select your match or go back");
 			displayMatches();
 			System.out.println("(" + availableMatches + ") Go back");
@@ -499,7 +503,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 
     
 	private void displayInventory() {
-		System.out.println(game.inventoryInfo());
+		System.out.println(game.getInventoryInfo());
 		
 	}
 
@@ -511,7 +515,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	private void displayTeam(ArrayList<Athlete> team) {
-		String teamInfo = game.athleteinfo(team);
+		String teamInfo = game.getAthletesinfo(team);
 		System.out.println(teamInfo);
 		
 	}
@@ -535,11 +539,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 			gameFinish(result);
 		}
 		else {
-			Athlete chosenAthlete = selectAthlete(game.getTeam(), "Select an athlete to train");
-			chosenAthlete.increaseStats(10);
-			System.out.println("Athlete "+ chosenAthlete.getName()+"'s stats have all increased by 10!");
-			System.out.println(game.athleteStatIncreaseEvent());
-			System.out.println(game.athleteQuitEvent());
+			System.out.println(result);
 		}
 		
 	}
@@ -576,7 +576,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 		String swapped = "";
 		while(swapping) {
 			try {
-	    		Athlete athleteMain = selectAthlete(game.getTeam(), 
+	    		Athlete athleteMain = selectAthlete(game.getActiveTeam(), 
 	    				"Select active athlete to swap");
 	    		Athlete athleteReserve = selectAthlete(game.getReserves(), 
 	    				"Select reserve athlete to swap");
@@ -601,12 +601,6 @@ public class CmdLineUi implements GameEnvironmentUi{
         }
     }
     
-	public static void main(String[] args) {
-		CmdLineUi ui = new CmdLineUi();
-		GameEnvironment game = new GameEnvironment(ui);
-		ui.setup(game);
-
-	}
 }
     
     
