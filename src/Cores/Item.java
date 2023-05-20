@@ -12,7 +12,7 @@ public class Item implements Purchasable {
 	 * Indicates the type of {@link Item}
 	 *
 	 */
-	public enum Type {
+	protected enum Type {
 		WEIGHT("Weight"),
 		FOOD("Food"),
 		MEDICINE("Medicine");
@@ -112,7 +112,7 @@ public class Item implements Purchasable {
 	 * @param target the target item effect on 
 	 * @return A description of this item effect
 	 */
-	public String useItem(Athlete target){
+	protected String useItem(Athlete target){
 		String effect = "";
 		switch (type) {
 		case WEIGHT:

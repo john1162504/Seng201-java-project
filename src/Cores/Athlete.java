@@ -10,7 +10,7 @@ public class Athlete implements Purchasable{
 	/**
 	 * Represent the status of a {@link Athlete}
 	 */
-	public enum Status {
+	protected enum Status {
 		INJURED("Injured"),
 		ACTIVE("Active");
 		
@@ -58,9 +58,6 @@ public class Athlete implements Purchasable{
 	    }
 	}
 	
-	
-	
-	
 	//attack value of athlete
 	private int attack;
 	//defence value of athlete
@@ -78,7 +75,6 @@ public class Athlete implements Purchasable{
 	//The status of this athlete
 	private Status status;
 
-	
 	/**
 	 * Constructor for athlete objects
 	 * @param attack
@@ -100,7 +96,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return attack of {@link Athlete}
 	 */
-	public int getAttack() {
+	protected int getAttack() {
 		return this.attack;
 	}
 	
@@ -109,7 +105,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return defense of {@link Athlete}
 	 */
-	public int getDefence() {
+	protected int getDefence() {
 		return this.defense;
 	}
 	
@@ -118,7 +114,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return current stamina of {@link Athlete}
 	 */
-	public int getCurrentStamina() {
+	protected int getCurrentStamina() {
 		return this.currentStamina;
 	}
 	
@@ -127,7 +123,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return max stamina of {@link Athlete}
 	 */
-	public int getMaxStamina() {
+	protected int getMaxStamina() {
 		return this.maxStamina;
 	}
 
@@ -136,7 +132,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return name of {@link Athlete}
 	 */
-	public String getName() {
+	protected String getName() {
 		return this.name;
 	}
 	
@@ -155,7 +151,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return status of {@link Athlete}
 	 */
-	public Status getStatus() {
+	protected Status getStatus() {
 		return this.status;
 	}
 	
@@ -164,7 +160,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newAttack to replace {@Link Athlete} attack
 	 */
-	public void setAttack(int newAttack) {
+	protected void setAttack(int newAttack) {
 		this.attack = newAttack;
 	}
 	
@@ -173,7 +169,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newdefense to replace {@Link Athlete} defense
 	 */
-	public void setDefense(int newDefense) {
+	protected void setDefense(int newDefense) {
 		this.defense = newDefense;
 	}
 	
@@ -182,7 +178,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newStamina to replace {@Link Athlete} current stamina
 	 */
-	public void setCurrentStamina(int newStamina) {
+	protected void setCurrentStamina(int newStamina) {
 		this.currentStamina = newStamina;
 	}
 	
@@ -191,7 +187,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newName to replace {@Link Athlete} name
 	 */
-	public void setName(String newName) {
+	protected void setName(String newName) {
 		this.name = newName;
 	}
 	
@@ -200,7 +196,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param status to replace {@Link Athlete} status
 	 */
-	public void setStatus(Status status) {
+	protected void setStatus(Status status) {
 		this.status = status;
 	}
 	
@@ -209,7 +205,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param amount increase {@Link Athlete} stats by amount
 	 */
-	public void increaseStats(int amount) {
+	protected void increaseStats(int amount) {
 		this.attack += amount;
 		this.defense += amount;
 	}
@@ -218,7 +214,7 @@ public class Athlete implements Purchasable{
 	 * set {@Link Athlete} status to be Status.ACTIVE and restore current stamina to max
 	 * 
 	 */
-	public void heal() {
+	protected void heal() {
 		this.status = Status.ACTIVE;
 		this.currentStamina = this.maxStamina;
 	}
@@ -227,7 +223,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return a random name from enum Names
 	 */
-    public String getRandomName() {
+    private String getRandomName() {
         Names[] names = Names.values();
         Random random = new Random();
         int index = random.nextInt(names.length);
@@ -250,7 +246,7 @@ public class Athlete implements Purchasable{
     }
     
     @Override
-    public String getSellInfo() {
+	public String getSellInfo() {
     	return String.format("%s is worth %d$", this.toString(), this.worth);
     }
     

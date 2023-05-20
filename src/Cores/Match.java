@@ -43,7 +43,7 @@ public class Match {
 	 * 
 	 * @return match details from {@Link Match#match(Athlete, Athlete)}
 	 */
-	public String matchBegin() {
+	protected String matchBegin() {
 		String matchDetails = "";
 		for (int i = 0; i < GameEnvironment.MAX_ACTIVE_TEAM_SIZE; i++) {
 			matchDetails += match(ally.get(i), opponent.get(i));
@@ -60,7 +60,7 @@ public class Match {
 	 * @param opponent Athlete in opponent's team
 	 * @return match details from two input athletes 
 	 */
-	public String match(Athlete ally, Athlete opponent) {
+	protected String match(Athlete ally, Athlete opponent) {
 		ally.setCurrentStamina(ally.getCurrentStamina() - 1); 
 		int allyPoint = ally.getAttack() - opponent.getDefence();
 		int opponentPoint = opponent.getAttack() - ally.getDefence();
@@ -102,7 +102,7 @@ public class Match {
 	 * 
 	 * @return score of this match
 	 */
-	public int getScore() {
+	protected int getScore() {
 		return this.score;
 	}
 	
@@ -111,7 +111,7 @@ public class Match {
 	 * 
 	 * @return money of this match
 	 */
-	public int getMoney() {
+	protected int getMoney() {
 		return this.money;
 	}
 	
@@ -121,7 +121,7 @@ public class Match {
 	 * @return a string represent result of this match, string vary depends on match result, 
 	 * string contains score and money obtained from this match
 	 */
-	public String matchResult() {
+	protected String matchResult() {
 		String result = "";
 		if (this.score > this.opponentScore) {
 			result = "You Won!\n";

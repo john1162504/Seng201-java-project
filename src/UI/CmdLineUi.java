@@ -68,8 +68,11 @@ public class CmdLineUi implements GameEnvironmentUi{
 			System.out.println("Enter your name below");
 			try {
 				String name = scan.nextLine();
-				if (this.checkNameValidity(name)) {
+				if (name.matches(NAME_REGEX)) {
 					return name;
+				} 
+				else {
+					System.out.println(NAME_REQUIRMENTS);
 				}
 			}
 			catch (Exception e) {
@@ -78,19 +81,6 @@ public class CmdLineUi implements GameEnvironmentUi{
 		}
 	}
 	
-	public boolean checkNameValidity(String string) {
-		if (string.length() > 15 || string.length() < 3) {
-			System.out.println("Length must be between 3 and 15!");
-			return false;
-		}
-		else if (!string.matches(NAME_REGEX)) {
-			System.out.println("Name must not contain numbers or special characters");
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
 
 	private Difficulty getDifficulty() {
 		while (true) {

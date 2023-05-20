@@ -21,6 +21,12 @@ public class GameEnvironment {
 	//user interface associate with this game
 	private final GameEnvironmentUi ui;
 	
+	//Instance of a RandomeEvent class 
+	private RandomEvent randomEvent;
+	
+	//Instance of a Market class
+	private Market market;
+	
 	//Active athletes selected by players
 	private ArrayList<Athlete> activeTeam;
 	
@@ -32,10 +38,7 @@ public class GameEnvironment {
 	
 	//Available matches for player to compete  
 	private ArrayList<ArrayList<Athlete>> matches;
-	
-	//Available items and athletes for player to purchase
-	private ArrayList<Purchasable> purchasables;
-	
+
 	//Items own by player and the amount
 	private HashMap<Item, Integer> inventory = new HashMap<>();
 	
@@ -114,8 +117,9 @@ public class GameEnvironment {
 		this.difficulty = difficulty;
 		this.matches = this.refershMatches();
 		this.allItems = this.initiateItems();
-		this.purchasables = this.refreshPurchasable();
+		this.market = new Market(this);
 		this.inventory = this.initiateInventory();
+		this.randomEvent = new RandomEvent(this);
 		this.currentWeek = 1;
 		this.money = 0;
 		this.score = 0;
@@ -268,21 +272,7 @@ public class GameEnvironment {
 		}
 		return infos;
 	}
-	
-	/**
-	 * Get the information of all available purchasable item on market
-	 * 
-	 * @return A message contains the information of all available purchasable item on market
-	 */
-	public String getPurchasableInfos() {
-		String infos = "";
-		int index = 0;
-		for (Purchasable purchasable: purchasables) {
-			infos += String.format("(%d) %s\n", index, purchasable);
-			index++;
-		}
-		return infos;
-	}
+
 
 	/**
 	 * Get all available matches 
@@ -427,19 +417,7 @@ public class GameEnvironment {
 		}
 		return athletesDescription;
 	}
-	
-	/**
-	 * Create a new ArrayList that contains list of purchasable objects, 
-	 * use this new list to replace the old one when called by {@link this#takeABye()}  
-	 * 
-	 * @return A new ArrayList that contains list of purchasable objects
-	 */
-	private ArrayList<Purchasable> refreshPurchasable() {
-		ArrayList<Purchasable> market = new ArrayList<>();
-		market.addAll(allItems);
-		market.addAll(this.generateAthletes(3));
-		return market;
-	}
+
 	
 	/**
 	 *  This method is called by player when player requested to end this week,
@@ -457,9 +435,9 @@ public class GameEnvironment {
 			return gameFinished();
 		}
 		else {
-			result += athleteStatIncreaseEvent();
-			result += athleteQuitEvent();
-			this.purchasables = refreshPurchasable();
+			result += randomEvent.athleteStatIncreaseEvent();
+			result += randomEvent.athleteQuitEvent();
+			market.refreshPurchasable();
 			this.matches = refershMatches();
 			result += healAthletes();
 			return result;
@@ -489,46 +467,6 @@ public class GameEnvironment {
 		return "All athletes have been healed!\n";
 	}
 	
-	/**
-	 * A method models a random event, 
-	 * this event has 20% chance increases a random athlete's stats by 5
-	 * 
-	 * @return A description indicates if this event occurs
-	 */
-	public String athleteStatIncreaseEvent() {
-		int increaseChance = rng.nextInt(100);
-		String result = "No athlete's stat's have increased\n";
-		if(increaseChance < 20) {
-			int chosenAthleteIndex = rng.nextInt(4);
-			Athlete chosenAthlete = activeTeam.get(chosenAthleteIndex);
-			chosenAthlete.increaseStats(5);
-			result = "Athlete "+chosenAthlete.getName()+"'s stats have increased by 5!\n";
-		}
-		return result;
-	}
-	
-	/**
-	 * A method models a random event,
-	 * this event has 5% chance an athlete leaves his team if he is not injured,
-	 * if he is injured this event has 30% chance occurs  
-	 * 
-	 * @return A description indicates if this event occurs
-	 */
-	public String athleteQuitEvent() {
-		String result = "All athletes are high in morale!\n";
-		for(Athlete athlete: activeTeam) {
-			int quitChance = rng.nextInt(100);
-			if(quitChance < 5 && (athlete.getCurrentStamina() > 0)) {
-				removeAthlete(activeTeam, athlete);
-				return "Athlete "+athlete.getName() +" has decided to leave the team...\n";
-			}
-			else if(quitChance < 30 && (athlete.getCurrentStamina() <= 0)){
-				removeAthlete(activeTeam, athlete);
-				return "Athlete "+athlete.getName() +" is injured and has decided to leave the team...\n";
-			}
-		}
-		return result;
-	}
 	
 	/**
 	 * Get the item in inventory by the input index
@@ -546,83 +484,11 @@ public class GameEnvironment {
 	 * @param item The item that amount changes
 	 * @param newAmount The new amount
 	 */
-	private void updateInventory(Item item, int newAmount) {
+	public void updateInventory(Item item, int newAmount) {
 		this.inventory.put(item, newAmount);
 	}
 
-	/**
-	 * Sell a selected item by player and return a description of the process
-	 * 
-	 * @param index The index of the selected item
-	 * @return A description of the process
-	 */
-	public String sellItem(int index) {
-		Item selected = this.getItemInInventory(index);
-		String sellMessage = "You do not own any of this item.";
-		if (this.inventory.get(selected) > 0) {
-			int newAmount = this.inventory.get(selected) - 1;
-			this.updateInventory(selected, newAmount);
-			this.money += selected.getWorth();
-			sellMessage = selected.getSellMessage();
-		}
-		return sellMessage;
-	}
 
-	
-	/**
-	 * Buy the selected purchasable object if player has sufficient funds this is done by call {@link checkSufficientMoney()}.
-	 * If the object is an item, the item is add to player's inventory by calling {@link #updateInventory},
-	 * the item will not be remove in the market, as there is no purchase limit for items
-	 * else if object is an athlete, the athlete will be added to player's reserve team if there is a slot available,
-	 * then the athlete is removed from the market
-	 * 
-	 * @param index The index of the selected purchasable object
-	 * @return A message as a feedback after this purchase also an indication rather this purchase is success  
-	 */
-	public String buyPurchasable(int index) {
-		Purchasable object = this.purchasables.get(index);
-		String buyMessage = "You do not have sufficient funds.";
-		if (checkSufficientMoney(object.getPrice())) {
-			if (object instanceof Item) {
-				int newAmount = this.inventory.get(object) + 1;
-				this.updateInventory((Item) object, newAmount);
-				this.money -= object.getPrice();
-				buyMessage = object.getBuyMessage();
-			} 
-			else {
-				if (reserveTeam.size() < MAX_RESERVE_TEAM_SIZE) {
-					this.reserveTeam.add((Athlete) object);
-					this.purchasables.remove(object);
-					buyMessage = object.getBuyMessage();
-					this.money -= object.getPrice();
-				} 
-				else {
-					buyMessage = "Reserve team is full!";
-				}
-			}
-		}
-		return buyMessage;
-	}
-	
-	/**
-	 * This method is called by {@link #buyPurchasable(int)} when player requested to purchase a object
-	 * 
-	 * @param cost The cost of the object
-	 * @return True if {@link #money} is greater or equal to the cost, false otherwise
-	 */
-	private boolean checkSufficientMoney(int cost) {
-		return this.money >= cost;
-	}
-
-	/**
-	 * Get the size of the {@link #purchasables}
-	 * 
-	 * @return The size of the {@link #purchasables}
-	 */
-	public int getPurchasableSize() {
-		return this.purchasables.size();
-	}
-	
 	/**
 	 * Get all athletes own by player
 	 * 
@@ -672,18 +538,7 @@ public class GameEnvironment {
 		return String.format("%s has changed his name to %s", oldName, newName);
 	}
 
-	/**
-	 * Sell a selected athlete 
-	 * 
-	 * @param athlete The selected athlete 
-	 * @return A description describe how much player earned as a feedback
-	 */
-	public String sellAthlete(Athlete athlete) {
-		int earn = athlete.getWorth();
-		this.money += earn;
-		this.removeAthlete(reserveTeam, athlete);
-		return athlete.getSellMessage();
-	}
+
 	
 	/**
 	 * Get information for selling items,
@@ -725,21 +580,7 @@ public class GameEnvironment {
 	public int getGameLength() {
 		return this.gameLength;
 	}
-	
-	/**
-	 * Get informations for all purchasable objects on market
-	 * 
-	 * @return Informations for all purchasable objects on market
-	 */
-	public String getBuyInfo() {
-		int i =0;
-		String infos = "";
-		for (Purchasable purchasable: purchasables) {
-			infos += "(" + i + ")" + purchasable.getBuyInfo() +'\n';
-			i++;
-		}
-		return infos;
-	}
+
 	
     public static void main(String[] args) {
     	
@@ -757,8 +598,77 @@ public class GameEnvironment {
 //            // all swing code should run on this thread unless explicitly stated as being thread safe.
 //            SwingUtilities.invokeLater(() -> manager.start());
 //        }
-//    }
     }
+    
+    /**
+     * Get the ArrayList contains all items
+     * 
+     * @return The ArrayList contains all items
+     */
+	public ArrayList<Item> getAllItems() {
+		return this.allItems;
+	}
+	
+	/**
+	 * Set the money of this game to a new value
+	 * 
+	 * @param newMoney The new value use to replace old value
+	 */
+	public void setMoney(int newMoney) {
+		this.money = newMoney;
+	}
+
+	/**
+	 * This method call {@link Market#sellItem(int)} to sell a item
+	 * more info refer to {@link Market#sellItem(int)}
+	 * 
+	 * @param index The index of the selected item
+	 * @return A description of the process
+	 */
+	public String sellItem(int index) {
+		return market.sellItem(index);
+	}
+	
+	/**
+	 * This method call {@link Market#getPurchasableSize()}
+	 * @return Size of purchasables
+	 */
+	public int getPurchasableSize() {
+		return market.getPurchasableSize();
+	}
+	
+	/**
+	 * This method call {@link Market#buyPurchasable(int)}
+	 * refer to {@link Market#buyPurchasable(int)} for further details
+	 * 
+	 * @param index The index of the selected purchasable object
+	 * @return A message as a feedback after this purchase also an indication rather this purchase is success  
+	 */
+	public String buyPurchasable(int index) {
+		return market.buyPurchasable(index);
+	}
+
+	/**
+	 * This method call {@link Market#sellAthlete(Athlete)}
+	 * refer to {@link Market#sellAthlete(Athlete)} for further details
+	 * 
+	 * @param athlete The selected athlete 
+	 * @return A description describe how much player earned as a feedback
+	 */
+	public String sellAthlete(Athlete athlete) {
+		return market.sellAthlete(athlete);
+	}
+	
+	/**
+	 * This method call {@link Market#getBuyInfo()}
+	 * refer to {@link Market#getBuyInfo()}
+	 * 
+	 * @return Informations for all purchasable objects on market
+	 */
+	public String getBuyInfo() {
+		return market.getBuyInfo();
+	}
 }
+
 
 
