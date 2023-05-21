@@ -75,7 +75,7 @@ public class MarketScreen extends Screen{
 		frame = new JFrame();
 		frame.setTitle("Market");
 		frame.setBounds(100, 100, 610, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);	
 		addbackButton();
 		addLabels();

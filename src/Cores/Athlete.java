@@ -1,8 +1,6 @@
 package Cores;
 
-import java.beans.PropertyChangeListener;
 import java.util.Random;
-import java.beans.PropertyChangeSupport;
 
 /**
  *  A class describing the attributes of a given Athlete 
@@ -178,14 +176,13 @@ public class Athlete implements Purchasable{
 	/**
 	 * setter for {@Link Athlete} current stamina
 	 * 
-	 * @param newStamina to replace {@Link Athlete} current stamina, updates maximum stamina if new stamina value is greater
+	 * @param newStamina to replace {@Link Athlete} current stamina
 	 */
 	public void setCurrentStamina(int newStamina) {
-		if(newStamina > maxStamina) {
-			this.maxStamina = newStamina;
+		this.currentStamina = newStamina;
+		if (currentStamina < 0) {
+			currentStamina = 0;
 		}
-		this.currentStamina = maxStamina;
-		
 	}
 	
 	/**

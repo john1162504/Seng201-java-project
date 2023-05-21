@@ -22,7 +22,6 @@ public class MainScreen extends Screen{
 	
 //	private JFrame frame;
 //	private GameEnvironment game;
-	private Gui gui;
 	
 	JLabel propertiesLabel;
 
@@ -34,9 +33,8 @@ public class MainScreen extends Screen{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Gui gui = new Gui();
-					GameEnvironment game = new GameEnvironment(gui);
-					MainScreen window = new MainScreen(game, gui);
+					GameEnvironment game = new GameEnvironment();
+					MainScreen window = new MainScreen(game);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,10 +46,9 @@ public class MainScreen extends Screen{
 	/**
 	 * Create the application.
 	 */
-	protected MainScreen(GameEnvironment game, Gui gui) {
+	protected MainScreen(GameEnvironment game) {
 		super(game);
 		//this.game = game;
-		this.gui = gui;
 		initialize();
 	}
 
@@ -68,7 +65,7 @@ public class MainScreen extends Screen{
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 610, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	}
 	
@@ -90,7 +87,7 @@ public class MainScreen extends Screen{
 		JButton clubButton = new JButton("Club");
 		clubButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gui.launchClub();
+				game.launchClub();
 				updateProperties();
 			}
 		});
@@ -101,7 +98,7 @@ public class MainScreen extends Screen{
 		JButton marketButton = new JButton("Market");
 		marketButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gui.launchMarket();
+				game.launchMarket();
 				updateProperties();
 			}
 		});
@@ -112,7 +109,7 @@ public class MainScreen extends Screen{
 		JButton stadiumButton = new JButton("Stadium");
 		stadiumButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gui.launchStadium();
+				game.launchStadium();
 				updateProperties();
 			}
 		});

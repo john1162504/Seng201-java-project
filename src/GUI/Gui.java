@@ -29,7 +29,7 @@ public class Gui implements GameEnvironmentUi {
     @Override
     public void start() {
         screen.quit();
-        screen = new MainScreen(game, this);
+        screen = new MainScreen(game);
         screen.show();
     }
 

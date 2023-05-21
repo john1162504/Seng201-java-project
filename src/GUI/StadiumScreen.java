@@ -3,10 +3,43 @@ package GUI;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
-public class StadiumScreen {
+import Cores.Athlete;
+import Cores.GameEnvironment;
 
-	private JFrame frame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+
+public class StadiumScreen extends Screen{
+
+//	private JFrame frame;
+	
+	private ArrayList<ArrayList<Athlete>> matches;
+	
+	private int selectedMatchIndex;
+
+	private JButton match1Button;
+
+	private JButton match2Button;
+
+	private JButton match3Button;
+	
+	private JButton match4Button;
+
+	private JButton match5Button;
+	
+	private ArrayList<JButton> buttons;
+
+	private JTextArea opponentTeamInfoArea;
+
+	private JTextArea teamInfoArea;
+	
 
 	/**
 	 * Launch the application.
@@ -15,7 +48,8 @@ public class StadiumScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StadiumScreen window = new StadiumScreen();
+					GameEnvironment game = new GameEnvironment();
+					StadiumScreen window = new StadiumScreen(game);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,8 +61,12 @@ public class StadiumScreen {
 	/**
 	 * Create the application.
 	 */
-	public StadiumScreen() {
+	public StadiumScreen(GameEnvironment game) {
+		super(game);
+		this.matches = game.getMatches();
+		this.buttons = new ArrayList<>();
 		initialize();
+
 	}
 
 	/**
@@ -36,8 +74,77 @@ public class StadiumScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 610, 400);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		addMatchButtons();
+		updateButtons();
+
+		
+		opponentTeamInfoArea = new JTextArea();
+		opponentTeamInfoArea.setBounds(27, 171, 326, 61);
+		frame.getContentPane().add(opponentTeamInfoArea);
+		
+		JButton matchbutton = new JButton("Match!");
+		matchbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String feedback = game.matchStart(selectedMatchIndex);
+				JOptionPane.showMessageDialog(frame, feedback);
+				updateButtons();
+				teamInfoArea.setText(game.getAthletesinfo(game.getActiveTeam()));
+			}
+		});
+		matchbutton.setBounds(345, 337, 117, 29);
+		frame.getContentPane().add(matchbutton);
+		
+		JButton backButton = new JButton("Go Back");
+		backButton.addActionListener(e -> game.launchMain());
+		backButton.setBounds(487, 337, 117, 29);
+		frame.getContentPane().add(backButton);
+		
+
+		teamInfoArea = new JTextArea();
+		teamInfoArea.setBounds(27, 272, 326, 94);
+		frame.getContentPane().add(teamInfoArea);
+		teamInfoArea.setText(game.getAthletesinfo(game.getActiveTeam()));
+		addLabels();
+		
 	}
 
+	private void addLabels() {
+		JLabel opponentLabel = new JLabel("Opponent's Team");
+		opponentLabel.setBounds(27, 126, 161, 16);
+		frame.getContentPane().add(opponentLabel);
+		
+		JLabel teamLabel = new JLabel("Your Team");
+		teamLabel.setBounds(27, 244, 139, 16);
+		frame.getContentPane().add(teamLabel);
+	}
+
+	private void addMatchButtons() {
+		for (int i = 0; i < matches.size(); i++) {
+			JButton matchButton = new JButton("Match " + (i + 1));
+			matchButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					selectedMatchIndex = buttons.indexOf(matchButton);
+					opponentTeamInfoArea.setText(game.getAthletesinfo(matches.get(selectedMatchIndex)));
+					
+				}
+			});
+			matchButton.setBounds((16 + (i * 120)), 18, 108, 100);
+			frame.getContentPane().add(matchButton);
+			buttons.add(matchButton);
+		}
+	}
+
+	private void updateButtons() {
+		for (JButton button : buttons) {
+			button.setVisible(false);
+		}
+		for (int i = 0; i < matches.size(); i++) {
+			buttons.get(i).setVisible(true);
+		}
+	}
 }
