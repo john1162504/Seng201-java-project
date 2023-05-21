@@ -537,9 +537,13 @@ public class GameEnvironment {
 	 * @param target The selected athlete
 	 * @return The item effect message as a feedback 
 	 */
-	public String useItem(Item item, Athlete target) {
-		String itemEffect = item.useItem(target);
-		this.updateInventory(item, inventory.get(item) - 1);
+	public String useItem(int index, Athlete target) {
+		Item item = getItemInInventory(index); 
+		String itemEffect = "You do not have any of this item";
+		if (this.inventory.get(item) > 0) {
+			itemEffect = item.useItem(target);
+			this.updateInventory(item, inventory.get(item) - 1);
+		}
 		return itemEffect;
 	}
 	
@@ -561,7 +565,7 @@ public class GameEnvironment {
 	 * @return A message describes the effect to the selected athlete
 	 * @throws Exception 
 	 */
-	public String cahngeAtheleName(Athlete athlete, String newName) throws Exception {
+	public String changeAtheleName(Athlete athlete, String newName) throws Exception {
 		String oldName = athlete.getName();
 		if (newName.matches(GameEnvironmentUi.NAME_REGEX)) {
 			athlete.setName(newName);
