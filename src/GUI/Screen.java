@@ -1,11 +1,13 @@
 package GUI;
 
+import Cores.Athlete;
 import Cores.GameEnvironment;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 /**
  * Defines common behaviour supported by a gui screen.
@@ -17,6 +19,8 @@ public abstract class Screen {
 
     // The rocket manager that this screen interacts with
     private final GameEnvironment game;
+    
+   
 
     /**
      * Creates this screen.
@@ -91,6 +95,15 @@ public abstract class Screen {
 
         return selection == JOptionPane.YES_OPTION;
     }
+    
+    /**
+     * Gets the top level component of this screen.
+     *
+     * @return The top level component
+     */
+    protected Component getParentComponent() {
+        return frame;
+    }
 
     /**
      * Quits this screen. This should dispose of the screen as necessary.
@@ -106,5 +119,9 @@ public abstract class Screen {
      */
     void showError(String error) {
         JOptionPane.showMessageDialog(frame, error, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public GameEnvironment getGame() {
+    	return this.game;
     }
 }

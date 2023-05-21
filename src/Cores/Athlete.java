@@ -1,6 +1,8 @@
 package Cores;
 
+import java.beans.PropertyChangeListener;
 import java.util.Random;
+import java.beans.PropertyChangeSupport;
 
 /**
  *  A class describing the attributes of a given Athlete 
@@ -74,6 +76,8 @@ public class Athlete implements Purchasable{
 	private int worth;
 	//The status of this athlete
 	private Status status;
+	// Used to report property change events to our listeners
+	private final PropertyChangeSupport pcs;
 
 	/**
 	 * Constructor for athlete objects
@@ -90,13 +94,14 @@ public class Athlete implements Purchasable{
 		this.price = (this.worth) * 2;
 		this.name = this.getRandomName();
 		this.status = Status.ACTIVE;
+		pcs = new PropertyChangeSupport(this);
 	}
 	/**
 	 * getter for {@link Athlete} attack value as int
 	 * 
 	 * @return attack of {@link Athlete}
 	 */
-	protected int getAttack() {
+	public int getAttack() {
 		return this.attack;
 	}
 	
@@ -105,7 +110,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return defense of {@link Athlete}
 	 */
-	protected int getDefence() {
+	public int getDefence() {
 		return this.defense;
 	}
 	
@@ -114,7 +119,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return current stamina of {@link Athlete}
 	 */
-	protected int getCurrentStamina() {
+	public int getCurrentStamina() {
 		return this.currentStamina;
 	}
 	
@@ -123,7 +128,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return max stamina of {@link Athlete}
 	 */
-	protected int getMaxStamina() {
+	public int getMaxStamina() {
 		return this.maxStamina;
 	}
 
@@ -132,7 +137,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return name of {@link Athlete}
 	 */
-	protected String getName() {
+	public String getName() {
 		return this.name;
 	}
 	
@@ -151,7 +156,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @return status of {@link Athlete}
 	 */
-	protected Status getStatus() {
+	public Status getStatus() {
 		return this.status;
 	}
 	
@@ -259,7 +264,24 @@ public class Athlete implements Purchasable{
     			this.getName(), this.getAttack(), this.getDefence(), this.getCurrentStamina());
     }
 
-	
+    /**
+	 * Adds a property change listener to this Rocket. The listener will be informed
+	 * when this Rocket's status changes. See {@link #ROCKET_STATUS}, {@link #MISSION_COMPLETE}.
+	 *
+	 * @param listener The listener to report property updates to
+	 */
+	public void addListener(PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
+	}
+
+	/**
+	 * Removes a previously added property change listener to this Rocket.
+	 *
+	 * @param listener The listener to remove
+	 */
+	public void removeListener(PropertyChangeListener listener) {
+		pcs.removePropertyChangeListener(listener);
+	}
 
 	
 }

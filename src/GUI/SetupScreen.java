@@ -11,10 +11,10 @@ import Cores.Athlete;
 import Cores.GameEnvironment;
 import GUI.GridBagConstraintsBuilder;
 import UI.GameEnvironmentUi;
-import seng201.rocketmanager.core.Rocket;
-import seng201.rocketmanager.ui.gui.CustomWidthJTable;
-import seng201.rocketmanager.ui.gui.RocketTableModel;
-import seng201.rocketmanager.ui.gui.SetupScreen.RocketTableSelectionModel;
+
+//import seng201.rocketmanager.ui.gui.CustomWidthJTable;
+//import seng201.rocketmanager.ui.gui.RocketTableModel;
+//import seng201.rocketmanager.ui.gui.SetupScreen.RocketTableSelectionModel;
 
 import javax.swing.JLabel;
 
@@ -23,16 +23,19 @@ import java.util.*;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.JSlider;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class SetupScreen extends Screen{
 	
 	private GameEnvironment game;
-	ArrayList<Athlete> athletes;
+	private ArrayList<Athlete> athletes;
 
 	private JFrame frmSetUp;
 	String name;
@@ -42,6 +45,7 @@ public class SetupScreen extends Screen{
 	private JList list;
 	private JLabel lblError;
 	private JButton btnAccept;
+	private JTable table;
 
 
 //	public static void main(String[] args) {
@@ -64,7 +68,7 @@ public class SetupScreen extends Screen{
 	 */
 	public SetupScreen(GameEnvironment game) {
 		super("Set up", game);
-		this.athletes = game.generateAthletes(6);
+		
 	}
 	
 	public void onSetupFinish() {
@@ -78,7 +82,7 @@ public class SetupScreen extends Screen{
 	protected void initialise(final Container container) {
 		
 		container.setLayout(new GridBagLayout());
-
+		this.athletes = super.getGame().generateAthletes(6);
 		final GridBagConstraintsBuilder layoutBuilder = new GridBagConstraintsBuilder();
 		
 		//setupFrame();
@@ -86,22 +90,23 @@ public class SetupScreen extends Screen{
 		addNameField(container, layoutBuilder);
 		addDifficultyField(container, layoutBuilder);
 		addSlider(container, layoutBuilder);
-		//addAthleteList();
+		addAthleteList(container, layoutBuilder);
 		//addButtons();
 	}
 
-	private void addAthleteList() {
-		list = new JList(athletes.toArray());
-		list.setVisibleRowCount(6);
-		list.setBounds(20, 212, 298, 139);
-		frmSetUp.getContentPane().add(list);
+	private void addAthleteList(Container container, GridBagConstraintsBuilder layoutBuilder) {
 		
 		final List<Athlete> startingAthletes = athletes;
 
-		final RocketTableModel model = new RocketTableModel(rockets);
-		final RocketTableSelectionModel selectionModel = new RocketTableSelectionModel();
+		final AthleteTableModel model = new AthleteTableModel(startingAthletes);
+		final AthleteTableSelectionModel selectionModel = new AthleteTableSelectionModel();
 
 		table = new CustomWidthJTable(model) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			// Alter the table selection behaviour so that clicking on a row always toggles its selection.
 			// See the Javadoc for changeSelection for a description of the toggle and extend parameters.
 			@Override
@@ -117,8 +122,10 @@ public class SetupScreen extends Screen{
 
 		// Remove the mission status columns from the view
 		final TableColumnModel columnModel = table.getColumnModel();
-		columnModel.removeColumn(columnModel.getColumn(table.convertColumnIndexToView(RocketTableModel.COL_MISSION_STATUS)));
-		columnModel.removeColumn(columnModel.getColumn(table.convertColumnIndexToView(RocketTableModel.COL_MISSION_COUNT)));
+		columnModel.removeColumn(columnModel.getColumn(table.convertColumnIndexToView(AthleteTableModel.COL_MAX_STAMINA)));
+		columnModel.removeColumn(columnModel.getColumn(table.convertColumnIndexToView(AthleteTableModel.COL_STATUS)));
+		columnModel.removeColumn(columnModel.getColumn(table.convertColumnIndexToView(AthleteTableModel.COL_PRICE)));
+		columnModel.removeColumn(columnModel.getColumn(table.convertColumnIndexToView(AthleteTableModel.COL_WORTH)));
 
 		selectionModel.addListSelectionListener(event -> checkCanContinue());
 
@@ -127,14 +134,14 @@ public class SetupScreen extends Screen{
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setPreferredSize(scrollPane.getPreferredSize());
 
-		layoutBuilder.setLocation(4, 0)
+		layoutBuilder.setLocation(7, 0)
 				.fill()
 				.spanRemainingColumns()
 				.setVerticalWeight(1);
 
 		container.add(scrollPane, layoutBuilder.get());
 	}
-	}
+	
 	
 
 
@@ -307,5 +314,49 @@ public class SetupScreen extends Screen{
 		lblError.setText(validName ? null : GameEnvironmentUi.NAME_REQUIRMENTS);
 
 		//btnAccept.setEnabled(validName && (validDifficultyNormal || validDifficultyHard) && table.getSelectedRowCount() > 0);
+	}
+	
+	/**
+	 * Defines the selection model for selecting {@link Rocket}s from this screen's rocket table
+	 */
+	private class AthleteTableSelectionModel extends DefaultListSelectionModel {
+
+		public static final String ERROR_MSG = "You can only select up to " + GameEnvironment.MAX_ACTIVE_TEAM_SIZE + " athletes";
+
+		public AthleteTableSelectionModel() {
+			super();
+		}
+
+		/**
+		 * Overrides {@link DefaultListSelectionModel#setSelectionInterval} to prevent the user from selecting more than
+		 * {@link RocketManager#MAX_ROCKETS} rockets.
+		 *
+		 * @param index0 One end of the selection interval
+		 * @param index1 The other end of the selection interval
+		 */
+		@Override
+		public void setSelectionInterval(int index0, int index1) {
+			if (table.getSelectedRowCount() >= GameEnvironment.MAX_ACTIVE_TEAM_SIZE) {
+				JOptionPane.showMessageDialog(getParentComponent(), ERROR_MSG);
+				return;
+			}
+			super.setSelectionInterval(index0, index1);
+		}
+
+		/**
+		 * Overrides {@link DefaultListSelectionModel#addSelectionInterval} to prevent the user from selecting more than
+		 * {@link RocketManager#MAX_ROCKETS} rockets.
+		 *
+		 * @param index0 One end of the selection interval
+		 * @param index1 The other end of the selection interval
+		 */
+		@Override
+		public void addSelectionInterval(int index0, int index1) {
+			if (table.getSelectedRowCount() >= GameEnvironment.MAX_ACTIVE_TEAM_SIZE) {
+				JOptionPane.showMessageDialog(getParentComponent(), ERROR_MSG);
+				return;
+			}
+			super.addSelectionInterval(index0, index1);
+		}
 	}
 }
