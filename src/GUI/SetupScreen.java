@@ -11,6 +11,8 @@ import Cores.Athlete;
 import Cores.GameEnvironment;
 import GUI.GridBagConstraintsBuilder;
 import UI.GameEnvironmentUi;
+import UI.CmdLineUi;
+import UI.CmdLineUi.Difficulty;
 
 //import seng201.rocketmanager.ui.gui.CustomWidthJTable;
 //import seng201.rocketmanager.ui.gui.RocketTableModel;
@@ -29,6 +31,7 @@ import javax.swing.JSlider;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -36,32 +39,18 @@ public class SetupScreen extends Screen{
 	
 	private GameEnvironment game;
 	private ArrayList<Athlete> athletes;
+	private Difficulty difficulty;
 
 	private JFrame frmSetUp;
 	String name;
 	private JTextField fieldName;
-	private JTextField fieldDifficulty;
+	private JRadioButton buttonDifficulty;
 	private JSlider lengthSlider;
-	private JList list;
 	private JLabel lblError;
 	private JButton btnAccept;
 	private JTable table;
+	private JLabel athleteLabel;
 
-
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			Gui gui = new Gui();
-//			GameEnvironment game = new GameEnvironment(gui);
-//			public void run() {
-//				try {
-//					SetupScreen window = new SetupScreen(game);
-//					window.frmSetUp.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
@@ -71,9 +60,6 @@ public class SetupScreen extends Screen{
 		
 	}
 	
-	public void onSetupFinish() {
-		game.onSetupFinished(name, 0, athletes, null);
-	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -85,18 +71,29 @@ public class SetupScreen extends Screen{
 		this.athletes = super.getGame().generateAthletes(6);
 		final GridBagConstraintsBuilder layoutBuilder = new GridBagConstraintsBuilder();
 		
-		//setupFrame();
 		addLabels(container, layoutBuilder);
 		addNameField(container, layoutBuilder);
-		addDifficultyField(container, layoutBuilder);
+		addDifficultyButton(container, layoutBuilder);
 		addSlider(container, layoutBuilder);
 		addAthleteList(container, layoutBuilder);
-		//addButtons();
+		addButtons(container, layoutBuilder);
+	}
+	
+	private void setupComplete() {
+		final AthleteTableModel model = (AthleteTableModel) table.getModel();
+		final boolean hard = buttonDifficulty.isSelected();
+		if(hard) {
+			difficulty = Difficulty.HARD;
+		}
+		else {
+			difficulty = Difficulty.NORMAL;
+		}
+		game.onSetupFinished(fieldName.getText(), lengthSlider.getValue(), model.getSelectedAthletes(table.getSelectedRows()), difficulty);
 	}
 
 	private void addAthleteList(Container container, GridBagConstraintsBuilder layoutBuilder) {
 		
-		final List<Athlete> startingAthletes = athletes;
+		final ArrayList<Athlete> startingAthletes = athletes;
 
 		final AthleteTableModel model = new AthleteTableModel(startingAthletes);
 		final AthleteTableSelectionModel selectionModel = new AthleteTableSelectionModel();
@@ -134,7 +131,7 @@ public class SetupScreen extends Screen{
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setPreferredSize(scrollPane.getPreferredSize());
 
-		layoutBuilder.setLocation(7, 0)
+		layoutBuilder.setLocation(9, 0)
 				.fill()
 				.spanRemainingColumns()
 				.setVerticalWeight(1);
@@ -142,9 +139,6 @@ public class SetupScreen extends Screen{
 		container.add(scrollPane, layoutBuilder.get());
 	}
 	
-	
-
-
 	private void addSlider(Container container, GridBagConstraintsBuilder layoutBuilder) {
 		lengthSlider = new JSlider();
 		lengthSlider.setMajorTickSpacing(5);
@@ -214,16 +208,16 @@ public class SetupScreen extends Screen{
 		});
 	}
 
-	private void addDifficultyField(Container container, GridBagConstraintsBuilder layoutBuilder) {
-		fieldDifficulty = new JTextField();
-		fieldDifficulty.setToolTipText("Enter 'Normal' or 'Hard' to select difficulty");
+	private void addDifficultyButton(Container container, GridBagConstraintsBuilder layoutBuilder) {
+		buttonDifficulty = new JRadioButton("Select to increase difficulty");
+		
 
 		layoutBuilder.setLocation(3,1)
 					.setHorizontalWeight(1)
 					.spanRemainingColumns()
 					.fillHorizontal();
 
-		container.add(fieldDifficulty, layoutBuilder.get());
+		container.add(buttonDifficulty, layoutBuilder.get());
 		
 		// Add a document listener to detect when the user enters text into the field so
 		// that we can check if we can enable the accept button.
@@ -245,14 +239,6 @@ public class SetupScreen extends Screen{
 		});
 	}
 
-//	private void setupFrame() {
-//		frmSetUp = new JFrame();
-//		frmSetUp.setResizable(false);
-//		frmSetUp.setTitle("Set up");
-//		frmSetUp.setBounds(100, 100, 610, 400);
-//		frmSetUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frmSetUp.getContentPane().setLayout(null);
-//	}
 	
 	private void addLabels(Container container, GridBagConstraintsBuilder layoutBuilder) {
 		JLabel titleLabel = new JLabel("Welcome to SUMO AGENT");
@@ -271,7 +257,7 @@ public class SetupScreen extends Screen{
 		container.add(enterNameLabel, layoutBuilder.get());
 		
 		
-		JLabel difficultyLabel = new JLabel("Enter difficulty, 'Normal', or 'Hard'");
+		JLabel difficultyLabel = new JLabel("Would you like to increase the difficulty?");
 		layoutBuilder.setLocation(3, 0)
 					.anchorLineStart();
 
@@ -282,14 +268,23 @@ public class SetupScreen extends Screen{
 					.anchorLineStart();
 
 		container.add(lengthLabel, layoutBuilder.get());
+		
+		JLabel athleteLabel = new JLabel("Select your 4 starting athletes");
+		layoutBuilder.setLocation(7, 0)
+					.anchorLineStart();
+
+		container.add(athleteLabel, layoutBuilder.get());
 	}
 
-	private void addButtons() {
-		JButton continueButton = new JButton("Continue");
-		continueButton.addActionListener(e -> onSetupFinish());
-		continueButton.setEnabled(false);
-		continueButton.setBounds(487, 337, 117, 29);
-		frmSetUp.getContentPane().add(continueButton);
+	private void addButtons(Container container, GridBagConstraintsBuilder layoutBuilder) {
+		btnAccept = new JButton("Accept");
+		btnAccept.setEnabled(false);
+		btnAccept.addActionListener(e -> setupComplete());
+
+		layoutBuilder.setLocation(11,1)
+				.anchorLineEnd();
+
+		container.add(btnAccept, layoutBuilder.get());
 	}
 	
 	public Color getLengthSliderBackground() {
@@ -307,13 +302,10 @@ public class SetupScreen extends Screen{
 	 */
 	private void checkCanContinue() {
 		boolean validName = fieldName.getText().matches(GameEnvironmentUi.NAME_REGEX);
-		boolean validDifficultyNormal = fieldDifficulty.getText().matches("Normal");
-		boolean validDifficultyHard = fieldDifficulty.getText().matches("Hard");
-
 		// Hide the name requirements text if the input is valid
 		lblError.setText(validName ? null : GameEnvironmentUi.NAME_REQUIRMENTS);
 
-		//btnAccept.setEnabled(validName && (validDifficultyNormal || validDifficultyHard) && table.getSelectedRowCount() > 0);
+		btnAccept.setEnabled(validName && table.getSelectedRowCount() == 4);
 	}
 	
 	/**

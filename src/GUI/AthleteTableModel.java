@@ -14,7 +14,7 @@ import java.util.List;
 class AthleteTableModel extends AbstractTableModel implements PropertyChangeListener {
 
     // Names for the table columns
-    private final static String[] columns = {"Name", "Attack", "DEFENCE", "Stamina", "Max Stamina", "Status", "Price", "Worth"};
+    private final static String[] columns = {"Name", "Attack", "Defence", "Stamina", "Max Stamina", "Status", "Price", "Worth"};
 
     // Table column indexes
     static final int COL_NAME = 0;
@@ -26,14 +26,14 @@ class AthleteTableModel extends AbstractTableModel implements PropertyChangeList
     static final int COL_PRICE = 6;
     static final int COL_WORTH = 7;
     // The data for this model
-    private final List<Athlete> athletes;
+    private final ArrayList<Athlete> athletes;
 
     /**
      * Creates a RocketTableModel with the given list of Rockets.
      *
      * @param rockets The dataset for this model
      */
-    public AthleteTableModel(List<Athlete> athletes) {
+    public AthleteTableModel(ArrayList<Athlete> athletes) {
         this.athletes = athletes;
 
         // Make this model receive status updates for each rocket
@@ -80,8 +80,8 @@ class AthleteTableModel extends AbstractTableModel implements PropertyChangeList
      * @param selectedRows An array containing the currently selected rows
      * @return The Rockets corresponding to the given selected rows
      */
-    protected List<Athlete> getSelectedRockets(int[] selectedRows) {
-        List<Athlete> list = new ArrayList<>();
+    protected ArrayList<Athlete> getSelectedAthletes(int[] selectedRows) {
+        ArrayList<Athlete> list = new ArrayList<>();
         for (int row : selectedRows) {
             list.add(athletes.get(row));
         }

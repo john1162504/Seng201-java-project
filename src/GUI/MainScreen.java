@@ -5,6 +5,9 @@ import Cores.GameEnvironment;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import java.awt.GridLayout;
+import javax.swing.JSlider;
+import javax.swing.JRadioButton;
 
 public class MainScreen  {
 
@@ -40,6 +43,13 @@ public class MainScreen  {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
+		frame.getContentPane().add(rdbtnNewRadioButton);
+		
+		JSlider slider = new JSlider();
+		frame.getContentPane().add(slider);
 	}
 
 }
