@@ -13,10 +13,10 @@ import java.awt.event.WindowEvent;
 public abstract class Screen {
 
     // The frame for this screen
-    private JFrame frame;
+    protected JFrame frame;
 
     // The rocket manager that this screen interacts with
-    private final GameEnvironment game;
+    protected final GameEnvironment game;
 
     /**
      * Creates this screen.
@@ -43,6 +43,13 @@ public abstract class Screen {
      */
     protected void show() {
         frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                game.onFinish();
+            }
+        });
+
     }
 
     /**
@@ -57,6 +64,7 @@ public abstract class Screen {
         return selection == JOptionPane.YES_OPTION;
     }
 
+    
     /**
      * Quits this screen. This should dispose of the screen as necessary.
      */

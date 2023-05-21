@@ -190,13 +190,14 @@ public class CmdLineUi implements GameEnvironmentUi{
 	            displayProperties();
 	            break;
 	        case CLUB:
-	            goToClub();
+	            launchClub();
 	            break;
 	        case STADIUM:
-	            goToStdium();
+	            launchStadium();
 	            break;
+	            
 	        case MARKET:
-	            goToMarket();
+	            launchMarket();
 	            break;
 	        case BYE:
 	            takeABye();
@@ -212,7 +213,7 @@ public class CmdLineUi implements GameEnvironmentUi{
     
    
   
-    private void goToClub() {
+    public void launchClub() {
     	boolean stay = true;
     	while (stay) {
     		System.out.println("What would you like to do next?\n"
@@ -228,7 +229,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 						goToTeam(game.getActiveTeam(), "Select an athlete to change their name or go back");
 						break;
 					case 1:
-						goToTeam(game.getReserves(), "Select an athlete to change their name or go back");
+						goToTeam(game.getReservesTeam(), "Select an athlete to change their name or go back");
 						break;
 					case 2:
 						swapAthletes();
@@ -314,7 +315,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 
 	
-	 private void goToMarket() {
+	 public void launchMarket() {
 	    	boolean stay = true;
 	    	while (stay) {
 	    		displayMoney();
@@ -406,17 +407,17 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private void goToSellAthlete() {
 		boolean selling = true;
-		int reserveSize = game.getReserves().size();
+		int reserveSize = game.getReservesTeam().size();
 		while (selling) {
 			System.out.println("Select an athlete to sell (you can only sell reserve athletes)");
-			displayAthleteSellInfos(game.getReserves());
+			displayAthleteSellInfos(game.getReservesTeam());
 			System.out.println("(" + reserveSize + ") Goback");
 			int index = scan.nextInt();
 			try {
 				switch ((index < reserveSize) ? 0:
 						(index == reserveSize) ? 1: 2) {
 					case 0:
-						Athlete athlete = game.getReserves().get(index);
+						Athlete athlete = game.getReservesTeam().get(index);
 						String result = game.sellAthlete(athlete);
 						System.out.println(result);
 						break;
@@ -432,7 +433,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 	}
 	
 	
-	private void goToStdium() {
+	public void launchStadium() {
 		boolean matching = true;
 		while (matching) {
 			int availableMatches = game.getNumberOfAvailableMatches();
@@ -568,7 +569,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 			try {
 	    		Athlete athleteMain = selectAthlete(game.getActiveTeam(), 
 	    				"Select active athlete to swap");
-	    		Athlete athleteReserve = selectAthlete(game.getReserves(), 
+	    		Athlete athleteReserve = selectAthlete(game.getReservesTeam(), 
 	    				"Select reserve athlete to swap");
 	    		swapped += game.swapAthletes(athleteMain, athleteReserve);
 	    		swapping = false;
@@ -589,6 +590,12 @@ public class CmdLineUi implements GameEnvironmentUi{
         for (Option option : Option.values()) {
             System.out.println("(" + option.ordinal() + ") " + option.name);
         }
+    }
+    
+    public static void main(String[] args) {
+    	CmdLineUi ui = new CmdLineUi();
+    	GameEnvironment game = new GameEnvironment(ui); 
+    	game.start();
     }
     
 }
