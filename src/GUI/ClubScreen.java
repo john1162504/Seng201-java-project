@@ -8,24 +8,12 @@ import Cores.Athlete;
 import Cores.GameEnvironment;
 import Cores.Item;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
-import java.awt.Insets;
-import java.awt.GridLayout;
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JTextPane;
-import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -41,6 +29,12 @@ private DefaultListModel<Item> inventoryModel;
 private JList<Athlete> activeTeamList;
 private JList<Athlete> reserveTeamList;
 private JList<Item> inventoryList;
+private JLabel firstLabel;
+private Object second;
+private JLabel thirdLabel;
+private Object first;
+private JLabel secondLabel;
+private Object third;
 
 	/**
 	 * Launch the application.
@@ -91,6 +85,22 @@ private JList<Item> inventoryList;
 
 	private void addUseItemButton() {
 		JButton useItemButton = new JButton("Use Item");
+		useItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int selectedItemIndex = inventoryList.getSelectedIndex();
+					Athlete selectedAthlete = (activeTeamList.isSelectionEmpty() ? reserveTeamList.getSelectedValue() :
+						activeTeamList.getSelectedValue());
+					String feedback = game.useItem(selectedItemIndex, selectedAthlete);
+					JOptionPane.showMessageDialog(frame, feedback);
+					updateLists();
+					refreshLabels();
+				}
+				catch (Exception error) {
+					showError(error.getMessage());
+				}
+			}
+		});
 		useItemButton.setBounds(33, 312, 117, 29);
 		frame.getContentPane().add(useItemButton);
 	}
@@ -110,7 +120,7 @@ private JList<Item> inventoryList;
 				String newName = JOptionPane.showInputDialog("Enter new ame");
 				Athlete selected = (activeTeamList.isSelectionEmpty() ? reserveTeamList.getSelectedValue() :
 																		activeTeamList.getSelectedValue());
-				game.cahngeAtheleName(selected, newName);
+				game.changeAtheleName(selected, newName);
 				}
 				catch (Exception ecept){
 					showError(ecept.getMessage());
@@ -161,21 +171,22 @@ private JList<Item> inventoryList;
 		frame.getContentPane().add(inventoryList);
 		
 		
-		Item first = (Item) game.getInventory().keySet().toArray()[0];
-		JLabel firstLabel = new JLabel("You have " + game.getInventory().get(first));
+		first = (Item) game.getInventory().keySet().toArray()[0];
+		firstLabel = new JLabel("You have " + game.getInventory().get(first));
 		firstLabel.setBounds(363, 203, 168, 16);
 		frame.getContentPane().add(firstLabel);
 		
-		Item second = (Item) game.getInventory().keySet().toArray()[1];
-		JLabel secondLabel = new JLabel("You have " + game.getInventory().get(second));
+		second = (Item) game.getInventory().keySet().toArray()[1];
+		secondLabel = new JLabel("You have " + game.getInventory().get(second));
 		secondLabel.setBounds(363, 222, 168, 16);
 		frame.getContentPane().add(secondLabel);
 		
-		Item third = (Item) game.getInventory().keySet().toArray()[2];
-		JLabel thridLebal = new JLabel("You have " + game.getInventory().get(third));
-		thridLebal.setBounds(363, 242, 136, 16);
-		frame.getContentPane().add(thridLebal);
+		third = (Item) game.getInventory().keySet().toArray()[2];
+		thirdLabel = new JLabel("You have " + game.getInventory().get(third));
+		thirdLabel.setBounds(363, 242, 136, 16);
+		frame.getContentPane().add(thirdLabel);
 	}
+	
 	private void setupModels() {
 		activeModel = new DefaultListModel<Athlete>();
 		reserveModel = new DefaultListModel<Athlete>();
@@ -228,6 +239,12 @@ private JList<Item> inventoryList;
 		activeModel.addAll(game.getActiveTeam());
 		activeTeamList.setModel(activeModel);
 		reserveTeamList.setModel(reserveModel);
+	}
+	
+	private void refreshLabels() {
+		firstLabel.setText("You Have " +  game.getInventory().get(first));
+		secondLabel.setText("You Have " +  game.getInventory().get(second));
+		thirdLabel.setText("You Have " +  game.getInventory().get(third));
 	}
 	
 

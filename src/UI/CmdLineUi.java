@@ -265,7 +265,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 						scan.nextLine();
 						String newName = this.getName();
 						Athlete athlete = team.get(index);
-						String result = game.cahngeAtheleName(athlete, newName);
+						String result = game.changeAtheleName(athlete, newName);
 						System.out.println(result);
 						break;
 					case 1:
@@ -291,15 +291,10 @@ public class CmdLineUi implements GameEnvironmentUi{
 			try {
 				switch (index) {
 					case 0, 1, 2:
-						Item item = game.getItemInInventory(index);
-						if (game.getInventory().get(item) > 0) {
-							Athlete target = selectAthlete(game.getAllAthlete(), "Select an Athlete to use " + item.getName() + " on");
-							String result = game.useItem(item, target);
+							Athlete target = selectAthlete(game.getAllAthlete(), "Select an Athlete to use " + 
+												game.getItemInInventory(index).getName() + " on");
+							String result = game.useItem(index, target);
 							System.out.println(result);
-						} 
-						else {
-							System.out.println("You do not have this item");
-						}
 						break;
 					case 3:
 						viewing = false;
