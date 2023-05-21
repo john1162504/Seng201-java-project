@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 
 public class MarketScreen extends Screen{
 
-//	private JFrame frame;
 	
 	private DefaultListModel<String> purchasableModel;
 	private DefaultListModel<String> sellableModel;
