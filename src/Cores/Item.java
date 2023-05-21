@@ -12,7 +12,7 @@ public class Item implements Purchasable {
 	 * Indicates the type of {@link Item}
 	 *
 	 */
-	protected enum Type {
+	public enum Type {
 		WEIGHT("Weight"),
 		FOOD("Food"),
 		MEDICINE("Medicine");
@@ -112,7 +112,7 @@ public class Item implements Purchasable {
 	 * @param target the target item effect on 
 	 * @return A description of this item effect
 	 */
-	protected String useItem(Athlete target){
+	public String useItem(Athlete target){
 		String effect = "";
 		switch (type) {
 		case WEIGHT:
@@ -122,7 +122,7 @@ public class Item implements Purchasable {
 			break;
 		case FOOD:
 			int newDef = target.getDefence() + this.value;
-			target.setAttack(newDef);
+			target.setDefense(newDef);
 			effect = String.format("%s increased %s's defence by %d", name, target.getName(), value);
 			break;
 		case MEDICINE:
@@ -139,22 +139,22 @@ public class Item implements Purchasable {
 	}
 	@Override
 	public String getSellMessage() {
-		return String.format("Sold one %s receive %d$\n",this.name, this.worth);
+		return String.format("Sold one %s receive %d$\n", getName(), getWorth());
 	}
 	
 	@Override
 	public String getBuyMessage() {
-		return String.format("A %s is added to your inventory.", this.name);
+		return String.format("A %s is added to your inventory.", getName());
 	}
 	
 	@Override
 	public String getSellInfo() {
-		return String.format("%s is worth %d$", this.toString(), this.worth);
+		return String.format("%s is worth %d$", this.toString(), getWorth());
 	}
 	
 	@Override
 	public String getBuyInfo() {
-		return String.format("%s costs %d$", this.toString(), this.price);
+		return String.format("%s costs %d$", this.toString(), getPrice());
 	}
 		
 	
@@ -167,13 +167,13 @@ public class Item implements Purchasable {
 		String toString = "";
 		switch (type) {
 		case WEIGHT:
-			toString += String.format("%s increases athlete's attck by %d", this.getName(), this.getValue());
+			toString += String.format("%s increases athlete's attack by %d", this.getName(), this.getValue());
 			break;
 		case FOOD:
 			toString += String.format("%s increases athlete's defence by %d", this.getName(), this.getValue());
 			break;
 		case MEDICINE:
-			toString += String.format("%s fully recover athlete when he is injuried", this.getName());
+			toString += String.format("%s fully recovers athlete when he is injured", this.getName());
 			break;
  		}
 		return toString;
