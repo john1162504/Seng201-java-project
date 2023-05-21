@@ -24,9 +24,44 @@ public abstract class Screen {
      * @param title The title for the screen
      * @param manager The {@link RocketManager} that this screen interacts with
      */
-    protected Screen(GameEnvironment game) {
+    protected Screen(final String title, final GameEnvironment game) {
     	this.game = game;
+    	
+    	initialise(title);
     }
+    
+    private void initialise(final String title) {
+        frame = new JFrame();
+        frame.setTitle(title);
+
+        // Prevent the frame from closing immediately when the user clicks the close button.
+        // Instead we add a WindowListener so we can tell our rocket manager that the user
+        // has requested to quit. This allows the rocket manager to perform actions that may
+        // be required before quitting E.g. Confirming the user really wants to quit,
+        // saving state etc.
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                game.onFinish();
+            }
+        });
+
+        initialise(frame);
+
+        // Size our frame
+        frame.pack();
+
+        // We set the location of our frame relative to null. This causes the frame to be placed
+        // in the centre of the screen.
+        frame.setLocationRelativeTo(null);
+    }
+    
+    /**
+     * Creates and adds the required graphical components to the given container.
+     *
+     * @param container The container to add content to
+     */
+    protected abstract void initialise(Container container);
 
 
     /**
