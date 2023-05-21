@@ -99,7 +99,7 @@ public class Item implements Purchasable {
 	 * 
 	 * Gets the type of {@link Item}
 	 * 
-	 * @return THe type of this item
+	 * @return The type of this item
 	 */
 	public Type getType() {
 		return this.type;

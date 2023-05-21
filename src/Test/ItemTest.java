@@ -13,6 +13,7 @@ class ItemTest {
 
 	private Athlete testAthlete;
 	private Item med;
+	private Item med2;
 	private Item weight;
 	private Item food;
 	
@@ -37,6 +38,11 @@ class ItemTest {
 		assertEquals(Status.INJURED, testAthlete.getStatus());
 		med.useItem(testAthlete);
 		assertEquals(Status.ACTIVE, testAthlete.getStatus());
+	}
+	@Test
+	public void testMedicineOnActiveAthlete() {
+		String result = med.useItem(testAthlete);
+		assertEquals(result, String.format("You used %s on %s, nothing happened...", med.getName(), testAthlete.getName()));
 	}
 	@Test
 	public void testToStringMethod() {
