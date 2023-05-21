@@ -8,7 +8,7 @@ import Cores.GameEnvironment;
  */
 public interface GameEnvironmentUi {
 	//Name regex use to test name validity
-    final static String NAME_REGEX = "[a-zA-Z]{3,15}";
+   public final static String NAME_REGEX = "[a-zA-Z]{3,15}";
     
     //Name requirements 
     final static String NAME_REQUIRMENTS = "Your name must only contain letters and have 3 to 15 charaters";
@@ -41,4 +41,10 @@ public interface GameEnvironmentUi {
      * @param error The error
      */
     void showError(String error);
+
+	void launchStadium();
+
+	void launchMarket();
+
+	void launchClub();
 }

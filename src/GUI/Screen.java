@@ -1,13 +1,11 @@
 package GUI;
 
-import Cores.Athlete;
 import Cores.GameEnvironment;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 /**
  * Defines common behaviour supported by a gui screen.
@@ -15,10 +13,11 @@ import java.util.ArrayList;
 public abstract class Screen {
 
     // The frame for this screen
-    private JFrame frame;
+    protected JFrame frame;
 
     // The rocket manager that this screen interacts with
-    private final GameEnvironment game;
+    protected final GameEnvironment game;
+
     
    
 
@@ -28,10 +27,9 @@ public abstract class Screen {
      * @param title The title for the screen
      * @param manager The {@link RocketManager} that this screen interacts with
      */
-    protected Screen(final String title, final GameEnvironment game) {
+    protected Screen(final GameEnvironment game) {
     	this.game = game;
     	
-    	initialise(title);
     }
     
     private void initialise(final String title) {
@@ -50,7 +48,7 @@ public abstract class Screen {
             }
         });
 
-        initialise(frame);
+//        initialise(frame);
 
         // Size our frame
         frame.pack();
@@ -60,13 +58,13 @@ public abstract class Screen {
         frame.setLocationRelativeTo(null);
     }
     
-    /**
-     * Creates and adds the required graphical components to the given container.
-     *
-     * @param container The container to add content to
-     */
-    protected abstract void initialise(Container container);
-
+//    /**
+//     * Creates and adds the required graphical components to the given container.
+//     *
+//     * @param container The container to add content to
+//     */
+//    protected abstract void initialise(Container container);
+//
 
     /**
      * Gets the {@link RocketManager} that this screen supports.
@@ -82,6 +80,13 @@ public abstract class Screen {
      */
     protected void show() {
         frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                game.onFinish();
+            }
+        });
+
     }
 
     /**
@@ -105,6 +110,7 @@ public abstract class Screen {
         return frame;
     }
 
+    
     /**
      * Quits this screen. This should dispose of the screen as necessary.
      */

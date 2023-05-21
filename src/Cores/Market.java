@@ -7,7 +7,7 @@ public class Market {
 	
 	//Available items and athletes for player to purchase
 	private ArrayList<Purchasable> purchasables;
-	
+		
 	//Instance of a GameEnvironment
 	private GameEnvironment game;
 	
@@ -18,7 +18,7 @@ public class Market {
 	 */
 	public Market(GameEnvironment game) {
 		this.game = game;
-		this.purchasables = this.refreshPurchasable();
+		refreshPurchasable();
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class Market {
 	 * @return Informations for all purchasable objects on market
 	 */
 	protected String getBuyInfo() {
-		int i =0;
+		int i = 0;
 		String infos = "";
 		for (Purchasable purchasable: purchasables) {
 			infos += "(" + i + ")" + purchasable.getBuyInfo() +'\n';
@@ -70,16 +70,32 @@ public class Market {
 	}
 	
 	/**
+	 * Get all object own by players that can be sell
+	 * 
+	 * @return An ArrayList contains all object own by players that can be sell
+	 */
+	protected ArrayList<Purchasable> getAllSellable() {
+		ArrayList<Purchasable> sellables = new ArrayList<>();
+		for (Item item : game.getInventory().keySet()) {
+			sellables.add(item);
+		}
+		for (Athlete athlete : game.getReservesTeam()) {
+			sellables.add(athlete);
+		}
+		return sellables;
+	}
+	
+	/**
 	 * Create a new ArrayList that contains list of purchasable objects, 
 	 * use this new list to replace the old one when called by {@link this#takeABye()}  
 	 * 
 	 * @return A new ArrayList that contains list of purchasable objects
 	 */
-	protected ArrayList<Purchasable> refreshPurchasable() {
-		ArrayList<Purchasable> market = new ArrayList<>();
-		market.addAll(game.getAllItems());
-		market.addAll(game.generateAthletes(3));
-		return market;
+	protected void refreshPurchasable() {
+		ArrayList<Purchasable> newPurchasable = new ArrayList<>();
+		newPurchasable.addAll(game.getAllItems());
+		newPurchasable.addAll(game.generateAthletes(3));
+		this.purchasables = newPurchasable;
 	}
 	
 	/**
@@ -133,7 +149,7 @@ public class Market {
 				buyMessage = object.getBuyMessage();
 			} 
 			else {
-				ArrayList<Athlete> reserveTeam = game.getReserves();
+				ArrayList<Athlete> reserveTeam = game.getReservesTeam();
 				if (reserveTeam.size() < GameEnvironment.MAX_RESERVE_TEAM_SIZE) {
 					reserveTeam.add((Athlete) object);
 					this.purchasables.remove(object);
@@ -157,7 +173,7 @@ public class Market {
 	protected String sellAthlete(Athlete athlete) {
 		int earn = athlete.getWorth();
 		game.setMoney(game.getMoney() + earn);
-		game.removeAthlete(game.getReserves(), athlete);
+		game.removeAthlete(game.getReservesTeam(), athlete);
 		return athlete.getSellMessage();
 	}
 }

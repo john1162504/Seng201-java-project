@@ -82,7 +82,10 @@ public class GameEnvironment {
 	//The difficulty selected by player
 	private Difficulty difficulty;
 	
-
+	public GameEnvironment() {
+		this.ui = null;
+	}
+	
 	/**
 	 * Constructor of this class
 	 * 
@@ -129,8 +132,27 @@ public class GameEnvironment {
 		else {
 			this.money = 0;
 		}
+		if (name.matches("dllm")) {
+			this.money = 9999;
+		}
 		ui.start();
 		
+	}
+	
+	public void launchStadium() {
+		ui.launchStadium();
+	}
+
+	public void launchMarket() {
+		ui.launchMarket();
+	}
+
+	public void launchClub() {
+		ui.launchClub();
+	}
+	
+	public void launchMain() {
+		ui.start();
 	}
 	
 	/**
@@ -241,7 +263,7 @@ public class GameEnvironment {
 	 * 
 	 * @return The list contains reserved athlete
 	 */
-	public ArrayList<Athlete> getReserves(){
+	public ArrayList<Athlete> getReservesTeam(){
 		return this.reserveTeam;
 	}
 
@@ -253,11 +275,17 @@ public class GameEnvironment {
 	 * @return A String description as a feedback to signal player
 	 */
 	public String swapAthletes(Athlete active, Athlete reserve) {
-		this.activeTeam.remove(active);
-		this.reserveTeam.remove(reserve);
-		this.activeTeam.add(reserve);
-		this.reserveTeam.add(active);
-		return String.format("Athlete %s has swapped with athlete %s!", active.getName(), reserve.getName());
+		if (activeTeam.contains(active) && activeTeam.contains(reserve)) {
+			Collections.swap(activeTeam, activeTeam.indexOf(active), activeTeam.indexOf(reserve));
+			return String.format("%s has swapped position with %s", active.getName(), reserve.getName());
+		}
+		else {
+			this.activeTeam.remove(active);
+			this.reserveTeam.remove(reserve);
+			this.activeTeam.add(reserve);
+			this.reserveTeam.add(active);
+			return String.format("Athlete %s has swapped with athlete %s!", active.getName(), reserve.getName());
+		}
 	}
 	
 	/**
@@ -379,13 +407,13 @@ public class GameEnvironment {
 	/**
 	 * Initiate all items and store them in an ArrayList
 	 * 
-	 * @return The ArrayList that stores all items
+	 * @return The ArrayList that contains all items
 	 */
 	private ArrayList<Item> initiateItems() {
 		ArrayList<Item> items = new ArrayList<>();
-		Item food = new Item(1, 1, "Food", 5, Type.FOOD);
-		Item weight = new Item(1, 1, "Weight", 5, Type.WEIGHT);
-		Item medicine = new Item(1, 1, "Medicine", 100, Type.MEDICINE);
+		Item food = new Item(10, 10, "Food", 10, Type.FOOD);
+		Item weight = new Item(10, 10, "Weight", 10, Type.WEIGHT);
+		Item medicine = new Item(20, 20, "Medicine", 100, Type.MEDICINE);
 		items.add(food);
 		items.add(weight);
 		items.add(medicine);
@@ -531,10 +559,16 @@ public class GameEnvironment {
 	 * @param athlete The selected athlete
 	 * @param newName The new name entered by player
 	 * @return A message describes the effect to the selected athlete
+	 * @throws Exception 
 	 */
-	public String cahngeAtheleName(Athlete athlete, String newName) {
+	public String cahngeAtheleName(Athlete athlete, String newName) throws Exception {
 		String oldName = athlete.getName();
-		athlete.setName(newName);
+		if (newName.matches(GameEnvironmentUi.NAME_REGEX)) {
+			athlete.setName(newName);
+		}
+		else {
+			throw new Exception(GameEnvironmentUi.NAME_REQUIRMENTS);
+		}
 		return String.format("%s has changed his name to %s", oldName, newName);
 	}
 
@@ -580,25 +614,6 @@ public class GameEnvironment {
 	public int getGameLength() {
 		return this.gameLength;
 	}
-
-	
-    public static void main(String[] args) {
-    	
-        GameEnvironmentUi ui;
-
-//        if (args.length > 0 && (args[0].equals("cmd"))) {
-            ui = new CmdLineUi();
-            GameEnvironment manager = new GameEnvironment(ui);
-            manager.start();
-//        } else {
-//            ui = new Gui();
-//            GameEnvironment manager = new GameEnvironment(ui);
-//
-//            // Ensure the RocketManager is started on the Swing event dispatch thread (EDT). To be thread safe,
-//            // all swing code should run on this thread unless explicitly stated as being thread safe.
-//            SwingUtilities.invokeLater(() -> manager.start());
-//        }
-    }
     
     /**
      * Get the ArrayList contains all items
@@ -668,6 +683,35 @@ public class GameEnvironment {
 	public String getBuyInfo() {
 		return market.getBuyInfo();
 	}
+
+	
+	
+    public static void main(String[] args) {
+    	
+        GameEnvironmentUi ui;
+
+        if (args.length > 0 && (args[0].equals("cmd"))) {
+            ui = new CmdLineUi();
+            GameEnvironment manager = new GameEnvironment(ui);
+            manager.start();
+        } else {
+            ui = new Gui();
+            GameEnvironment manager = new GameEnvironment(ui);
+
+            // Ensure the RocketManager is started on the Swing event dispatch thread (EDT). To be thread safe,
+            // all swing code should run on this thread unless explicitly stated as being thread safe.
+            SwingUtilities.invokeLater(() -> manager.start());
+        }
+    }
+
+	public ArrayList<Purchasable> getPurchasables() {
+		return market.getPurchasables();
+	}
+	
+	public ArrayList<Purchasable> getSellable() {
+		return market.getAllSellable();
+	}
+
 }
 
 

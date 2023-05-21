@@ -29,7 +29,7 @@ public class Gui implements GameEnvironmentUi {
     @Override
     public void start() {
         screen.quit();
-        //screen = new MainScreen(manager);
+        screen = new MainScreen(game, this);
         screen.show();
     }
 
@@ -42,9 +42,23 @@ public class Gui implements GameEnvironmentUi {
     public void quit() {
         screen.quit();
     }
-//    
-//    public void closeSetUpScreen() {
-//    	// close the setup screen 
-//    	screenManager.openMainScreen()
-//    }
+    
+	public void launchStadium() {
+		screen.quit();
+		screen = new StadiumScreen(game);
+		screen.show();
+	}
+
+	public void launchMarket() {
+		screen.quit();
+		screen = new MarketScreen(game);
+		screen.show();
+	}
+
+	public void launchClub() {
+		screen.quit();
+		screen = new ClubScreen(game);
+		screen.show();
+	}
+    
 }
