@@ -12,7 +12,7 @@ public class Athlete implements Purchasable{
 	/**
 	 * Represent the status of a {@link Athlete}
 	 */
-	protected enum Status {
+	public enum Status {
 		INJURED("Injured"),
 		ACTIVE("Active");
 		
@@ -140,7 +140,7 @@ public class Athlete implements Purchasable{
 	
 	@Override
 	public int getPrice() {
-		return (this.worth) * 2;
+		return getWorth() * 2;
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newAttack to replace {@Link Athlete} attack
 	 */
-	protected void setAttack(int newAttack) {
+	public void setAttack(int newAttack) {
 		this.attack = newAttack;
 	}
 	
@@ -171,17 +171,21 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newdefense to replace {@Link Athlete} defense
 	 */
-	protected void setDefense(int newDefense) {
+	public void setDefense(int newDefense) {
 		this.defense = newDefense;
 	}
 	
 	/**
 	 * setter for {@Link Athlete} current stamina
 	 * 
-	 * @param newStamina to replace {@Link Athlete} current stamina
+	 * @param newStamina to replace {@Link Athlete} current stamina, updates maximum stamina if new stamina value is greater
 	 */
-	protected void setCurrentStamina(int newStamina) {
-		this.currentStamina = newStamina;
+	public void setCurrentStamina(int newStamina) {
+		if(newStamina > maxStamina) {
+			this.maxStamina = newStamina;
+		}
+		this.currentStamina = maxStamina;
+		
 	}
 	
 	/**
@@ -189,7 +193,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param newName to replace {@Link Athlete} name
 	 */
-	protected void setName(String newName) {
+	public void setName(String newName) {
 		this.name = newName;
 	}
 	
@@ -198,7 +202,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param status to replace {@Link Athlete} status
 	 */
-	protected void setStatus(Status status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 	
@@ -207,7 +211,7 @@ public class Athlete implements Purchasable{
 	 * 
 	 * @param amount increase {@Link Athlete} stats by amount
 	 */
-	protected void increaseStats(int amount) {
+	public void increaseStats(int amount) {
 		this.attack += amount;
 		this.defense += amount;
 	}
@@ -216,7 +220,7 @@ public class Athlete implements Purchasable{
 	 * set {@Link Athlete} status to be Status.ACTIVE and restore current stamina to max
 	 * 
 	 */
-	protected void heal() {
+	public void heal() {
 		this.status = Status.ACTIVE;
 		this.currentStamina = this.maxStamina;
 	}
