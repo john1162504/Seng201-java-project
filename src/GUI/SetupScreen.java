@@ -96,7 +96,7 @@ public class SetupScreen extends Screen{
 		selectLabel.setBounds(332, 226, 229, 16);
 		frame.getContentPane().add(selectLabel);
 		
-		JLabel remindLabel = new JLabel("(Select by hold shift and click)");
+		JLabel remindLabel = new JLabel("(Select by hold control and click)");
 		remindLabel.setBounds(332, 254, 210, 16);
 		frame.getContentPane().add(remindLabel);
 		
