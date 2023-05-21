@@ -43,7 +43,7 @@ public class Match {
 	 * 
 	 * @return match details from {@Link Match#match(Athlete, Athlete)}
 	 */
-	protected String matchBegin() {
+	public String matchBegin() {
 		String matchDetails = "";
 		for (int i = 0; i < GameEnvironment.MAX_ACTIVE_TEAM_SIZE; i++) {
 			matchDetails += match(ally.get(i), opponent.get(i));
@@ -60,19 +60,19 @@ public class Match {
 	 * @param opponent Athlete in opponent's team
 	 * @return match details from two input athletes 
 	 */
-	protected String match(Athlete ally, Athlete opponent) {
+	public String match(Athlete ally, Athlete opponent) {
 		ally.setCurrentStamina(ally.getCurrentStamina() - 1); 
 		int allyPoint = ally.getAttack() - opponent.getDefence();
 		int opponentPoint = opponent.getAttack() - ally.getDefence();
-		this.score += allyPoint;
-		this.opponentScore += opponentPoint;
+		this.score += (allyPoint - opponentPoint);
+		this.opponentScore += (opponentPoint - allyPoint);
 		if (allyPoint > opponentPoint) {
-			this.money += allyPoint * 2;
-			return String.format("Your %s get %d point from %s\n", ally.getName(), allyPoint, opponent.getName());
+			this.money += (allyPoint - opponentPoint) * 2;
+			return String.format("Your %s get %d point from %s\n", ally.getName(), (allyPoint-opponentPoint), opponent.getName());
 		} 
 		else if (allyPoint < opponentPoint) {
 			ally.setCurrentStamina(ally.getCurrentStamina() - 1); 
-			return String.format("Opponent's %s get %d point from %s\n%s lost extra stamina!\n", opponent.getName(), allyPoint, ally.getName(), ally.getName());
+			return String.format("Opponent's %s get %d point from %s\n%s lost extra stamina!\n", opponent.getName(), (opponentPoint-allyPoint), ally.getName(), ally.getName());
 		}
 		else {
 			this.money += allyPoint;
@@ -102,7 +102,7 @@ public class Match {
 	 * 
 	 * @return score of this match
 	 */
-	protected int getScore() {
+	public int getScore() {
 		return this.score;
 	}
 	
@@ -111,7 +111,7 @@ public class Match {
 	 * 
 	 * @return money of this match
 	 */
-	protected int getMoney() {
+	public int getMoney() {
 		return this.money;
 	}
 	
@@ -121,7 +121,7 @@ public class Match {
 	 * @return a string represent result of this match, string vary depends on match result, 
 	 * string contains score and money obtained from this match
 	 */
-	protected String matchResult() {
+	public String matchResult() {
 		String result = "";
 		if (this.score > this.opponentScore) {
 			result = "You Won!\n";
