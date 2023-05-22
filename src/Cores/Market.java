@@ -3,6 +3,10 @@ package Cores;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 
+ *Class that models a market 
+ */
 public class Market {
 
 	// Available items and athletes for player to purchase
