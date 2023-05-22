@@ -15,8 +15,6 @@ import java.awt.event.ActionEvent;
 public class MainScreen extends Screen{
 	
 	
-//	private JFrame frame;
-//	private GameEnvironment game;
 	
 	JLabel propertiesLabel;
 
@@ -58,8 +56,9 @@ public class MainScreen extends Screen{
 
 	private void setupFrame() {
 		frame = new JFrame();
+		frame.setTitle("Main Screen");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 610, 400);
+		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	}
@@ -74,7 +73,7 @@ public class MainScreen extends Screen{
 		propertiesLabel = new JLabel("<html>" + "Your properties<br/>" +
 											game.getProperties().replaceAll("\n", "<br/>") + "<html>");
 		propertiesLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
-		propertiesLabel.setBounds(471, 6, 133, 87);
+		propertiesLabel.setBounds(523, 6, 204, 87);
 		frame.getContentPane().add(propertiesLabel);
 	}
 
@@ -87,7 +86,7 @@ public class MainScreen extends Screen{
 			}
 		});
 		clubButton.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-		clubButton.setBounds(22, 113, 246, 123);
+		clubButton.setBounds(22, 113, 340, 164);
 		frame.getContentPane().add(clubButton);
 		
 		JButton marketButton = new JButton("Market");
@@ -98,7 +97,7 @@ public class MainScreen extends Screen{
 			}
 		});
 		marketButton.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-		marketButton.setBounds(328, 113, 246, 123);
+		marketButton.setBounds(387, 113, 340, 164);
 		frame.getContentPane().add(marketButton);
 		
 		JButton stadiumButton = new JButton("Stadium");
@@ -109,7 +108,7 @@ public class MainScreen extends Screen{
 			}
 		});
 		stadiumButton.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-		stadiumButton.setBounds(22, 243, 246, 123);
+		stadiumButton.setBounds(22, 296, 340, 164);
 		frame.getContentPane().add(stadiumButton);
 		
 		JButton takeAByeButton = new JButton("Take A Bye");
@@ -128,7 +127,7 @@ public class MainScreen extends Screen{
 
 		});
 		takeAByeButton.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-		takeAByeButton.setBounds(328, 243, 246, 123);
+		takeAByeButton.setBounds(387, 296, 340, 164);
 		frame.getContentPane().add(takeAByeButton);
 	}
 	

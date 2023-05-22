@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 
 public class StadiumScreen extends Screen{
-
+//JFrame frame;
 	
 	private ArrayList<ArrayList<Athlete>> matches;
 	
@@ -66,7 +66,7 @@ public class StadiumScreen extends Screen{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 610, 400);
+		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -75,7 +75,7 @@ public class StadiumScreen extends Screen{
 
 		
 		opponentTeamInfoArea = new JTextArea();
-		opponentTeamInfoArea.setBounds(27, 171, 326, 61);
+		opponentTeamInfoArea.setBounds(27, 171, 326, 116);
 		frame.getContentPane().add(opponentTeamInfoArea);
 		
 		JButton matchbutton = new JButton("Match!");
@@ -87,17 +87,17 @@ public class StadiumScreen extends Screen{
 				teamInfoArea.setText(game.getAthletesinfo(game.getActiveTeam()));
 			}
 		});
-		matchbutton.setBounds(345, 337, 117, 29);
+		matchbutton.setBounds(474, 429, 117, 29);
 		frame.getContentPane().add(matchbutton);
 		
 		JButton backButton = new JButton("Go Back");
 		backButton.addActionListener(e -> game.launchMain());
-		backButton.setBounds(487, 337, 117, 29);
+		backButton.setBounds(611, 429, 117, 29);
 		frame.getContentPane().add(backButton);
 		
 
 		teamInfoArea = new JTextArea();
-		teamInfoArea.setBounds(27, 272, 326, 94);
+		teamInfoArea.setBounds(27, 327, 326, 131);
 		frame.getContentPane().add(teamInfoArea);
 		teamInfoArea.setText(game.getAthletesinfo(game.getActiveTeam()));
 		addLabels();
@@ -106,11 +106,11 @@ public class StadiumScreen extends Screen{
 
 	private void addLabels() {
 		JLabel opponentLabel = new JLabel("Opponent's Team");
-		opponentLabel.setBounds(27, 126, 161, 16);
+		opponentLabel.setBounds(27, 143, 161, 16);
 		frame.getContentPane().add(opponentLabel);
 		
 		JLabel teamLabel = new JLabel("Your Team");
-		teamLabel.setBounds(27, 244, 139, 16);
+		teamLabel.setBounds(27, 299, 139, 16);
 		frame.getContentPane().add(teamLabel);
 	}
 
@@ -124,7 +124,7 @@ public class StadiumScreen extends Screen{
 					
 				}
 			});
-			matchButton.setBounds((16 + (i * 120)), 18, 108, 100);
+			matchButton.setBounds((16 + (i * 125)), 18, 108, 100);
 			frame.getContentPane().add(matchButton);
 			buttons.add(matchButton);
 		}

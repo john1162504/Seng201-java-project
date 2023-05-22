@@ -101,6 +101,30 @@ public class GameEnvironment {
 	}
 
 	/**
+	 * Add a reserve athlete to active team
+	 * 
+	 * @param selected The reserved athlete
+	 * @return A feedback indicate what has happened
+	 */
+	public String addAthletetoActive(Athlete selected) {
+		String result = "";
+		if (activeTeam.size() >= 4) {
+			result = "Active team is full!";
+		}
+		else {
+			if (activeTeam.contains(selected)) {
+				result = "You can't add an active atlete!";
+			}
+			else {
+				activeTeam.add(selected);
+				result = selected.getName() + " has joined your active team!";
+			}
+		}
+		return result;
+		
+	}
+
+	/**
 	 * This method call {@link Market#buyPurchasable(int)} refer to
 	 * {@link Market#buyPurchasable(int)} for further details
 	 *
@@ -758,7 +782,6 @@ public class GameEnvironment {
 	public void updateInventory(Item item, int newAmount) {
 		this.inventory.put(item, newAmount);
 	}
-
 	/**
 	 * Use the selected item to the selected athlete by calling
 	 * {@link Item#useItem(Athlete)} and return the item effect message as a

@@ -13,7 +13,6 @@ class ItemTest {
 
 	private Athlete testAthlete;
 	private Item med;
-	private Item med2;
 	private Item weight;
 	private Item food;
 	
