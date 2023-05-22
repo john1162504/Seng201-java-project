@@ -19,9 +19,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * 
+ *
+ */
 public class ClubScreen extends Screen{
 
-//	private JFrame frame;	
 	
 private DefaultListModel<Athlete> activeModel;
 private DefaultListModel<Athlete> reserveModel;
@@ -37,41 +40,18 @@ private JLabel secondLabel;
 private Object third;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		GameEnvironment game = new GameEnvironment();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClubScreen window = new ClubScreen(game);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public ClubScreen(GameEnvironment game) {
 		super(game);
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setTitle("Club");
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 750, 500);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
+		setupFrame();
 		setupModels();
 		addActiveTeam();
 		addReserveTeam();
@@ -85,26 +65,42 @@ private Object third;
 
 	}
 
-	private void addUseItemButton() {
-		JButton useItemButton = new JButton("Use Item");
-		useItemButton.addActionListener(new ActionListener() {
+	private void addActiveTeam() {
+		JLabel activeTeamLabel = new JLabel("Active Team");
+		activeTeamLabel.setBounds(30, 6, 120, 32);
+		frame.getContentPane().add(activeTeamLabel);
+		
+		activeTeamList = new JList<Athlete>(activeModel);
+		activeTeamList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		activeTeamList.setVisibleRowCount(4);
+		activeTeamList.setBounds(30, 50, 311, 155);
+		activeTeamList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				checkSelection();
+			}
+		});
+		frame.getContentPane().add(activeTeamList);
+	}
+
+	private void addAddButton() {
+		JButton adButton = new JButton("Add");
+		adButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					int selectedItemIndex = inventoryList.getSelectedIndex();
-					Athlete selectedAthlete = (activeTeamList.isSelectionEmpty() ? reserveTeamList.getSelectedValue() :
-						activeTeamList.getSelectedValue());
-					String feedback = game.useItem(selectedItemIndex, selectedAthlete);
-					JOptionPane.showMessageDialog(frame, feedback);
+					Athlete selected = reserveTeamList.getSelectedValue();
+					String result = game.addAthletetoActive(selected);
+					JOptionPane.showMessageDialog(frame, result);
 					updateLists();
 					refreshLabels();
 				}
-				catch (Exception error) {
+				catch (Exception error){
 					showError(error.getMessage());
 				}
 			}
 		});
-		useItemButton.setBounds(30, 413, 117, 29);
-		frame.getContentPane().add(useItemButton);
+		adButton.setBounds(491, 217, 117, 29);
+		frame.getContentPane().add(adButton);
 	}
 
 	private void addBackButton() {
@@ -113,48 +109,6 @@ private Object third;
 		backButton.addActionListener(e -> game.launchMain());
 		backButton.setBounds(609, 413, 117, 29);
 		frame.getContentPane().add(backButton);
-	}
-
-	private void addRenameButton() {
-		JButton renameButton = new JButton("Rename");
-		renameButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-				String newName = JOptionPane.showInputDialog("Enter new ame");
-				Athlete selected = (activeTeamList.isSelectionEmpty() ? reserveTeamList.getSelectedValue() :
-																		activeTeamList.getSelectedValue());
-				game.changeAtheleName(selected, newName);
-				}
-				catch (Exception ecept){
-					showError(ecept.getMessage());
-				}
-			}
-		});
-		renameButton.setBounds(609, 217, 117, 29);
-		frame.getContentPane().add(renameButton);
-
-	}
-
-	private void addSwapButton() {
-		JButton swapButton = new JButton("Swap");
-		swapButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Athlete active = game.getActiveTeam().get(activeTeamList.getMaxSelectionIndex());
-					Athlete reserve = (reserveTeamList.isSelectionEmpty() ? game.getActiveTeam().get(activeTeamList.getMinSelectionIndex()) :
-																			reserveTeamList.getSelectedValue());
-					String feedback = game.swapAthletes(active, reserve);
-					JOptionPane.showMessageDialog(frame, feedback);
-					updateLists();
-				}
-				catch (Exception error) {
-					showError("You need to select two athletes!");
-				}
-			}
-
-		});
-		swapButton.setBounds(373, 217, 117, 29);
-		frame.getContentPane().add(swapButton);
 	}
 
 	private void addInventory() {
@@ -190,33 +144,27 @@ private Object third;
 		thirdLabel.setBounds(440, 332, 136, 16);
 		frame.getContentPane().add(thirdLabel);
 	}
-	
-	private void setupModels() {
-		activeModel = new DefaultListModel<Athlete>();
-		reserveModel = new DefaultListModel<Athlete>();
-		inventoryModel = new DefaultListModel<Item>();
-		activeModel.addAll(game.getActiveTeam());
-		reserveModel.addAll(game.getReservesTeam());
-		inventoryModel.addAll(game.getInventory().keySet());
-	}
-	
-	private void addActiveTeam() {
-		JLabel activeTeamLabel = new JLabel("Active Team");
-		activeTeamLabel.setBounds(30, 6, 120, 32);
-		frame.getContentPane().add(activeTeamLabel);
-		
-		activeTeamList = new JList<Athlete>(activeModel);
-		activeTeamList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		activeTeamList.setVisibleRowCount(4);
-		activeTeamList.setBounds(30, 50, 311, 155);
-		activeTeamList.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				checkSelection();
+
+	private void addRenameButton() {
+		JButton renameButton = new JButton("Rename");
+		renameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+				String newName = JOptionPane.showInputDialog("Enter new ame");
+				Athlete selected = (activeTeamList.isSelectionEmpty() ? reserveTeamList.getSelectedValue() :
+																		activeTeamList.getSelectedValue());
+				game.changeAtheleName(selected, newName);
+				}
+				catch (Exception ecept){
+					showError(ecept.getMessage());
+				}
 			}
 		});
-		frame.getContentPane().add(activeTeamList);
+		renameButton.setBounds(609, 217, 117, 29);
+		frame.getContentPane().add(renameButton);
+
 	}
+
 	private void addReserveTeam() {
 		JLabel reserveTeamLabel = new JLabel("Reserve Team");
 		reserveTeamLabel.setBounds(383, 6, 120, 32);
@@ -234,44 +182,51 @@ private Object third;
 		frame.getContentPane().add(reserveTeamList);
 		
 	}
-	
-	private void addAddButton() {
-		JButton adButton = new JButton("Add");
-		adButton.addActionListener(new ActionListener() {
+
+	private void addSwapButton() {
+		JButton swapButton = new JButton("Swap");
+		swapButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Athlete selected = reserveTeamList.getSelectedValue();
-					String result = game.addAthletetoActive(selected);
-					JOptionPane.showMessageDialog(frame, result);
+					Athlete active = game.getActiveTeam().get(activeTeamList.getMaxSelectionIndex());
+					Athlete reserve = (reserveTeamList.isSelectionEmpty() ? game.getActiveTeam().get(activeTeamList.getMinSelectionIndex()) :
+																			reserveTeamList.getSelectedValue());
+					String feedback = game.swapAthletes(active, reserve);
+					JOptionPane.showMessageDialog(frame, feedback);
+					updateLists();
+				}
+				catch (Exception error) {
+					showError("You need to select two athletes!");
+				}
+			}
+
+		});
+		swapButton.setBounds(373, 217, 117, 29);
+		frame.getContentPane().add(swapButton);
+	}
+	
+	private void addUseItemButton() {
+		JButton useItemButton = new JButton("Use Item");
+		useItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int selectedItemIndex = inventoryList.getSelectedIndex();
+					Athlete selectedAthlete = (activeTeamList.isSelectionEmpty() ? reserveTeamList.getSelectedValue() :
+						activeTeamList.getSelectedValue());
+					String feedback = game.useItem(selectedItemIndex, selectedAthlete);
+					JOptionPane.showMessageDialog(frame, feedback);
 					updateLists();
 					refreshLabels();
 				}
-				catch (Exception error){
+				catch (Exception error) {
 					showError(error.getMessage());
 				}
 			}
 		});
-		adButton.setBounds(491, 217, 117, 29);
-		frame.getContentPane().add(adButton);
+		useItemButton.setBounds(30, 413, 117, 29);
+		frame.getContentPane().add(useItemButton);
 	}
 	
-
-	private void updateLists() {
-		activeModel.clear();
-		reserveModel.clear();
-		reserveModel.addAll(game.getReservesTeam());
-		activeModel.addAll(game.getActiveTeam());
-		activeTeamList.setModel(activeModel);
-		reserveTeamList.setModel(reserveModel);
-	}
-	
-	private void refreshLabels() {
-		firstLabel.setText("You Have " +  game.getInventory().get(first));
-		secondLabel.setText("You Have " +  game.getInventory().get(second));
-		thirdLabel.setText("You Have " +  game.getInventory().get(third));
-	}
-	
-
 	private void checkSelection() {
 		boolean greaterThanTwo = ((activeTeamList.getSelectedValuesList().size() + 
 								reserveTeamList.getSelectedValuesList().size() + 
@@ -282,5 +237,41 @@ private Object third;
 			inventoryList.clearSelection();
 		}
 		
+	}
+
+	
+	private void refreshLabels() {
+		firstLabel.setText("You Have " +  game.getInventory().get(first));
+		secondLabel.setText("You Have " +  game.getInventory().get(second));
+		thirdLabel.setText("You Have " +  game.getInventory().get(third));
+	}
+	
+
+	private void setupFrame() {
+		frame = new JFrame();
+		frame.setTitle("Club");
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 750, 500);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+	}
+	
+	private void setupModels() {
+		activeModel = new DefaultListModel<Athlete>();
+		reserveModel = new DefaultListModel<Athlete>();
+		inventoryModel = new DefaultListModel<Item>();
+		activeModel.addAll(game.getActiveTeam());
+		reserveModel.addAll(game.getReservesTeam());
+		inventoryModel.addAll(game.getInventory().keySet());
+	}
+	
+
+	private void updateLists() {
+		activeModel.clear();
+		reserveModel.clear();
+		reserveModel.addAll(game.getReservesTeam());
+		activeModel.addAll(game.getActiveTeam());
+		activeTeamList.setModel(activeModel);
+		reserveTeamList.setModel(reserveModel);
 	}
 }
