@@ -521,7 +521,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 
 	private void takeABye() {
 		String result = game.takeABye();
-		if (game.getCurrentWeek() > game.getGameLength()) {
+		if (game.getGameover() == true) {
 			gameFinish(result);
 		}
 		else {

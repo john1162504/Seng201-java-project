@@ -130,7 +130,6 @@ public class SetupScreen extends Screen{
 		frame.getContentPane().add(lengthLabel);
 		
 		lengthSlider = new JSlider();
-		lengthSlider.setBackground(new Color(65, 138, 255));
 		lengthSlider.setMajorTickSpacing(5);
 		lengthSlider.setMinorTickSpacing(1);
 		lengthSlider.setSnapToTicks(true);

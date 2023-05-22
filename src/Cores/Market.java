@@ -86,6 +86,21 @@ public class Market {
 	}
 	
 	/**
+	 * Find the price of the cheapest athlete in {@link purchasables}  
+	 * 
+	 * @return The price of the cheapest athlete in {@link purchasables}  
+	 */
+	public int getCheapestAthletePrice() {
+		int cheapest = 1000;
+		for (Purchasable object : purchasables) {
+			if (object instanceof Athlete && object.getPrice() < cheapest) {
+				cheapest = object.getPrice();
+			}
+		}
+		return cheapest;
+	}
+	
+	/**
 	 * Create a new ArrayList that contains list of purchasable objects, 
 	 * use this new list to replace the old one when called by {@link this#takeABye()}  
 	 * 
