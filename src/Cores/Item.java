@@ -2,12 +2,12 @@ package Cores;
 
 
 /**
- * 
+ *
  * Class that models a item.
  *
  */
 public class Item implements Purchasable {
-	
+
 	/**
 	 * Indicates the type of {@link Item}
 	 *
@@ -16,38 +16,38 @@ public class Item implements Purchasable {
 		WEIGHT("Weight"),
 		FOOD("Food"),
 		MEDICINE("Medicine");
-		
+
 		/**
 		 * A user friendly description of the value of this enum.
 		 */
 		public final String type;
-		
+
 		Type(String type) {
 			this.type = type;
 		}
 	}
-	
+
 	// Item's price
 	private int price;
-	
-	// Item's worth 
+
+	// Item's worth
 	private int worth;
-	
+
 	// Item's name
 	private String name;
-	
+
 	private Type type;
-	
+
 	// Represent how much it changes the athlete's stat
 	private int value;
-	
-	
+
+
 	/**
-	 * Create an item with the given parameters 
-	 * 
+	 * Create an item with the given parameters
+	 *
 	 * @param price The buying price of this item
 	 * @param worth The selling worth of this item
-	 * @param name The name of this item 
+	 * @param name The name of this item
 	 * @param value The value of this item
 	 * @param type The type of this item
 	 */
@@ -58,58 +58,102 @@ public class Item implements Purchasable {
 		this.value = value;
 		this.type = type;
 	}
-	
-	/**
-	 * Gets the price of {@link Item}
-	 * 
-	 * @return The price of this item 
-	 */
-	public int getPrice() {
-		return this.price;
+
+	@Override
+	public String getBuyInfo() {
+		return String.format("%s costs %d$", this.toString(), getPrice());
+	}
+
+	@Override
+	public String getBuyMessage() {
+		return String.format("A %s is added to your inventory.", getName());
 	}
 
 	/**
-	 * Gets the worth of {@link Item}
-	 * 
-	 * @return The worth of this item
-	 */
-	public int getWorth() {
-		return this.worth;	
-	}
-	
-	/**
-	 * Gets the value of {@link Item} changes to {@link Athlete}
-	 * 
-	 * @return The value of this item
-	 */
-	public int getValue() {
-		return this.value;
-	}
-	
-	/**
 	 * Gets the name of {@link Item}
-	 * 
+	 *
 	 * @return The name of this item
 	 */
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/**
-	 * 
+	 * Gets the price of {@link Item}
+	 *
+	 * @return The price of this item
+	 */
+	@Override
+	public int getPrice() {
+		return this.price;
+	}
+
+	@Override
+	public String getSellInfo() {
+		return String.format("%s is worth %d$", this.toString(), getWorth());
+	}
+
+
+	@Override
+	public String getSellMessage() {
+		return String.format("Sold one %s receive %d$\n", getName(), getWorth());
+	}
+	/**
+	 *
 	 * Gets the type of {@link Item}
-	 * 
+	 *
 	 * @return The type of this item
 	 */
 	public Type getType() {
 		return this.type;
 	}
-	
-	
+
+	/**
+	 * Gets the value of {@link Item} changes to {@link Athlete}
+	 *
+	 * @return The value of this item
+	 */
+	public int getValue() {
+		return this.value;
+	}
+
+	/**
+	 * Gets the worth of {@link Item}
+	 *
+	 * @return The worth of this item
+	 */
+	@Override
+	public int getWorth() {
+		return this.worth;
+	}
+
+	/**
+	 * A description of this item
+	 *
+	 * @return A description of this item, vary depends on {@Item #type}
+	 */
+	@Override
+	public String toString() {
+		String toString = "";
+		switch (type) {
+		case WEIGHT:
+			toString += String.format("%s increases athlete's attack by %d", this.getName(), this.getValue());
+			break;
+		case FOOD:
+			toString += String.format("%s increases athlete's defence by %d", this.getName(), this.getValue());
+			break;
+		case MEDICINE:
+			toString += String.format("%s fully recovers athlete when he is injured", this.getName());
+			break;
+ 		}
+		return toString;
+	}
+
+
 	/**
 	 * use this item on @{Link Athlete} and return a String indicate the effect
-	 * 
-	 * @param target the target item effect on 
+	 *
+	 * @param target the target item effect on
 	 * @return A description of this item effect
 	 */
 	public String useItem(Athlete target){
@@ -135,53 +179,7 @@ public class Item implements Purchasable {
 			}
  		}
 		return effect;
-		
+
 	}
-	@Override
-	public String getSellMessage() {
-		return String.format("Sold one %s receive %d$\n", getName(), getWorth());
-	}
-	
-	@Override
-	public String getBuyMessage() {
-		return String.format("A %s is added to your inventory.", getName());
-	}
-	
-	@Override
-	public String getSellInfo() {
-		return String.format("%s is worth %d$", this.toString(), getWorth());
-	}
-	
-	@Override
-	public String getBuyInfo() {
-		return String.format("%s costs %d$", this.toString(), getPrice());
-	}
-		
-	
-	/**
-	 * A description of this item
-	 * 
-	 * @return A description of this item, vary depends on {@Item #type}
-	 */
-	public String toString() {
-		String toString = "";
-		switch (type) {
-		case WEIGHT:
-			toString += String.format("%s increases athlete's attack by %d", this.getName(), this.getValue());
-			break;
-		case FOOD:
-			toString += String.format("%s increases athlete's defence by %d", this.getName(), this.getValue());
-			break;
-		case MEDICINE:
-			toString += String.format("%s fully recovers athlete when he is injured", this.getName());
-			break;
- 		}
-		return toString;
-	}
-	
-	
-	
-	
-	
 
 }
