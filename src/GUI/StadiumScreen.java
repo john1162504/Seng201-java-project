@@ -1,22 +1,21 @@
 package GUI;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 import Cores.Athlete;
 import Cores.GameEnvironment;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 /**
- * 
+ *
  * Class that models a graphical interface for stadium
  */
 public class StadiumScreen extends Screen {
@@ -53,7 +52,7 @@ public class StadiumScreen extends Screen {
 		updateButtons();
 		addInfoArea();
 		addStartMatchButton();
-		addBackButton();		
+		addBackButton();
 		addLabels();
 
 	}
@@ -89,6 +88,7 @@ public class StadiumScreen extends Screen {
 	private void addStartMatchButton() {
 		JButton startMatchbutton = new JButton("Match!");
 		startMatchbutton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String feedback = game.matchStart(selectedMatchIndex);
@@ -111,7 +111,7 @@ public class StadiumScreen extends Screen {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 750, 500);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	}
 
@@ -136,6 +136,7 @@ public class StadiumScreen extends Screen {
 		for (int i = 0; i < matches.size(); i++) {
 			JButton matchButton = new JButton("Match " + (i + 1));
 			matchButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					selectedMatchIndex = matchButtons.indexOf(matchButton);
 					opponentTeamInfoArea.setText(game.getAthletesinfo(matches.get(selectedMatchIndex)));
@@ -150,7 +151,7 @@ public class StadiumScreen extends Screen {
 	/**
 	 * Update visibility of buttons to ensure every button has it own correspond
 	 * match
-	 * 
+	 *
 	 */
 	private void updateButtons() {
 		for (JButton button : matchButtons) {
