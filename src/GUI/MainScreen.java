@@ -1,20 +1,15 @@
 package GUI;
 
-import Cores.Athlete;
 import Cores.GameEnvironment;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 
 import java.awt.Font;
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.awt.event.ActionEvent;
 
 public class MainScreen extends Screen{
@@ -121,9 +116,16 @@ public class MainScreen extends Screen{
 		takeAByeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String report = game.takeABye();
-				updateProperties();
-				JOptionPane.showMessageDialog(frame, report);
+				if (game.getGameover() == true) {
+					JOptionPane.showMessageDialog(frame, report);
+					 gameFinished();
+				}
+				else {
+					updateProperties();
+					JOptionPane.showMessageDialog(frame, report);
+				}
 			}
+
 		});
 		takeAByeButton.setFont(new Font("Lucida Grande", Font.BOLD, 20));
 		takeAByeButton.setBounds(328, 243, 246, 123);
@@ -133,6 +135,18 @@ public class MainScreen extends Screen{
 	private void updateProperties() {
 		propertiesLabel.setText("<html>" + "Your properties<br/>" +
 				game.getProperties().replaceAll("\n", "<br/>") + "<html>");
+	}
+	
+	private void gameFinished() {
+		int selection = JOptionPane.showConfirmDialog(frame, "Would you like to restart?",
+		            "Restart?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (selection == JOptionPane.YES_OPTION) {
+				 game.start();
+			}
+			else {
+				 game.onFinish();
+		}
+		
 	}
 
 }

@@ -51,6 +51,9 @@ public class GameEnvironment {
 	// length of the game
 	private int gameLength;
 	
+	// Indicate when game is finished
+	private boolean gameOver;
+	
 	/**
 	 * Maximum size for active team
 	 */
@@ -71,10 +74,12 @@ public class GameEnvironment {
 	private int currentWeek = 1;
 	
 	// score obtained by player 
-	private int score = 0;
+	private int score;
 	
 	// money obtained by player
-	private int money = 0;
+	private int money;
+	
+	private int totalMoney;
 	
 	//The name of the team/player
 	private String teamName;
@@ -125,15 +130,19 @@ public class GameEnvironment {
 		this.randomEvent = new RandomEvent(this);
 		this.currentWeek = 1;
 		this.money = 0;
+		this.totalMoney = 0;
 		this.score = 0;
+		this.gameOver = false;
 		if (this.difficulty == Difficulty.NORMAL) {
 			this.money = 100;
+			this.totalMoney += 100;
 		}
 		else {
 			this.money = 0;
 		}
 		if (name.matches("dllm")) {
 			this.money = 9999;
+			this.totalMoney += 9999;
 		}
 		ui.start();
 		
@@ -231,7 +240,9 @@ public class GameEnvironment {
 	 * @return A String description of the properties of this game, include money, score, current week and remaining week
 	 */
 	public String getProperties() {
-		return "Money: " + this.money + "\nScore: " + this.score + "\nCurrent Week: "+ this.currentWeek + "\nRemaining Weeks: "+ this.getRemainingWeeks();
+		return "Money: " + this.money + "\nScore: " 
+	+ this.score + "\nCurrent Week: "+ this.currentWeek + 
+	"\nRemaining Weeks: "+ this.getRemainingWeeks();
 	}
 	
 	
@@ -353,6 +364,7 @@ public class GameEnvironment {
 	private void matchReward(Match match) {
 		this.score += match.getScore();
 		this.money += match.getMoney();
+		this.totalMoney += match.getMoney();
 		
 	}
 	
@@ -453,19 +465,29 @@ public class GameEnvironment {
 	 *  and refresh matches available and purchasable objects in market by calling {@link refreshPurchasable()} and {@link refershMatches()}.
 	 *  If current week is greater than game's length entered by player when this game was configuring,
 	 *  call {@link #gameFinished()}
+	 *  If {@link RandomEvent#athleteQuitEvent()} happened and player do not have 4 or more athletes and unable to purchase a new athlete,
+	 *  call {@link #gameFinished()}
 	 * 
-	 * @return 
+	 * @return A message describe what happened during this method 
 	 */
 	public String takeABye() {
 		String result = "";
 		this.currentWeek +=1;
 		if (currentWeek > gameLength) {
+			gameOver = true;
 			return gameFinished();
 		}
 		else {
 			result += randomEvent.athleteStatIncreaseEvent();
 			result += randomEvent.athleteQuitEvent();
 			market.refreshPurchasable();
+			if (activeTeam.size() + reserveTeam.size() < 4) {
+				result += "You do not have enough athlete to match!\n";
+				if (this.money < market.getCheapestAthletePrice()) {
+					gameOver = true;
+					return result + "You do not have sufficient funds to purchasae a new athlte!\n" + gameFinished();
+				}
+			}
 			this.matches = refershMatches();
 			result += healAthletes();
 			return result;
@@ -478,7 +500,11 @@ public class GameEnvironment {
 	 * @return A description of player's status
 	 */
 	private String gameFinished() {
-		return String.format("Game Over!\nYour score is %d", this.score);
+		return String.format("Game Over!"
+				+ "\n%s's Team"
+				+ "\nSeason length: %d"
+				+ "\nYour total income: %d"
+				+ "\nYour score is %d", this.teamName, this.gameLength, this.totalMoney, this.score);
 	}
 	
 	/**
@@ -634,6 +660,9 @@ public class GameEnvironment {
 	 * @param newMoney The new value use to replace old value
 	 */
 	public void setMoney(int newMoney) {
+		if (newMoney > this.money) {
+			this.totalMoney += (newMoney - this.money);
+		}
 		this.money = newMoney;
 	}
 
@@ -714,6 +743,10 @@ public class GameEnvironment {
 	
 	public ArrayList<Purchasable> getSellable() {
 		return market.getAllSellable();
+	}
+	
+	public boolean getGameover() {
+		return this.gameOver;
 	}
 
 }
