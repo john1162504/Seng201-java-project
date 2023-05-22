@@ -58,8 +58,11 @@ public class SetupScreen extends Screen {
 		initialize();
 	}
 
-	// This method setup JLabels, ListModel and JList that required to models an
-	// select athlete function
+	/**
+	 * This method setup JLabels, ListModel and JList that required to models an
+	 * select athlete function
+	 * 
+	 */
 	private void addAthleteList() {
 
 		JLabel selectLabel = new JLabel("Select your athletes");

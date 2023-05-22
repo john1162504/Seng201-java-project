@@ -19,8 +19,7 @@ import java.awt.event.ActionEvent;
  */
 public class MainScreen extends Screen{
 	
-	
-	
+	//Label that illustrate status of the user
 	JLabel propertiesLabel;
 
 	/**
@@ -41,6 +40,9 @@ public class MainScreen extends Screen{
 		addButtons();
 	}
 
+	/**
+	 * Setup this frame
+	 */
 	private void setupFrame() {
 		frame = new JFrame();
 		frame.setTitle("Main Screen");
@@ -50,7 +52,9 @@ public class MainScreen extends Screen{
 		frame.getContentPane().setLayout(null);
 	}
 	
-
+	/**
+	 * Add labels to the frame
+	 */
 	private void addLebals() {
 		JLabel greetingLebal = new JLabel("Hello " + game.getTeamName());
 		greetingLebal.setFont(new Font("Lucida Grande", Font.ITALIC, 20));
@@ -64,6 +68,11 @@ public class MainScreen extends Screen{
 		frame.getContentPane().add(propertiesLabel);
 	}
 
+	/**
+	 * Add all the buttons to the frame 
+	 * each button represent  a different screen
+	 * 
+	 */
 	private void addButtons() {
 		JButton clubButton = new JButton("Club");
 		clubButton.addActionListener(new ActionListener() {
@@ -118,11 +127,17 @@ public class MainScreen extends Screen{
 		frame.getContentPane().add(takeAByeButton);
 	}
 	
+	/**
+	 * Update the label  user's properties  
+	 */
 	private void updateProperties() {
 		propertiesLabel.setText("<html>" + "Your properties<br/>" +
 				game.getProperties().replaceAll("\n", "<br/>") + "<html>");
 	}
 	
+	/**
+	 * When game finished, let user decide if he want to restart or close this application
+	 */
 	private void gameFinished() {
 		int selection = JOptionPane.showConfirmDialog(frame, "Would you like to restart?",
 		            "Restart?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

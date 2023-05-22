@@ -500,9 +500,9 @@ public class GameEnvironment {
 	 */
 	private ArrayList<Item> initiateItems() {
 		ArrayList<Item> items = new ArrayList<>();
-		Item food = new Item(10, 10, "Food", 10, Type.FOOD);
-		Item weight = new Item(10, 10, "Weight", 10, Type.WEIGHT);
-		Item medicine = new Item(20, 20, "Medicine", 100, Type.MEDICINE);
+		Item food = new Item(10, 5, "Food", 10, Type.FOOD);
+		Item weight = new Item(10, 5, "Weight", 10, Type.WEIGHT);
+		Item medicine = new Item(20, 10, "Medicine", 100, Type.MEDICINE);
 		items.add(food);
 		items.add(weight);
 		items.add(medicine);
