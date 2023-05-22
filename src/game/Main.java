@@ -1,14 +1,10 @@
 package game;
 
-import Cores.Athlete;
 import Cores.GameEnvironment;
 import UI.CmdLineUi;
 import UI.GameEnvironmentUi;
 import GUI.Gui;
-
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class where application execution begins. If {@code cmd} is passed as a program argument the

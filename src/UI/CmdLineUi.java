@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import Cores.Athlete;
 import Cores.GameEnvironment;
-import Cores.Item;
 
 
 public class CmdLineUi implements GameEnvironmentUi{
@@ -542,7 +541,7 @@ public class CmdLineUi implements GameEnvironmentUi{
 					selecting = false;
 				}
 				else if (input.matches("[nN]")) {
-					game.onFinish();
+					game.finish();
 					selecting = false;
 				}
 				

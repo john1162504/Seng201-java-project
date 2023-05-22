@@ -18,22 +18,13 @@ import javax.swing.JOptionPane;
 
 public class StadiumScreen extends Screen{
 
-//	private JFrame frame;
 	
 	private ArrayList<ArrayList<Athlete>> matches;
 	
 	private int selectedMatchIndex;
 
-	private JButton match1Button;
 
-	private JButton match2Button;
 
-	private JButton match3Button;
-	
-	private JButton match4Button;
-
-	private JButton match5Button;
-	
 	private ArrayList<JButton> buttons;
 
 	private JTextArea opponentTeamInfoArea;

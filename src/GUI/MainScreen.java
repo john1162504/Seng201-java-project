@@ -144,7 +144,7 @@ public class MainScreen extends Screen{
 				 game.start();
 			}
 			else {
-				 game.onFinish();
+				game.finish();
 		}
 		
 	}

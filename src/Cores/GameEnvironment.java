@@ -176,6 +176,14 @@ public class GameEnvironment {
 	}
 	
 	/**
+	 * This method is called when game is finished and player do not wish to restart
+	 * This method calls {@link GameEnvironmentUi#quit()} to end this application
+	 */
+	public void finish() {
+		ui.quit();
+	}
+	
+	/**
 	 * This method generate list of random athletes when call
 	 * athletes's stat depends on a random factor and {@link GameEnvironment#currentWeek}
 	 * 
