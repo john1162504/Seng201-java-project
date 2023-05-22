@@ -26,12 +26,17 @@ import java.awt.EventQueue;
 
 import javax.swing.JButton;
 import javax.swing.JList;
+import java.awt.event.ActionListener;
 
+/**
+ *  Class that models graphical user interface for setup screen
+ * @author cch235
+ *
+ */
 public class SetupScreen extends Screen{
 	
 	ArrayList<Athlete> athletes;
 
-	String name;
 	private JTextField nameField;
 	private JSlider lengthSlider;
 	private JList<Athlete> athletesList;
@@ -42,21 +47,6 @@ public class SetupScreen extends Screen{
 	JCheckBox normalCheckBox;
 	JCheckBox hardCheckBox;
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			Gui gui = new Gui();
-			GameEnvironment game = new GameEnvironment(gui);
-			public void run() {
-				try {
-					SetupScreen window = new SetupScreen(game);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -93,11 +83,11 @@ public class SetupScreen extends Screen{
 	private void addAthleteList() {
 
 		JLabel selectLabel = new JLabel("Select your athletes");
-		selectLabel.setBounds(332, 226, 229, 16);
+		selectLabel.setBounds(416, 230, 229, 16);
 		frame.getContentPane().add(selectLabel);
 		
 		JLabel remindLabel = new JLabel("(Select by hold control and click)");
-		remindLabel.setBounds(332, 254, 210, 16);
+		remindLabel.setBounds(416, 258, 288, 16);
 		frame.getContentPane().add(remindLabel);
 		
 		selectAthleteLabel = new JLabel("Select four athletes from this list");
@@ -109,7 +99,7 @@ public class SetupScreen extends Screen{
 		listModel.addAll(athletes);
 		athletesList = new JList<Athlete>(listModel);
 		athletesList.setVisibleRowCount(6);
-		athletesList.setBounds(20, 224, 298, 127);
+		athletesList.setBounds(20, 226, 378, 223);
 		athletesList.addListSelectionListener(new ListSelectionListener() {
 
 			@Override
@@ -126,7 +116,7 @@ public class SetupScreen extends Screen{
 	private void addGameLengthSlider() {
 		
 		JLabel lengthLabel = new JLabel("How long would your tournament be?");
-		lengthLabel.setBounds(20, 166, 253, 16);
+		lengthLabel.setBounds(20, 167, 358, 15);
 		frame.getContentPane().add(lengthLabel);
 		
 		lengthSlider = new JSlider();
@@ -137,7 +127,7 @@ public class SetupScreen extends Screen{
 		lengthSlider.setPaintTicks(true);
 		lengthSlider.setMinimum(5);
 		lengthSlider.setMaximum(15);
-		lengthSlider.setBounds(319, 153, 190, 42);
+		lengthSlider.setBounds(473, 155, 190, 42);
 		frame.getContentPane().add(lengthSlider);
 
 	}
@@ -151,11 +141,11 @@ public class SetupScreen extends Screen{
 		nameRequirementLabel = new JLabel(GameEnvironmentUi.NAME_REQUIRMENTS);
 		nameRequirementLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		nameRequirementLabel.setForeground(new Color(255, 4, 0));
-		nameRequirementLabel.setBounds(295, 64, 309, 16);
+		nameRequirementLabel.setBounds(411, 58, 352, 16);
 		frame.getContentPane().add(nameRequirementLabel);
 		
 		nameField = new JTextField();
-		nameField.setBounds(319, 80, 262, 26);
+		nameField.setBounds(411, 86, 304, 26);
 		frame.getContentPane().add(nameField);
 		nameField.setColumns(10);
 		nameField.getDocument().addDocumentListener(new DocumentListener() {
@@ -183,16 +173,16 @@ public class SetupScreen extends Screen{
 	private void addDifficultyCheckBoxes() {
 		
 		JLabel difficultyLabel = new JLabel("Select difficulty of your tournament");
-		difficultyLabel.setBounds(20, 123, 239, 16);
+		difficultyLabel.setBounds(20, 123, 407, 16);
 		frame.getContentPane().add(difficultyLabel);
 		
 		normalCheckBox = new JCheckBox("Normal");
-		normalCheckBox.setBounds(319, 118, 128, 23);
+		normalCheckBox.setBounds(463, 120, 128, 23);
 		normalCheckBox.setSelected(true);
 		frame.getContentPane().add(normalCheckBox);
 		
 		hardCheckBox = new JCheckBox("Hard");
-		hardCheckBox.setBounds(453, 118, 128, 23);
+		hardCheckBox.setBounds(610, 118, 128, 23);
 		frame.getContentPane().add(hardCheckBox);
 
 		
@@ -203,9 +193,8 @@ public class SetupScreen extends Screen{
 
 	private void setupFrame() {
 		frame = new JFrame();
-		frame.setResizable(false);
 		frame.setTitle("SUMO AGENT setup");
-		frame.setBounds(100, 100, 610, 400);
+		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	}
@@ -213,7 +202,7 @@ public class SetupScreen extends Screen{
 	public void addLables() {
 		JLabel titleLable = new JLabel("Welcome to SUMO AGENT");
 		titleLable.setFont(new Font("Lucida Grande", Font.BOLD, 18));
-		titleLable.setBounds(172, 6, 253, 62);
+		titleLable.setBounds(224, 12, 405, 62);
 		frame.getContentPane().add(titleLable);
 		
 
@@ -224,7 +213,7 @@ public class SetupScreen extends Screen{
 		continueButton = new JButton("Continue");
 		continueButton.addActionListener(e -> onSetupFinish());
 		continueButton.setEnabled(false);
-		continueButton.setBounds(487, 337, 117, 29);
+		continueButton.setBounds(621, 431, 117, 29);
 		frame.getContentPane().add(continueButton);
 
 	}

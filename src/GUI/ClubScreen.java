@@ -66,8 +66,9 @@ private Object third;
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Club");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 610, 400);
+		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -79,6 +80,7 @@ private Object third;
 		addUseItemButton();
 		addBackButton();
 		addRenameButton();
+		addAddButton();
 
 
 	}
@@ -101,14 +103,15 @@ private Object third;
 				}
 			}
 		});
-		useItemButton.setBounds(33, 312, 117, 29);
+		useItemButton.setBounds(30, 413, 117, 29);
 		frame.getContentPane().add(useItemButton);
 	}
 
 	private void addBackButton() {
 		JButton backButton = new JButton("Go Back");
+
 		backButton.addActionListener(e -> game.launchMain());
-		backButton.setBounds(487, 337, 117, 29);
+		backButton.setBounds(609, 413, 117, 29);
 		frame.getContentPane().add(backButton);
 	}
 
@@ -127,8 +130,9 @@ private Object third;
 				}
 			}
 		});
-		renameButton.setBounds(475, 162, 117, 29);
+		renameButton.setBounds(609, 217, 117, 29);
 		frame.getContentPane().add(renameButton);
+
 	}
 
 	private void addSwapButton() {
@@ -149,19 +153,19 @@ private Object third;
 			}
 
 		});
-		swapButton.setBounds(339, 162, 117, 29);
+		swapButton.setBounds(373, 217, 117, 29);
 		frame.getContentPane().add(swapButton);
 	}
 
 	private void addInventory() {
 		JLabel inventoryLabel = new JLabel("Inventory");
-		inventoryLabel.setBounds(30, 159, 120, 32);
+		inventoryLabel.setBounds(30, 260, 120, 32);
 		frame.getContentPane().add(inventoryLabel);
 
 		inventoryList = new JList<Item>(inventoryModel);
 		inventoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		inventoryList.setVisibleRowCount(3);
-		inventoryList.setBounds(30, 203, 321, 97);
+		inventoryList.setBounds(30, 304, 392, 97);
 		inventoryList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -173,17 +177,17 @@ private Object third;
 		
 		first = (Item) game.getInventory().keySet().toArray()[0];
 		firstLabel = new JLabel("You have " + game.getInventory().get(first));
-		firstLabel.setBounds(363, 203, 168, 16);
+		firstLabel.setBounds(440, 304, 168, 16);
 		frame.getContentPane().add(firstLabel);
 		
 		second = (Item) game.getInventory().keySet().toArray()[1];
 		secondLabel = new JLabel("You have " + game.getInventory().get(second));
-		secondLabel.setBounds(363, 222, 168, 16);
+		secondLabel.setBounds(440, 318, 168, 16);
 		frame.getContentPane().add(secondLabel);
 		
 		third = (Item) game.getInventory().keySet().toArray()[2];
 		thirdLabel = new JLabel("You have " + game.getInventory().get(third));
-		thirdLabel.setBounds(363, 242, 136, 16);
+		thirdLabel.setBounds(440, 332, 136, 16);
 		frame.getContentPane().add(thirdLabel);
 	}
 	
@@ -204,7 +208,7 @@ private Object third;
 		activeTeamList = new JList<Athlete>(activeModel);
 		activeTeamList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		activeTeamList.setVisibleRowCount(4);
-		activeTeamList.setBounds(30, 50, 267, 97);
+		activeTeamList.setBounds(30, 50, 311, 155);
 		activeTeamList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -215,12 +219,12 @@ private Object third;
 	}
 	private void addReserveTeam() {
 		JLabel reserveTeamLabel = new JLabel("Reserve Team");
-		reserveTeamLabel.setBounds(339, 6, 120, 32);
+		reserveTeamLabel.setBounds(383, 6, 120, 32);
 		frame.getContentPane().add(reserveTeamLabel);
 		reserveTeamList = new JList<Athlete>(reserveModel);
 		reserveTeamList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		reserveTeamList.setVisibleRowCount(5);
-		reserveTeamList.setBounds(325, 50, 267, 97);
+		reserveTeamList.setBounds(373, 50, 350, 155);
 		reserveTeamList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -229,6 +233,26 @@ private Object third;
 		});
 		frame.getContentPane().add(reserveTeamList);
 		
+	}
+	
+	private void addAddButton() {
+		JButton adButton = new JButton("Add");
+		adButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Athlete selected = reserveTeamList.getSelectedValue();
+					String result = game.addAthletetoActive(selected);
+					JOptionPane.showMessageDialog(frame, result);
+					updateLists();
+					refreshLabels();
+				}
+				catch (Exception error){
+					showError(error.getMessage());
+				}
+			}
+		});
+		adButton.setBounds(491, 217, 117, 29);
+		frame.getContentPane().add(adButton);
 	}
 	
 
@@ -259,5 +283,4 @@ private Object third;
 		}
 		
 	}
-
 }

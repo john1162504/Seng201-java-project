@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 
 
 public class MarketScreen extends Screen{
+//	JFrame frame;
 
 	
 	private DefaultListModel<String> purchasableModel;
@@ -74,7 +75,7 @@ public class MarketScreen extends Screen{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Market");
-		frame.setBounds(100, 100, 610, 400);
+		frame.setBounds(100, 100, 750, 500);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);	
 		addbackButton();
@@ -102,7 +103,7 @@ public class MarketScreen extends Screen{
 				}
 			}
 		});
-		sellButton.setBounds(113, 184, 117, 29);
+		sellButton.setBounds(377, 278, 117, 29);
 		frame.getContentPane().add(sellButton);
 	}
 
@@ -121,13 +122,13 @@ public class MarketScreen extends Screen{
 				}
 			}
 		});
-		purchaseButton.setBounds(113, 13, 117, 29);
+		purchaseButton.setBounds(377, 12, 117, 29);
 		frame.getContentPane().add(purchaseButton);
 	}
 
 	private void addbackButton() {
 		JButton backButton = new JButton("Go Back");
-		backButton.setBounds(487, 337, 117, 29);
+		backButton.setBounds(621, 431, 117, 29);
 		backButton.addActionListener(e -> game.launchMain());
 		frame.getContentPane().add(backButton);
 	}
@@ -136,18 +137,18 @@ public class MarketScreen extends Screen{
 		purchasablesList = new JList<String>(purchasableModel);
 		purchasablesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		purchasablesList.setVisibleRowCount(6);
-		purchasablesList.setBounds(6, 46, 390, 112);
+		purchasablesList.setBounds(6, 46, 488, 187);
 		frame.getContentPane().add(purchasablesList);
 		
 		sellableList = new JList<String>(sellableModel);
 		sellableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		sellableList.setBounds(6, 217, 390, 134);
+		sellableList.setBounds(6, 312, 488, 132);
 		frame.getContentPane().add(sellableList);
 	}
 
 	private void addLabels() {
 		moneyLabel = new JLabel("You have " + game.getMoney() + "$");
-		moneyLabel.setBounds(476, 6, 128, 16);
+		moneyLabel.setBounds(594, 12, 128, 16);
 		frame.getContentPane().add(moneyLabel);
 		
 		JLabel shopLabel = new JLabel("Market's goods");
@@ -155,22 +156,22 @@ public class MarketScreen extends Screen{
 		frame.getContentPane().add(shopLabel);
 		
 		JLabel goodsLabel = new JLabel("Your goods");
-		goodsLabel.setBounds(6, 189, 142, 16);
+		goodsLabel.setBounds(12, 284, 142, 16);
 		frame.getContentPane().add(goodsLabel);
 		
 		first = (Item) game.getInventory().keySet().toArray()[0];
 		firstLabel = new JLabel("You have " + game.getInventory().get(first));
-		firstLabel.setBounds(420, 217, 168, 16);
+		firstLabel.setBounds(512, 307, 168, 16);
 		frame.getContentPane().add(firstLabel);
 		
 		second = (Item) game.getInventory().keySet().toArray()[1];
 		secondLabel = new JLabel("You have " + game.getInventory().get(second));
-		secondLabel.setBounds(420, 231, 168, 16);
+		secondLabel.setBounds(512, 323, 168, 16);
 		frame.getContentPane().add(secondLabel);
 		
 		third = (Item) game.getInventory().keySet().toArray()[2];
 		thirdLabel = new JLabel("You have " + game.getInventory().get(third));
-		thirdLabel.setBounds(420, 245, 136, 16);
+		thirdLabel.setBounds(512, 337, 136, 16);
 		frame.getContentPane().add(thirdLabel);
 	}
 
