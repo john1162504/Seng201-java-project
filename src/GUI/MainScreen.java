@@ -141,10 +141,11 @@ public class MainScreen extends Screen{
 		int selection = JOptionPane.showConfirmDialog(frame, "Would you like to restart?",
 		            "Restart?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (selection == JOptionPane.YES_OPTION) {
+				this.quit();
 				 game.start();
 			}
 			else {
-				 game.onFinish();
+				game.finish();
 		}
 		
 	}
