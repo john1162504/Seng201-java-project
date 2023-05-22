@@ -33,6 +33,26 @@ public class Match {
 	public Match(ArrayList<Athlete> allyTeam, ArrayList<Athlete> opponent) {
 		this.ally = allyTeam;
 		this.opponent = opponent;
+<<<<<<< HEAD
+		}
+	
+	
+	/**
+	 * 
+	 * Feed all athletes in ally team and opponent team to {@link #match(Athlete, Athlete)} 
+	 * 
+	 * @return match details from {@Link Match#match(Athlete, Athlete)}
+	 */
+	public String matchBegin() {
+		String matchDetails = "";
+		for (int i = 0; i < GameEnvironment.MAX_ACTIVE_TEAM_SIZE; i++) {
+			matchDetails += match(ally.get(i), opponent.get(i));
+			
+		}
+		return matchDetails;
+				
+=======
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/cch235/seng201_project.git
 	}
 
 	/**
@@ -61,13 +81,28 @@ public class Match {
 	 * @param opponent Athlete in opponent's team
 	 * @return match details from two input athletes
 	 */
+<<<<<<< HEAD
+	public String match(Athlete ally, Athlete opponent) {
+		ally.setCurrentStamina(ally.getCurrentStamina() - 1); 
+=======
 	protected String match(Athlete ally, Athlete opponent) {
 		ally.setCurrentStamina(ally.getCurrentStamina() - 1);
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/cch235/seng201_project.git
 		int allyPoint = ally.getAttack() - opponent.getDefence();
 		int opponentPoint = opponent.getAttack() - ally.getDefence();
-		this.score += allyPoint;
-		this.opponentScore += opponentPoint;
+		this.score += (allyPoint - opponentPoint);
+		this.opponentScore += (opponentPoint - allyPoint);
 		if (allyPoint > opponentPoint) {
+<<<<<<< HEAD
+			this.money += (allyPoint - opponentPoint) * 2;
+			return String.format("Your %s get %d point from %s\n", ally.getName(), (allyPoint-opponentPoint), opponent.getName());
+		} 
+		else if (allyPoint < opponentPoint) {
+			ally.setCurrentStamina(ally.getCurrentStamina() - 1); 
+			return String.format("Opponent's %s get %d point from %s\n%s lost extra stamina!\n", opponent.getName(), (opponentPoint-allyPoint), ally.getName(), ally.getName());
+		}
+		else {
+=======
 			this.money += allyPoint * 2;
 			return String.format("Your %s get %d point from %s\n", ally.getName(), allyPoint, opponent.getName());
 		} else if (allyPoint < opponentPoint) {
@@ -75,6 +110,7 @@ public class Match {
 			return String.format("Opponent's %s get %d point from %s\n%s lost extra stamina!\n", opponent.getName(),
 					allyPoint, ally.getName(), ally.getName());
 		} else {
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/cch235/seng201_project.git
 			this.money += allyPoint;
 			return "Draw!\n";
 		}
@@ -114,14 +150,36 @@ public class Match {
 		}
 		return infos;
 	}
+<<<<<<< HEAD
+	
+	/**
+	 * get score of this match
+	 * 
+	 * @return score of this match
+	 */
+	public int getScore() {
+		return this.score;
+	}
+	
+	/**
+	 * get money of this match
+	 * 
+	 * @return money of this match
+	 */
+	public int getMoney() {
+		return this.money;
+	}
+	
+=======
 
+>>>>>>> branch 'main' of https://eng-git.canterbury.ac.nz/cch235/seng201_project.git
 	/**
 	 * provides a string represent result of this match
 	 *
 	 * @return a string represent result of this match, string vary depends on match
 	 *         result, string contains score and money obtained from this match
 	 */
-	protected String matchResult() {
+	public String matchResult() {
 		String result = "";
 		if (this.score > this.opponentScore) {
 			result = "You Won!\n";
