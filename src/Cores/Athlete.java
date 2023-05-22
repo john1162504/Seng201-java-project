@@ -3,9 +3,9 @@ package Cores;
 import java.util.Random;
 
 /**
- *  A class describing the attributes of a given Athlete
+ * A class describing the attributes of a given Athlete
  */
-public class Athlete implements Purchasable{
+public class Athlete implements Purchasable {
 
 	/**
 	 *
@@ -13,40 +13,23 @@ public class Athlete implements Purchasable{
 	 *
 	 */
 	private enum Names {
-	    ETHAN("Ethan"),
-	    JACOB("Jacob"),
-	    LUCAS("Lucas"),
-	    WILLIAM("William"),
-	    BENJAMIN("Benjamin"),
-	    CHRISTOPHER("Christopher"),
-	    DAVID("David"),
-	    MICHAEL("Michael"),
-	    ALEXANDER("Alexander"),
-	    OLIVER("Oliver"),
-	    MATTHEW("Matthew"),
-	    NOAH("Noah"),
-	    SAMUEL("Samuel"),
-	    JOSEPH("Joseph"),
-	    DANIEL("Daniel"),
-	    JAMES("James"),
-	    ANDREW("Andrew"),
-	    NICHOLAS("Nicholas"),
-	    GABRIEL("Gabriel"),
-	    RYAN("Ryan");
+		ETHAN("Ethan"), JACOB("Jacob"), LUCAS("Lucas"), WILLIAM("William"), BENJAMIN("Benjamin"),
+		CHRISTOPHER("Christopher"), DAVID("David"), MICHAEL("Michael"), ALEXANDER("Alexander"), OLIVER("Oliver"),
+		MATTHEW("Matthew"), NOAH("Noah"), SAMUEL("Samuel"), JOSEPH("Joseph"), DANIEL("Daniel"), JAMES("James"),
+		ANDREW("Andrew"), NICHOLAS("Nicholas"), GABRIEL("Gabriel"), RYAN("Ryan");
 
-	    public final String name;
+		public final String name;
 
-	    Names(String name) {
-	        this.name = name;
-	    }
+		Names(String name) {
+			this.name = name;
+		}
 	}
 
 	/**
 	 * Represent the status of a {@link Athlete}
 	 */
 	public enum Status {
-		INJURED("Injured"),
-		ACTIVE("Active");
+		INJURED("Injured"), ACTIVE("Active");
 
 		/**
 		 * A User friendly description of the value of this enum
@@ -58,25 +41,26 @@ public class Athlete implements Purchasable{
 		}
 	}
 
-	//attack value of athlete
+	// attack value of athlete
 	private int attack;
-	//defence value of athlete
+	// defence value of athlete
 	private int defense;
-	//Max stamina value of athlete
+	// Max stamina value of athlete
 	private int maxStamina;
-	//Current stamina of this athlete
+	// Current stamina of this athlete
 	private int currentStamina;
-	//name of athlete
+	// name of athlete
 	private String name;
-	//how much given athlete contract costs in the market
+	// how much given athlete contract costs in the market
 	private int price;
-	//how much given athlete contract sells for in the market
+	// how much given athlete contract sells for in the market
 	private int worth;
-	//The status of this athlete
+	// The status of this athlete
 	private Status status;
 
 	/**
 	 * Constructor for athlete objects
+	 * 
 	 * @param attack
 	 * @param defence
 	 * @param maxStamina
@@ -91,7 +75,7 @@ public class Athlete implements Purchasable{
 		this.name = this.getRandomName();
 		this.status = Status.ACTIVE;
 	}
-	
+
 	/**
 	 * getter for {@link Athlete} attack value as int
 	 *
@@ -102,14 +86,14 @@ public class Athlete implements Purchasable{
 	}
 
 	@Override
-    public String getBuyInfo() {
-    	return String.format("%s need %d$ to purchasae" , this.toString(),this.price);
-    }
+	public String getBuyInfo() {
+		return String.format("%s need %d$ to purchasae", this.toString(), this.price);
+	}
 
 	@Override
-    public String getBuyMessage() {
-    	return String.format("%s has joined your team!", this.name);
-    }
+	public String getBuyMessage() {
+		return String.format("%s has joined your team!", this.name);
+	}
 
 	/**
 	 * getter for {@link Athlete} current stamina value as int
@@ -156,22 +140,22 @@ public class Athlete implements Purchasable{
 	 *
 	 * @return a random name from enum Names
 	 */
-    private String getRandomName() {
-        Names[] names = Names.values();
-        Random random = new Random();
-        int index = random.nextInt(names.length);
-        return names[index].name;
-    }
+	private String getRandomName() {
+		Names[] names = Names.values();
+		Random random = new Random();
+		int index = random.nextInt(names.length);
+		return names[index].name;
+	}
 
 	@Override
 	public String getSellInfo() {
-    	return String.format("%s is worth %d$", this.toString(), this.worth);
-    }
+		return String.format("%s is worth %d$", this.toString(), this.worth);
+	}
 
 	@Override
-    public String getSellMessage() {
-    	return String.format("Sold %s you received %d$", this.name, this.worth);
-    }
+	public String getSellMessage() {
+		return String.format("Sold %s you received %d$", this.name, this.worth);
+	}
 
 	/**
 	 * getter for {@link Athlete} status as Status
@@ -188,7 +172,8 @@ public class Athlete implements Purchasable{
 	}
 
 	/**
-	 * set {@Link Athlete} status to be Status.ACTIVE and restore current stamina to max
+	 * set {@Link Athlete} status to be Status.ACTIVE and restore current stamina to
+	 * max
 	 *
 	 */
 	public void heal() {
@@ -215,7 +200,7 @@ public class Athlete implements Purchasable{
 		this.attack = newAttack;
 	}
 
-    /**
+	/**
 	 * setter for {@Link Athlete} current stamina
 	 *
 	 * @param newStamina to replace {@Link Athlete} current stamina
@@ -227,7 +212,7 @@ public class Athlete implements Purchasable{
 		}
 	}
 
-    /**
+	/**
 	 * setter for {@Link Athlete} defense
 	 *
 	 * @param newdefense to replace {@Link Athlete} defense
@@ -236,7 +221,7 @@ public class Athlete implements Purchasable{
 		this.defense = newDefense;
 	}
 
-    /**
+	/**
 	 * setter for {@Link Athlete} name
 	 *
 	 * @param newName to replace {@Link Athlete} name
@@ -245,7 +230,7 @@ public class Athlete implements Purchasable{
 		this.name = newName;
 	}
 
-    /**
+	/**
 	 * setter for {@Link Athlete} status
 	 *
 	 * @param status to replace {@Link Athlete} status
@@ -254,14 +239,14 @@ public class Athlete implements Purchasable{
 		this.status = status;
 	}
 
-    /**
-     *
-     * return information of {@Link Athlete}
-     */
-    @Override
+	/**
+	 *
+	 * return information of {@Link Athlete}
+	 */
+	@Override
 	public String toString() {
-    	return String.format("%s: Attack:%d Defence:%d Stamina:%d",
-    			this.getName(), this.getAttack(), this.getDefence(), this.getCurrentStamina());
-    }
+		return String.format("%s: Attack:%d Defence:%d Stamina:%d", this.getName(), this.getAttack(), this.getDefence(),
+				this.getCurrentStamina());
+	}
 
 }

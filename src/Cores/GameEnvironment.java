@@ -1,4 +1,5 @@
 package Cores;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import UI.GameEnvironmentUi;
  *
  * Class that store game's data and manage the application
  *
-
+ * 
  */
 public class GameEnvironment {
 
@@ -33,34 +34,34 @@ public class GameEnvironment {
 	 */
 	public static final int MAX_MATCHES_AVAILABLE = 5;
 
-	//user interface associate with this game
+	// user interface associate with this game
 	private final GameEnvironmentUi ui;
 
-	//Instance of a RandomeEvent class
+	// Instance of a RandomeEvent class
 	private RandomEvent randomEvent;
 
-	//Instance of a Market class
+	// Instance of a Market class
 	private Market market;
 
-	//Active athletes selected by players
+	// Active athletes selected by players
 	private ArrayList<Athlete> activeTeam;
 
-	//Reserve athletes selected by players
+	// Reserve athletes selected by players
 	private ArrayList<Athlete> reserveTeam;
 
-	//All items available in this game
+	// All items available in this game
 	private ArrayList<Item> allItems;
 
-	//Available matches for player to compete
+	// Available matches for player to compete
 	private ArrayList<ArrayList<Athlete>> matches;
 
-	//Items own by player and the amount
+	// Items own by player and the amount
 	private HashMap<Item, Integer> inventory = new HashMap<>();
 
-	//A instance of class Match
+	// A instance of class Match
 	private Match match;
 
-	//Random number generator
+	// Random number generator
 	private Random rng = new Random();
 
 	// length of the game
@@ -80,10 +81,10 @@ public class GameEnvironment {
 
 	private int totalMoney;
 
-	//The name of the team/player
+	// The name of the team/player
 	private String teamName;
 
-	//The difficulty selected by player
+	// The difficulty selected by player
 	private Difficulty difficulty;
 
 	public GameEnvironment() {
@@ -100,19 +101,20 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method call {@link Market#buyPurchasable(int)}
-	 * refer to {@link Market#buyPurchasable(int)} for further details
+	 * This method call {@link Market#buyPurchasable(int)} refer to
+	 * {@link Market#buyPurchasable(int)} for further details
 	 *
 	 * @param index The index of the selected purchasable object
-	 * @return A message as a feedback after this purchase also an indication rather this purchase is success
+	 * @return A message as a feedback after this purchase also an indication rather
+	 *         this purchase is success
 	 */
 	public String buyPurchasable(int index) {
 		return market.buyPurchasable(index);
 	}
 
 	/**
-	 * Change the selected athlete's name to a name entered by player,
-	 * this method call {@link Athlete#setName(String)} to change name
+	 * Change the selected athlete's name to a name entered by player, this method
+	 * call {@link Athlete#setName(String)} to change name
 	 *
 	 * @param athlete The selected athlete
 	 * @param newName The new name entered by player
@@ -123,8 +125,7 @@ public class GameEnvironment {
 		String oldName = athlete.getName();
 		if (newName.matches(GameEnvironmentUi.NAME_REGEX)) {
 			athlete.setName(newName);
-		}
-		else {
+		} else {
 			throw new Exception(GameEnvironmentUi.NAME_REQUIRMENTS);
 		}
 		return String.format("%s has changed his name to %s", oldName, newName);
@@ -144,16 +145,14 @@ public class GameEnvironment {
 	 * @return A description of player's status
 	 */
 	private String gameFinished() {
-		return String.format("Game Over!"
-				+ "\n%s's Team"
-				+ "\nSeason length: %d"
-				+ "\nYour total income: %d"
-				+ "\nYour score is %d", this.teamName, this.gameLength, this.totalMoney, this.score);
+		return String.format(
+				"Game Over!" + "\n%s's Team" + "\nSeason length: %d" + "\nYour total income: %d" + "\nYour score is %d",
+				this.teamName, this.gameLength, this.totalMoney, this.score);
 	}
 
 	/**
-	 * This method generate list of random athletes when call
-	 * athletes's stat depends on a random factor and {@link GameEnvironment#currentWeek}
+	 * This method generate list of random athletes when call athletes's stat
+	 * depends on a random factor and {@link GameEnvironment#currentWeek}
 	 *
 	 * @param num The number of athletes need to be generated
 	 * @return A list of random athletes
@@ -195,10 +194,10 @@ public class GameEnvironment {
 	}
 
 	/**
-     * Get the ArrayList contains all items
-     *
-     * @return The ArrayList contains all items
-     */
+	 * Get the ArrayList contains all items
+	 *
+	 * @return The ArrayList contains all items
+	 */
 	public ArrayList<Item> getAllItems() {
 		return this.allItems;
 	}
@@ -220,8 +219,8 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method call {@link Market#getBuyInfo()}
-	 * refer to {@link Market#getBuyInfo()}
+	 * This method call {@link Market#getBuyInfo()} refer to
+	 * {@link Market#getBuyInfo()}
 	 *
 	 * @return Informations for all purchasable objects on market
 	 */
@@ -256,7 +255,6 @@ public class GameEnvironment {
 		return this.gameOver;
 	}
 
-
 	/**
 	 * Get the inventory
 	 *
@@ -274,7 +272,7 @@ public class GameEnvironment {
 	public String getInventoryInfo() {
 		String info = "";
 		int i = 0;
-		for (Map.Entry<Item, Integer> item: inventory.entrySet()) {
+		for (Map.Entry<Item, Integer> item : inventory.entrySet()) {
 			info += String.format("(%d) %s you have (%d)\n", i, item.getKey().toString(), item.getValue());
 			i++;
 		}
@@ -294,7 +292,8 @@ public class GameEnvironment {
 	/**
 	 * Get all available matches
 	 *
-	 * @return List contain Lists of athlete, each list of athletes is a team for player to compete
+	 * @return List contain Lists of athlete, each list of athletes is a team for
+	 *         player to compete
 	 */
 	public ArrayList<ArrayList<Athlete>> getMatches() {
 		return this.matches;
@@ -308,7 +307,7 @@ public class GameEnvironment {
 	public String getMatchInfos() {
 		String infos = "";
 		for (int i = 0; i < matches.size(); i++) {
-			infos += "("+ i + ")\nTeam " + i + "\n" + getTeamInfo(matches.get(i));
+			infos += "(" + i + ")\nTeam " + i + "\n" + getTeamInfo(matches.get(i));
 		}
 		return infos;
 	}
@@ -332,14 +331,15 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * Get the properties of this game, include money, score, current week and remaining week
+	 * Get the properties of this game, include money, score, current week and
+	 * remaining week
 	 *
-	 * @return A String description of the properties of this game, include money, score, current week and remaining week
+	 * @return A String description of the properties of this game, include money,
+	 *         score, current week and remaining week
 	 */
 	public String getProperties() {
-		return "Money: " + this.money + "\nScore: "
-	+ this.score + "\nCurrent Week: "+ this.currentWeek +
-	"\nRemaining Weeks: "+ this.getRemainingWeeks();
+		return "Money: " + this.money + "\nScore: " + this.score + "\nCurrent Week: " + this.currentWeek
+				+ "\nRemaining Weeks: " + this.getRemainingWeeks();
 	}
 
 	/**
@@ -353,6 +353,7 @@ public class GameEnvironment {
 
 	/**
 	 * This method call {@link Market#getPurchasableSize()}
+	 * 
 	 * @return Size of purchasables
 	 */
 	public int getPurchasableSize() {
@@ -373,7 +374,7 @@ public class GameEnvironment {
 	 *
 	 * @return The list contains reserved athlete
 	 */
-	public ArrayList<Athlete> getReservesTeam(){
+	public ArrayList<Athlete> getReservesTeam() {
 		return this.reserveTeam;
 	}
 
@@ -387,31 +388,31 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * Get information for selling athletes,
-	 * this include athlete's name, stats and worth
+	 * Get information for selling athletes, this include athlete's name, stats and
+	 * worth
 	 *
-	 * @return Information for selling  athletes,
+	 * @return Information for selling athletes,
 	 */
 	public String getSellInfoAthlete(ArrayList<Athlete> athletes) {
 		int i = 0;
 		String infos = "";
-		for (Athlete athlete: athletes) {
-			infos += "(" + i + ")" + athlete.getSellInfo() +'\n';
+		for (Athlete athlete : athletes) {
+			infos += "(" + i + ")" + athlete.getSellInfo() + '\n';
 			i++;
 		}
 		return infos;
 	}
 
 	/**
-	 * Get information for selling items,
-	 * this include item's name, effect, worth and amount own by player
+	 * Get information for selling items, this include item's name, effect, worth
+	 * and amount own by player
 	 *
 	 * @return Information for selling all items,
 	 */
 	public String getSellInfoItem() {
 		int i = 0;
 		String infos = "";
-		for (Item item: (inventory.keySet())) {
+		for (Item item : (inventory.keySet())) {
 			infos += "(" + i + ")" + item.getSellInfo() + " you have " + inventory.get(item) + '\n';
 			i++;
 		}
@@ -426,12 +427,11 @@ public class GameEnvironment {
 	 */
 	public String getTeamInfo(ArrayList<Athlete> team) {
 		String teamInfo = "";
-		for(Athlete athlete: team) {
-			teamInfo += athlete.toString()+"\n";
+		for (Athlete athlete : team) {
+			teamInfo += athlete.toString() + "\n";
 		}
 		return teamInfo;
 	}
-
 
 	/**
 	 * Get the name entered by the player when configuring this game
@@ -442,16 +442,15 @@ public class GameEnvironment {
 		return this.teamName;
 	}
 
-
 	/**
 	 * This method is called by {@link takeAbye()} when game move on to next week,
 	 * and heal all athletes own by player
 	 */
 	public String healAthletes() {
-		for(Athlete athlete: activeTeam) {
+		for (Athlete athlete : activeTeam) {
 			athlete.heal();
 		}
-		for(Athlete athlete: reserveTeam) {
+		for (Athlete athlete : reserveTeam) {
 			athlete.heal();
 		}
 		return "All athletes have been healed!\n";
@@ -463,8 +462,8 @@ public class GameEnvironment {
 	 * @return A hashmap contains all the items as keys as amount as value
 	 */
 	private HashMap<Item, Integer> initiateInventory() {
-		HashMap<Item, Integer>  inventory = new HashMap<>();
-		for (Item item: allItems) {
+		HashMap<Item, Integer> inventory = new HashMap<>();
+		for (Item item : allItems) {
 			inventory.put(item, 0);
 		}
 		return inventory;
@@ -487,7 +486,8 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method calls {@link GameEnvironmentUi#launchClub()} to signal UI launches club interface
+	 * This method calls {@link GameEnvironmentUi#launchClub()} to signal UI
+	 * launches club interface
 	 * 
 	 */
 	public void launchClub() {
@@ -495,7 +495,8 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method calls {@link GameEnvironmentUi#launchMain()} to signal UI launches main interface
+	 * This method calls {@link GameEnvironmentUi#launchMain()} to signal UI
+	 * launches main interface
 	 * 
 	 */
 	public void launchMain() {
@@ -503,15 +504,17 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method calls {@link GameEnvironmentUi#launchMarket()} to signal UI launches market interface
+	 * This method calls {@link GameEnvironmentUi#launchMarket()} to signal UI
+	 * launches market interface
 	 * 
 	 */
 	public void launchMarket() {
 		ui.launchMarket();
 	}
-	
+
 	/**
-	 * This method calls {@link GameEnvironmentUi#launchStadium()} to signal UI launches stadium interface
+	 * This method calls {@link GameEnvironmentUi#launchStadium()} to signal UI
+	 * launches stadium interface
 	 * 
 	 */
 	public void launchStadium() {
@@ -531,10 +534,12 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method is called when player select a match to compete, then create a new instance of
-	 * {@link Match} with the two teams feed in the constructor, after that the selected match is removed and furthermore
-	 * {@link Match#matchBegin()} and {@link Match#matchResult()} is called to construct a detailed message of the match.
-	 * Lastly this method call {@link this#matchReward(Match)} to increase player's properties
+	 * This method is called when player select a match to compete, then create a
+	 * new instance of {@link Match} with the two teams feed in the constructor,
+	 * after that the selected match is removed and furthermore
+	 * {@link Match#matchBegin()} and {@link Match#matchResult()} is called to
+	 * construct a detailed message of the match. Lastly this method call
+	 * {@link this#matchReward(Match)} to increase player's properties
 	 *
 	 * @param index This input indicate which match is selected by the player
 	 * @return A detailed message of what happened in the match.
@@ -542,7 +547,7 @@ public class GameEnvironment {
 	public String matchStart(int index) {
 		String result = "Your team is not ready to match!";
 		if (readyToMatch()) {
-			match = new Match(activeTeam,matches.get(index));
+			match = new Match(activeTeam, matches.get(index));
 			this.matches.remove(index);
 			result = match.matchBegin();
 			result += match.matchResult();
@@ -551,11 +556,10 @@ public class GameEnvironment {
 		return result;
 	}
 
-
-
 	/**
-	 * This method should be called by the user interface when {@link GameEnvironmentUi}
-	 * when the player has requested to quit. This method calls {@link GameEnvironmentUi#quit()} after confirming to quit
+	 * This method should be called by the user interface when
+	 * {@link GameEnvironmentUi} when the player has requested to quit. This method
+	 * calls {@link GameEnvironmentUi#quit()} after confirming to quit
 	 *
 	 */
 	public void onFinish() {
@@ -566,13 +570,15 @@ public class GameEnvironment {
 
 	/**
 	 *
-	 * This method should be called by user interface when {@link GameEnvironmentUi#setup(GameEnvironment)}
-	 * is finished. This method call {@Link GameEnvironment#start()} to signal user interface to start.
+	 * This method should be called by user interface when
+	 * {@link GameEnvironmentUi#setup(GameEnvironment)} is finished. This method
+	 * call {@Link GameEnvironment#start()} to signal user interface to start.
 	 *
-	 * @param name The name of the player
-	 * @param gameLength The length of this game
-	 * @param startAthletes The list of athletes that the player choose to start with
-	 * @param difficulty The difficulty of this game selected by player
+	 * @param name          The name of the player
+	 * @param gameLength    The length of this game
+	 * @param startAthletes The list of athletes that the player choose to start
+	 *                      with
+	 * @param difficulty    The difficulty of this game selected by player
 	 */
 	public void onSetupFinished(String name, int gameLength, ArrayList<Athlete> startAthletes, Difficulty difficulty) {
 		this.teamName = name;
@@ -588,8 +594,7 @@ public class GameEnvironment {
 		if (this.difficulty == Difficulty.NORMAL) {
 			this.money = 100;
 			this.totalMoney += 100;
-		}
-		else {
+		} else {
 			this.money = 0;
 		}
 		if (name.matches("dllm")) {
@@ -599,15 +604,17 @@ public class GameEnvironment {
 		ui.start();
 
 	}
-	
+
 	/**
-	 * This method check every {@link Athlete#getStatus()} in active team to make sure they are not injured 
+	 * This method check every {@link Athlete#getStatus()} in active team to make
+	 * sure they are not injured
 	 * 
-	 * @return A boolean flag indicate if any athlete is injured, false if yes, true otherwise
+	 * @return A boolean flag indicate if any athlete is injured, false if yes, true
+	 *         otherwise
 	 */
 	private boolean readyToMatch() {
 		boolean ready = true;
-		for (Athlete athlete: activeTeam) {
+		for (Athlete athlete : activeTeam) {
 			if (athlete.getStatus() == Status.INJURED) {
 				ready = false;
 				return ready;
@@ -616,7 +623,7 @@ public class GameEnvironment {
 		return ready;
 	}
 
-    /**
+	/**
 	 * Generate a new list of matches
 	 *
 	 * @return A list contain list of new matches
@@ -632,7 +639,7 @@ public class GameEnvironment {
 	/**
 	 * Remove the targeted athlete in team
 	 *
-	 * @param team The team contains the targeted athlete
+	 * @param team   The team contains the targeted athlete
 	 * @param target The athlete to be removed
 	 */
 	public void removeAthlete(ArrayList<Athlete> team, Athlete target) {
@@ -640,8 +647,8 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method call {@link Market#sellAthlete(Athlete)}
-	 * refer to {@link Market#sellAthlete(Athlete)} for further details
+	 * This method call {@link Market#sellAthlete(Athlete)} refer to
+	 * {@link Market#sellAthlete(Athlete)} for further details
 	 *
 	 * @param athlete The selected athlete
 	 * @return A description describe how much player earned as a feedback
@@ -651,8 +658,8 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * This method call {@link Market#sellItem(int)} to sell a item
-	 * more info refer to {@link Market#sellItem(int)}
+	 * This method call {@link Market#sellItem(int)} to sell a item more info refer
+	 * to {@link Market#sellItem(int)}
 	 *
 	 * @param index The index of the selected item
 	 * @return A description of the process
@@ -674,8 +681,9 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * Start this game, initiate some basics games properties
-	 * call {@link GameEnvironmentUi#setup(GameEnvironment)} to initiate the set up process
+	 * Start this game, initiate some basics games properties call
+	 * {@link GameEnvironmentUi#setup(GameEnvironment)} to initiate the set up
+	 * process
 	 */
 	public void start() {
 		this.currentWeek = 1;
@@ -689,7 +697,7 @@ public class GameEnvironment {
 	/**
 	 * Swap an active athlete with a reserve athlete
 	 *
-	 * @param active The active athlete to swap down
+	 * @param active  The active athlete to swap down
 	 * @param reserve The reserve athlete to swap up
 	 * @return A String description as a feedback to signal player
 	 */
@@ -697,8 +705,7 @@ public class GameEnvironment {
 		if (activeTeam.contains(active) && activeTeam.contains(reserve)) {
 			Collections.swap(activeTeam, activeTeam.indexOf(active), activeTeam.indexOf(reserve));
 			return String.format("%s has swapped position with %s", active.getName(), reserve.getName());
-		}
-		else {
+		} else {
 			this.activeTeam.remove(active);
 			this.reserveTeam.remove(reserve);
 			this.activeTeam.add(reserve);
@@ -708,24 +715,24 @@ public class GameEnvironment {
 	}
 
 	/**
-	 *  This method is called by player when player requested to end this week,
-	 *  heal all athletes by calling method {@link #healAthletes()},
-	 *  and refresh matches available and purchasable objects in market by calling {@link refreshPurchasable()} and {@link refershMatches()}.
-	 *  If current week is greater than game's length entered by player when this game was configuring,
-	 *  call {@link #gameFinished()}
-	 *  If {@link RandomEvent#athleteQuitEvent()} happened and player do not have 4 or more athletes and unable to purchase a new athlete,
-	 *  call {@link #gameFinished()}
+	 * This method is called by player when player requested to end this week, heal
+	 * all athletes by calling method {@link #healAthletes()}, and refresh matches
+	 * available and purchasable objects in market by calling
+	 * {@link refreshPurchasable()} and {@link refershMatches()}. If current week is
+	 * greater than game's length entered by player when this game was configuring,
+	 * call {@link #gameFinished()} If {@link RandomEvent#athleteQuitEvent()}
+	 * happened and player do not have 4 or more athletes and unable to purchase a
+	 * new athlete, call {@link #gameFinished()}
 	 *
 	 * @return A message describe what happened during this method
 	 */
 	public String takeABye() {
 		String result = "";
-		this.currentWeek +=1;
+		this.currentWeek += 1;
 		if (currentWeek > gameLength) {
 			gameOver = true;
 			return gameFinished();
-		}
-		else {
+		} else {
 			result += randomEvent.athleteStatIncreaseEvent();
 			result += randomEvent.athleteQuitEvent();
 			market.refreshPurchasable();
@@ -741,11 +748,11 @@ public class GameEnvironment {
 			return result;
 		}
 	}
-	
+
 	/**
 	 * update inventory with a new amount of items
 	 *
-	 * @param item The item that amount changes
+	 * @param item      The item that amount changes
 	 * @param newAmount The new amount
 	 */
 	public void updateInventory(Item item, int newAmount) {
@@ -753,10 +760,11 @@ public class GameEnvironment {
 	}
 
 	/**
-	 * Use the selected item to the selected athlete by calling {@link Item#useItem(Athlete)}
-	 * and return the item effect message as a feedback
+	 * Use the selected item to the selected athlete by calling
+	 * {@link Item#useItem(Athlete)} and return the item effect message as a
+	 * feedback
 	 *
-	 * @param item The selected item
+	 * @param item   The selected item
 	 * @param target The selected athlete
 	 * @return The item effect message as a feedback
 	 */
@@ -771,6 +779,3 @@ public class GameEnvironment {
 	}
 
 }
-
-
-
