@@ -31,7 +31,7 @@ public class RandomEvent {
 		int increaseChance = rng.nextInt(100);
 		String result = "No athlete's stat's have increased\n";
 		if(increaseChance < 20) {
-			int chosenAthleteIndex = rng.nextInt(4);
+			int chosenAthleteIndex = rng.nextInt(game.getActiveTeam().size());
 			Athlete chosenAthlete = game.getActiveTeam().get(chosenAthleteIndex);
 			chosenAthlete.increaseStats(5);
 			result = "Athlete "+chosenAthlete.getName()+"'s stats have increased by 5!\n";

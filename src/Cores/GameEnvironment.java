@@ -71,7 +71,7 @@ public class GameEnvironment {
 	
 	
 	// current game progress, measure in week
-	private int currentWeek = 1;
+	private int currentWeek;
 	
 	// score obtained by player 
 	private int score;
@@ -101,9 +101,15 @@ public class GameEnvironment {
 	}
 	
 	/**
-	 * Start this game, call {@link GameEnvironmentUi#setup(GameEnvironment)} to initiate the set up process
+	 * Start this game, initiate some basics games properties  
+	 * call {@link GameEnvironmentUi#setup(GameEnvironment)} to initiate the set up process
 	 */
 	public void start() {
+		this.currentWeek = 1;
+		this.money = 0;
+		this.totalMoney = 0;
+		this.score = 0;
+		this.gameOver = false;
 		ui.setup(this);
 	}
 	
@@ -128,11 +134,6 @@ public class GameEnvironment {
 		this.market = new Market(this);
 		this.inventory = this.initiateInventory();
 		this.randomEvent = new RandomEvent(this);
-		this.currentWeek = 1;
-		this.money = 0;
-		this.totalMoney = 0;
-		this.score = 0;
-		this.gameOver = false;
 		if (this.difficulty == Difficulty.NORMAL) {
 			this.money = 100;
 			this.totalMoney += 100;
