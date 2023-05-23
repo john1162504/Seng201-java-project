@@ -8,4 +8,4 @@ How to import this source code to eclipse
 How to run this JAR program
 1.Ensure Java 17 is installed on your machine
 2.Open Extract this zip file
-3.Run "java cch235_rli107SumoAgent.jar" in your terminal
+3.Run "java -jar cch235_rli107SumoAgent.jar" in your terminal
