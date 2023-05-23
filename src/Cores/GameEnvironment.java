@@ -117,6 +117,7 @@ public class GameEnvironment {
 			}
 			else {
 				activeTeam.add(selected);
+				reserveTeam.remove(selected);
 				result = selected.getName() + " has joined your active team!";
 			}
 		}
