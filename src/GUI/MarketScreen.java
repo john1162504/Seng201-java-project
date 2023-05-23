@@ -17,7 +17,10 @@ import Cores.Athlete;
 import Cores.GameEnvironment;
 import Cores.Item;
 import Cores.Purchasable;
-
+/**
+ *Class that models a graphical user interface for market 
+ *
+ */
 public class MarketScreen extends Screen {
 	// ListModel that models purchasable sell information
 	private DefaultListModel<String> purchasableModel;

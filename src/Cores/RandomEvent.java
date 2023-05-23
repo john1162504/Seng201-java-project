@@ -2,7 +2,7 @@ package Cores;
 
 import java.util.Random;
 
-/*
+/**
  * Class that models random event of this game
  */
 public class RandomEvent {

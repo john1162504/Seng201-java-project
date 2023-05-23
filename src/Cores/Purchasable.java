@@ -1,6 +1,6 @@
 package Cores;
 
-/*
+/**
  * Purchasable interface
  */
 public interface Purchasable {
