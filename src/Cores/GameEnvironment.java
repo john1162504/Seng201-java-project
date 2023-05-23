@@ -608,7 +608,7 @@ public class GameEnvironment {
 		this.teamName = name;
 		this.gameLength = gameLength;
 		this.activeTeam = startAthletes;
-		this.reserveTeam = generateAthletes(3);
+		this.reserveTeam = new ArrayList<Athlete>(MAX_RESERVE_TEAM_SIZE);
 		this.difficulty = difficulty;
 		this.matches = this.refershMatches();
 		this.allItems = this.initiateItems();
