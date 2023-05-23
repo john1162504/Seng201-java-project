@@ -166,6 +166,8 @@ public class ClubScreen extends Screen {
 							: activeTeamList.getSelectedValue());
 					String feedback = game.changeAtheleName(selected, newName);
 					JOptionPane.showMessageDialog(frame, feedback);
+					updateLists();
+					refreshLabels();
 				} catch (Exception ecept) {
 					showError(ecept.getMessage());
 				}
